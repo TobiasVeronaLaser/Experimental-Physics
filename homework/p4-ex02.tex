@@ -29,6 +29,7 @@
 \begin{document}
 %
 \title{Experimental Physics - Musterlösung Übungsblatt 2 Aufgabe 1}
+\author{Tobias Laser}
 \maketitle
 \vfill
 \thispagestyle{empty}
@@ -39,7 +40,7 @@
 %
 %
 \paragraph{Aufgabe 1: Formfaktor - Herleitung}
-In der Vorlesung wurde der Formfaktor für die Ladungsverteilung $f(x)$ eingeführt, der als 
+In der Vorlesung wurde der Formfaktor für die Ladungsverteilung $f(\vec{x})$ eingeführt, der als 
 \begin{align*}
     F(\vec{q}) = \int e^{i \, \vec{q} \cdot \vec{x}/\hbar} f(\vec{x})\, d^3x
 \end{align*}
@@ -50,7 +51,7 @@ definiert ist.
         F(q) = 4\pi\int\limits_0^\infty \frac{\sin{q \, r/\hbar}}{q \, r / \hbar} f(r) \, r^2 dr
     \end{align*}
     umgeformt werden kann (F hängt also nur vom Betrag von $\vec{q}$ ab).\\
-    \underline{Hinweis:} Wählen sie das Koordinatensystem so, daß $q$ in Richtung der z-Achste weist.
+    \underline{Hinweis:} Wählen Sie das Koordinatensystem so, daß $q$ in Richtung der z-Achse weist.
     
     \begin{tcolorbox}[title=Berechnung, breakable]
         Ausgehend von der Definition des Formfaktors
@@ -83,6 +84,7 @@ definiert ist.
         \begin{align*}
             \int\limits_0^\infty dr \int\limits_0^{\pi}d\theta \int\limits_0^{2\pi} \, d\phi \, e^{i \, q \, r/\hbar\cos{\theta}} f(r) \, r^2 \sin{\theta}.
         \end{align*}
+        Wegen der Kugelsymmetrie gilt $f(\vec{x}) = f(r)$. Nach Wahl des Koordinatensystems mit $\vec{q} = q \vec{e}_z$ hängt das Integral nur noch vom Betrag $q = |\vec{q}|$ ab, also ist $F(\vec{q}) = F(q)$.
         Das Integral über $\phi$ gibt $2\pi$ und mit folgender Substitution
         \begin{align*}
             u &:= \cos{\theta},\, u(0) = 1, \, u(\pi) = -1\\
@@ -101,22 +103,22 @@ definiert ist.
     \end{tcolorbox}
 
 \end{enumerate}
-Nun soll ein Spezialfall betrachtet werden, auf den wir in späteren Augaben noch zurückkommen werden.
+Nun soll ein Spezialfall betrachtet werden, auf den wir in späteren Aufgaben noch zurückkommen werden.
 \begin{enumerate}[start=2, label=(\alph*)]
     \item Zeigen Sie, dass für den Formfaktor einer homogen geladenen Kugel:
     \begin{align*}
         F(q) = 3\frac{\sin{u} - u \cos{u}}{u^3}
     \end{align*}
     gilt und bestimmen Sie die Form von u. Für welche Teilchen gilt eine solche Ladungsverteilung in guter Näherung?\\
-    \underline{Hinweis:} Überlegen sie dazu zuerst, wie in diesem Fall die Ladungsdichteverteilung aussieht, wenn Sie berücksichtigen, dass diese über
+    \underline{Hinweis:} Überlegen Sie dazu zuerst, wie in diesem Fall die Ladungsdichteverteilung aussieht, wenn Sie berücksichtigen, dass diese über
     \begin{align*}
-        \int f(x) d^3x = 1
+        \int f(\vec{x}) d^3x = 1
     \end{align*}
     normiert ist.
 
     
     \begin{tcolorbox}[title=Berechnung, breakable]
-        Zunächst wird versucht $f(r)$ zu finden. Die Ladungsdichte einer homogen geladene Kugel ist innerhalb der Kugel konstant und außerhalb null. 
+        Zunächst wird versucht $f(r)$ zu finden. Die Ladungsdichte einer homogen geladenen Kugel ist innerhalb der Kugel konstant und außerhalb null. 
         \begin{align*}
             f(r) =
             \begin{cases}
@@ -126,7 +128,7 @@ Nun soll ein Spezialfall betrachtet werden, auf den wir in späteren Augaben noc
         \end{align*}
         Aus der Normierung kann die Konstante $C$ ermittelt werden ($4\pi$ aus Kugelkoordinaten):
         \begin{align*}
-            1 = \int d^3x\, f(x) = 4\pi \int_0^{\infty} dr\, f(r)\, r^2 = 4\pi \int_0^R dr\, C\, r^2 = 4\pi C\left[\frac{r^3}{3}\right]_0^R = 4\pi C\frac{R^3}{3}\\
+            1 = \int d^3x\, f(\vec{x}) = 4\pi \int_0^{\infty} dr\, f(r)\, r^2 = 4\pi \int_0^R dr\, C\, r^2 = 4\pi C\left[\frac{r^3}{3}\right]_0^R = 4\pi C\frac{R^3}{3}\\
             C = \frac{3}{4\pi R^3}
         \end{align*}
         Damit hat man die Ladungsdichte
@@ -149,7 +151,7 @@ Nun soll ein Spezialfall betrachtet werden, auf den wir in späteren Augaben noc
             &= \frac{3}{R^3 q /\hbar}  \left[-\frac{r\cos(q\,r/\hbar)}{q/\hbar} + \frac{\sin(q\,r/\hbar)}{(q/\hbar)^2}\right]_0^R\\
             &= \frac{3}{R^3 q /\hbar}  \left(-\frac{R\cos(q\,R/\hbar)}{q/\hbar} + \frac{\sin(q\,R/\hbar)}{(q/\hbar)^2}\right)
         \end{align*}
-        Etwas Umstellen und man bekommt die gesuchte form mit $u = q\,R/\hbar$
+        Etwas Umstellen und man bekommt die gesuchte Form mit $u = q\,R/\hbar$
         \begin{align*}
             &= 3 \left(\frac{\sin(q\,R/\hbar)}{R^3(q/\hbar)^3} -\frac{R\cos(q\,R/\hbar)}{R^3 (q/\hbar)^2}\right)\\
             &= 3 \frac{\sin(q\,R/\hbar) - q\,R/\hbar\cos(q\,R/\hbar)}{(q\,R/\hbar)^3} \\
@@ -158,17 +160,77 @@ Nun soll ein Spezialfall betrachtet werden, auf den wir in späteren Augaben noc
     \end{tcolorbox}
 
     \begin{tcolorbox}[title=Antwort auf Frage, breakable]
-        
+        Die homogene geladene Kugel ist in guter Näherung ein Modell für Atomkerne, da deren Ladungsverteilung näherungsweise als über ein endliches Volumen verteilt beschrieben werden kann. Ein Beispiel wäre der Atomkern.
     \end{tcolorbox}
 
     \item Welcher Wert ergibt sich für den Formfaktor aus (a) für $q=0$?
 
     \begin{tcolorbox}[title=Berechnung, breakable]
+        Setzt man $q=0$ in den Formfaktor aus (a) ein, dann erhält man die Normierung der Ladungsverteilung.
+        \begin{align*}
+            F(0) = \int d^3x \, e^0 f(\vec{x}) = \int d^3x \, f(\vec{x}) = 1
+        \end{align*}
     \end{tcolorbox}
 \end{enumerate}
 
 \textbf{Nebenrechnungen}
-\begin{tcolorbox}[title=Nebenrechnung, breakable]
+\begin{tcolorbox}[title=Nebenrechnung Volumenselement, breakable]
+    Für Kugelkoordinaten
+    \begin{align*}
+        \vec{x} = \begin{bmatrix}
+            x\\y\\z
+        \end{bmatrix}=\begin{bmatrix}
+            r \sin{\theta} \cos{\phi}\\
+            r \sin{\theta} \sin{\phi}\\
+            r \cos{\theta}
+        \end{bmatrix},              
+    \end{align*}
+    Determinante der Jakobi-matrix:
+    \begin{align*}
+        J(\vec{x}(r,\theta, \phi)) 
+        = \begin{bmatrix}
+            \frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} & \frac{\partial x}{\partial \phi}\\
+            \frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta} & \frac{\partial y}{\partial \phi}\\
+            \frac{\partial z}{\partial r} & \frac{\partial z}{\partial \theta} & \frac{\partial z}{\partial \phi}
+        \end{bmatrix}
+        = \begin{bmatrix}
+            \sin{\theta} \cos{\phi} & r \cos{\theta} \cos{\phi} & -r \sin{\theta} \sin{\phi}\\
+            \sin{\theta} \sin{\phi} & r \cos{\theta} \sin{\phi} & r \sin{\theta} \cos{\phi}\\
+            \cos{\theta} & - r \sin{\theta} & 0
+        \end{bmatrix}
+    \end{align*}
+    Determinante der Jakobi-matrix:
+    \begin{align*}
+        \det{J(\vec{x}(r,\theta, \phi))} 
+        &= \sin{\theta} \cos{\phi} \begin{vmatrix}
+            r \cos{\theta} \sin{\phi} & r \sin{\theta} \cos{\phi}\\
+            -r \sin{\theta} & 0
+        \end{vmatrix} \\
+        &- r \cos{\theta} \cos{\phi} \begin{vmatrix}
+            \sin{\theta} \sin{\phi} &r \sin{\theta} \cos{\phi}\\
+            \cos{\theta} & 0
+        \end{vmatrix} \\
+        &+ (-r \sin{\theta} \sin{\phi}) \begin{vmatrix}
+            \sin{\theta} \sin{\phi} & r \cos{\theta} \sin{\phi}\\
+            \cos{\theta} & - r \sin{\theta}
+        \end{vmatrix}\\
+        &=\sin{\theta} \cos{\phi} (0 - (-r^2 \sin^2{\theta} \cos{\phi}))\\
+        &- r \cos{\theta} \cos{\phi} (0 - r \sin{\theta} \cos{\phi} \cos{\theta}) \\
+        &- r \sin{\theta} \sin{\phi} ((-r \sin^2{\theta} \sin{\phi}) - r \cos^2{\theta} \sin{\phi})\\
+        &= r^2 \sin{\theta}(
+            \sin^2{\theta} \cos^2{\phi}
+            + \cos^2{\theta} \cos^2{\phi}
+            + (\sin^2{\theta} + \cos^2{\theta}) \sin^2{\phi}
+        )\\
+        &= r^2\sin{\theta}((\sin^2{\theta} + \cos^2{\theta}) (\cos^2{\phi} + \sin^2{\phi}))\\
+        \det{J(\vec{x}(r,\theta, \phi))} &= r^2\sin{\theta}
+    \end{align*}
 \end{tcolorbox}
-
+\begin{tcolorbox}[title=Trigonometrischer Zusammenhang mit der komplexen Exponentialfunktion, breakable]
+    Aus der Eulerschen Formel der komplexen Exponentialfunktion
+    \begin{align*}
+         \frac{e^{ia}-e^{-ia}}{2i} &= \sin{a}  \\
+        \left(\frac{e^{+i \, q \, r/\hbar} - e^{-i \, q \, r/\hbar}}{i \, q \, r/\hbar}\right) &= 2 \sin{q\,r / \hbar}
+    \end{align*}
+\end{tcolorbox}
 \end{document}
