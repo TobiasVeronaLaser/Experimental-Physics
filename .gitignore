@@ -1,3 +1,6 @@
+*.bbl*
+*.synctex*
+
 *.acn
 *.acr
 *.alg
