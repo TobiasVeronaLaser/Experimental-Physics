@@ -1,0 +1,110 @@
+% Header: General study / work / project template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{scrartcl}
+
+% Layout
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+
+% General packages
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{icomma}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Language: choose one
+% \usepackage[ngerman]{babel}
+\usepackage[english]{babel}
+
+% Units / tables / floats / references
+\usepackage[locale = UK,space-before-unit=true,per-mode = symbol]{siunitx}
+\usepackage{booktabs,multirow}
+\usepackage{placeins}
+\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage{csquotes}
+
+% Optional bibliography
+% \addbibresource{references.bib}
+
+% Graphics paths
+\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+
+% Optional math shortcuts
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ol}[1]{\overline{#1}}
+
+% Optional units
+\DeclareSIUnit{\dBm}{dBm}
+
+% Box styles
+\newtcolorbox{calculationbox}[1][]{
+    title=Calculation,
+    breakable,
+    #1
+}
+
+\newtcolorbox{solutionbox}[1][]{
+    title=Solution,
+    breakable,
+    #1
+}
+
+\newtcolorbox{answerbox}[1][]{
+    title=Answer,
+    breakable,
+    #1
+}
+
+\newtcolorbox{notebox}[1][]{
+    title=Notes,
+    breakable,
+    #1
+}
+
+\newtcolorbox{sidecalcbox}[1][]{
+    title=Side Calculation,
+    breakable,
+    #1
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    \title{Physik 4 - Blatt 05}
+    \author{Tobias Laser}
+    \date{\today}
+    \maketitle
+    \vfill
+    \thispagestyle{empty}
+
+    \pagenumbering{arabic}
+
+    \paragraph{Aufgabe 1: Q-Wert und CNO-Zyklus}
+
+    Für die Energiebilanz einer Kernreaktion $A + a \rightarrow B + b$ wird der Q-Wert genutz. Dieser entspricht (bezugssystemunabhängig) der insgesamt freiwerdenden kinetischen Energie.
+
+    Die astronomisch relevanteste Kernreaktion ist hierbei das Wasserstoffbrennen, welches in zwei Hauptreaktionen unterteil wird: die pp-Kette (bei der Protonen zunächst zu Deuterium, dann weiter zu Helium-3 und schließlich Helium-4 verschmelzen) und der CN=-Zyklus, bei dem in Teilreaktionen mit Kohlenstoff, Stickstoff und Sauerstoff Wasserstoff in Helium umgesetzt wird. Hier möchten wir nun eine mögliche Varante des CNO-ZYklus diskutieren.
+
+    \begin{enumerate}
+        \item Berechnen Sie hierzu zunächst die \underline{gesamte} freiwerdende Energie über den CNO-Zyklus unter Vernachlässigung des Energieverlusts durch Neutrinos. Beachten Sie dabei die obigen Reaktionsgleichungen sind für die nackten Atomkerne gegeben. Erstellen Sie zunächst die \underline{Gesamtreaktionsbilanz} dieses Zyklus. Erhänzen Sie dann die Gleichung links und rechts mit den notwendigen Elektronenmassen. Berechnen Sie daraus die freiwerdende Energie unter Zuhilfenahme der ATommassen in der NUBASE 2020 der IAEA:
+        
+        \url{https://www-nds.iaea.org/relnsd/nubase/nubase_min.html}
+
+        \begin{align*}
+            ^{12}C + p &\rightarrow ^{13}N + \gamma + Q_1\\
+            ^{13}N &\rightarrow ^{13}C + e^+ + \mathbb{v}_e + Q_2\\
+        \end{align*}
+    \end{enumerate}
+
+\end{document}
