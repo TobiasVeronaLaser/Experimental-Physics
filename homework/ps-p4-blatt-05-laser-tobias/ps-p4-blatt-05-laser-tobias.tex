@@ -92,19 +92,73 @@
 
     \paragraph{Aufgabe 1: Q-Wert und CNO-Zyklus}
 
-    Für die Energiebilanz einer Kernreaktion $A + a \rightarrow B + b$ wird der Q-Wert genutz. Dieser entspricht (bezugssystemunabhängig) der insgesamt freiwerdenden kinetischen Energie.
+        Für die Energiebilanz einer Kernreaktion $A + a \rightarrow B + b$ wird der Q-Wert genutz. Dieser entspricht (bezugssystemunabhängig) der insgesamt freiwerdenden kinetischen Energie.
 
-    Die astronomisch relevanteste Kernreaktion ist hierbei das Wasserstoffbrennen, welches in zwei Hauptreaktionen unterteil wird: die pp-Kette (bei der Protonen zunächst zu Deuterium, dann weiter zu Helium-3 und schließlich Helium-4 verschmelzen) und der CN=-Zyklus, bei dem in Teilreaktionen mit Kohlenstoff, Stickstoff und Sauerstoff Wasserstoff in Helium umgesetzt wird. Hier möchten wir nun eine mögliche Varante des CNO-ZYklus diskutieren.
+        Die astronomisch relevanteste Kernreaktion ist hierbei das Wasserstoffbrennen, welches in zwei Hauptreaktionen unterteil wird: die pp-Kette (bei der Protonen zunächst zu Deuterium, dann weiter zu Helium-3 und schließlich Helium-4 verschmelzen) und der CN=-Zyklus, bei dem in Teilreaktionen mit Kohlenstoff, Stickstoff und Sauerstoff Wasserstoff in Helium umgesetzt wird. Hier möchten wir nun eine mögliche Varante des CNO-Zyklus diskutieren.
 
-    \begin{enumerate}
-        \item Berechnen Sie hierzu zunächst die \underline{gesamte} freiwerdende Energie über den CNO-Zyklus unter Vernachlässigung des Energieverlusts durch Neutrinos. Beachten Sie dabei die obigen Reaktionsgleichungen sind für die nackten Atomkerne gegeben. Erstellen Sie zunächst die \underline{Gesamtreaktionsbilanz} dieses Zyklus. Erhänzen Sie dann die Gleichung links und rechts mit den notwendigen Elektronenmassen. Berechnen Sie daraus die freiwerdende Energie unter Zuhilfenahme der ATommassen in der NUBASE 2020 der IAEA:
-        
-        \url{https://www-nds.iaea.org/relnsd/nubase/nubase_min.html}
+        \begin{enumerate}
+            \item 
+                Berechnen Sie hierzu zunächst die \underline{gesamte} freiwerdende Energie über den CNO-Zyklus unter Vernachlässigung des Energieverlusts durch Neutrinos. Beachten Sie dabei die obigen Reaktionsgleichungen sind für die nackten Atomkerne gegeben. Erstellen Sie zunächst die \underline{Gesamtreaktionsbilanz} dieses Zyklus. Erhänzen Sie dann die Gleichung links und rechts mit den notwendigen Elektronenmassen. Berechnen Sie daraus die freiwerdende Energie unter Zuhilfenahme der ATommassen in der NUBASE 2020 der IAEA:
+                
+                \url{https://www-nds.iaea.org/relnsd/nubase/nubase_min.html}
 
-        \begin{align*}
-            ^{12}C + p &\rightarrow ^{13}N + \gamma + Q_1\\
-            ^{13}N &\rightarrow ^{13}C + e^+ + \mathbb{v}_e + Q_2\\
-        \end{align*}
-    \end{enumerate}
+                \begin{align*}
+                    {}^{12}\mathrm{C} + p &\;\to\; {}^{13}\mathrm{N} + \gamma + Q_1 \\
+                    {}^{13}\mathrm{N} &\;\to\; {}^{13}\mathrm{C} + e^{+} + \nu_e + Q_2 \\
+                    {}^{13}\mathrm{C} + p &\;\to\; {}^{14}\mathrm{N} + \gamma + Q_3 \\
+                    {}^{14}\mathrm{N} + p &\;\to\; {}^{15}\mathrm{O} + \gamma + Q_4 \\
+                    {}^{15}\mathrm{O} &\;\to\; {}^{15}\mathrm{N} + e^{+} + \nu_e + Q_5 \\
+                    {}^{15}\mathrm{N} + p &\;\to\; {}^{12}\mathrm{C} + \alpha + Q_6
+                \end{align*}
+
+            \item 
+                Zu einem geringeren Prozentsatz kann auch der CNO (II) Prozess stattfinden, erstellen sie wiederum die Gesamtreaktionsbilanz und berechnen sie die freiwerdende Energie. Was ist der Hauptunterschied zwischen CNO (I) und CNP (II)?
+
+                \begin{align*}
+                    {}^{15}\mathrm{N} + p &\;\to\; {}^{16}\mathrm{O} + \gamma + Q_1 \\
+                    {}^{16}\mathrm{O} + p &\;\to\; {}^{17}\mathrm{F} + \gamma + Q_2 \\
+                    {}^{17}\mathrm{F} &\;\to\; {}^{17}\mathrm{O} + e^{+} + \nu_e + Q_3 \\
+                    {}^{17}\mathrm{O} + p &\;\to\; {}^{14}\mathrm{N} + \alpha + Q_4 \\
+                    {}^{14}\mathrm{N} + p &\;\to\; {}^{15}\mathrm{O} + \gamma + Q_5 \\
+                    {}^{15}\mathrm{O} &\;\to\; {}^{15}\mathrm{N} + e^{+} + \nu_e + Q_6
+                \end{align*}
+
+            \item
+                Wie viel Kilogramm Wasserstoff werden über den CNO-Zyklus in 1. in einer Sekunde verbraucht, um eine Leistung von 1MW zu erzeugen? (Wir nehmen hierzu an, dass im Stern ausreichend Kohlenstoff für die Reaktion vorhanden ist).
+
+            \item
+                Welcher Prozess ist für die Sonne relevanter, CNO-Zyklus oder pp-Kette? Warum? Woher hommt der notwendige Kohlenstoff, um den CNO-Zyklus überhaupt starten zu können?
+        \end{enumerate}
+
+    \paragraph{Aufgabe 2: Fermigasmodell}
+
+        In dieser Aufgabe soll das Fermigasmodell der Atomkerne nachvollzogen und der Fermi-Impuls $p_\text{F}$ sowie die zugehörige $E_\text{F}$ nochmals alternativ hergeleitet werden.
+
+        \begin{enumerate}
+            \item 
+                Was versteht man unter dem Fermi-Impuls $p_\text{F}$ bei einem Atomkern?
+
+            \item
+                Wie groß ist die Anzahl $n$ der (Teilchen-)Zustände im 6-dimensionalen Orts-Impuls-Phasenraum? Gehen Sie hierbei davon aus, dass jeder Zustand ein Phasenraumvolumen von $h^3$ einnimmt (Unschärferelation). Das Volumen des Orts-Implus-Phasenraums entsprich davei dem Produkt aus Ortsvolumen $V$ und dem \textit{Impulsvolumen} einer Kugel mit Radius $p_\text{F}$ Berücksichtigen Sie dabei den Nukleonenspinfaktor 2 und benutzen Sie $h = 2 \pi \hbar$.
+
+            \item 
+                Für beide Nukleonenarten (Protenen und Neutronen) kann man in guter Näherung $n = A/2$ setzen. Der Kernradius sei über $R = R_ a{1/3}$ mit $R_0 = 1.3 fm$ gegeben- welche Formel und welcher numerische Wert (in der Einheit MeV/c) erbit sich damit für $p_\text{F}$?
+
+            \item
+                Berechnen Sie nun die Formel für die Fermi-Energie $E_\text{F}$ mittels $E_\text{F} = p^2_\text{F} / (2 m_\text{N})$ und geben Sie deren Wert in MeV an. Was bedeutet $E_\text{F}$ in Bezug auf das Kernpotenzial?
+
+            \item 
+                Berechnen Sie die mittlere kinetische Energie pro Nukleon in Abhängigkeit der Fermi-Energie.
+
+            \item
+                Besonders für schwere Kerne ist die Näherung $n = A/2$ nicht mehr gut. Betrachten Sie dazu den Kern ${}^{63}Ni$ und berechnen Sie für diesen die genaueren Werte der Fermi-Energien von Protonen und Neutronen.
+
+                \underline{Hinweis:} Letztlich folgt in (3.) aus der Annahme $n = A/2$, dass $n/A = 1/2$. Hier müssen Sie dann nur das korrekte $n$ für Protonen und Neutronen ansetzen.
+
+            \item
+                Offenbar gibt es gewisse Unterschiede zwischen der Fermi-Energie von Protonen und Neutronen. Vergleichen Sie nun diesen Unterschied mit der Coulombenergie pro Proton, die sich aus dem entsprechen Term der Bethe-Weizsäcker-Formel ergibt. Was bedeutet dieses Ergebnis?
+        \end{enumerate}
+
+    
 
 \end{document}
