@@ -1,694 +1,988 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Physik 4 - Blatt 09 Abgabe
+% Standalone general university LaTeX template -- homework sheet
+% One-file version: no \input files needed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[11pt,a4paper]{scrartcl}
 
-% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% General university LaTeX template -- metadata and title pages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Change these in the main .tex file before \begin{document}.
+\newcommand{\CourseTitle}{COURSE NAME}
+\newcommand{\CourseShortTitle}{COURSE SHORT NAME}
+\newcommand{\DocumentKind}{DOCUMENT KIND}
+\newcommand{\DocumentTitle}{DOCUMENT TITLE}
+\newcommand{\DocumentSubtitle}{}
+\newcommand{\AuthorName}{YOUR NAME}
+\newcommand{\InstitutionName}{INSTITUTION NAME}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+
+% Backward-compatible alias for older documents created with the Physik IV template.
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document metadata -- change these placeholders for each sheet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\CourseTitle}{Physik IV: Kerne und Teilchen}
+\renewcommand{\CourseShortTitle}{Physik IV}
+\renewcommand{\DocumentKind}{Hausaufgabe, Tafelvortrag und Lernfassung}
+\renewcommand{\DocumentTitle}{Aufgabenblatt 9}
+\renewcommand{\DocumentSubtitle}{Relativistische Kinematik, Schwerpunktsystem und invariante Masse}
+\renewcommand{\AuthorName}{Tobias Laser}
+\renewcommand{\InstitutionName}{Universit\"at Innsbruck}
+\renewcommand{\SubmissionDate}{26. Mai 2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% General university LaTeX template -- packages and global setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Page layout and spacing
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
 
-% General packages
-\usepackage{graphicx}
-\usepackage{enumitem}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
-\usepackage{amsmath,amsthm,amssymb,mathtools}
-\usepackage{icomma}
+% Font and language
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
-\usepackage{tikz}
-
-% Units / tables / floats / references
-\usepackage[locale = DE,space-before-unit=true,per-mode = symbol]{siunitx}
-\usepackage{booktabs,multirow}
-\usepackage{placeins}
-\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{csquotes}
+
+% Mathematics
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
+
+% Graphics, plots, diagrams
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
-% Graphics paths
-\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+% Units, tables, floats, references
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
 
-% Optional math shortcuts
+% Boxes
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+% Hyperlinks should be loaded late
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+% Header and footer
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+
+% Common list spacing
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+
+% Float placement defaults
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% General university LaTeX template -- mathematics, math, science, units macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Number sets
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
+% Brackets and norms
 \newcommand{\set}[1]{\left\{ #1 \right\}}
 \newcommand{\abs}[1]{\left| #1 \right|}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
 \newcommand{\ol}[1]{\overline{#1}}
-\newcommand{\half}{\frac{1}{2}}
+
+% Differentials and derivatives
 \newcommand{\dd}{\,\mathrm{d}}
-\newcommand{\pifour}{p_{\pi}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
 
-% Optional units
+% Vectors and operators
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
+
+% Frequent constants and factors
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
+
+% Nuclear and particle notation
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\mup}{\mu^+}
+\newcommand{\mum}{\mu^-}
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_\mu}
+\newcommand{\nutau}{\nu_\tau}
+\newcommand{\pionp}{\pi^+}
+\newcommand{\pionm}{\pi^-}
+\newcommand{\pionz}{\pi^0}
+\newcommand{\kaonp}{K^+}
+\newcommand{\kaonm}{K^-}
+\newcommand{\kaonz}{K^0}
+
+% Cross sections, luminosity, Mandelstam variables
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\totalxs}{\sigma_{\mathrm{total}}}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\tmand}{t}
+\newcommand{\umand}{u}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
+
+% Common text shortcuts
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bez\"uglich}
+
+% Units not predefined by siunitx
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
+\DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
 \DeclareSIUnit{\year}{a}
-\DeclareSIUnit{\day}{d}
 
-% Box styles
+% Local shortcuts for this sheet
+\newcommand{\Dzero}{\Delta^0}
+\newcommand{\pivec}{\vect{p}_{\pi}}
+\newcommand{\pstar}{p^{\ast}}
+\newcommand{\Estar}{E^{\ast}}
+\newcommand{\betacm}{\beta_{\mathrm{CM}}}
+\newcommand{\gammacm}{\gamma_{\mathrm{CM}}}
+\newcommand{\fourp}[4]{\paren{#1,#2,#3,#4}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% General university LaTeX template -- reusable tcolorbox environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Base style shared by most boxes.
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
+}
+
+% Calculation boxes may be nested. Optional argument overwrites title/options.
 \newtcolorbox{calculationbox}[1][]{
-    title=Calculation,
-    breakable,
-    #1
-}
-
-\newtcolorbox{solutionbox}[1][]{
-    title=Solution,
-    breakable,
-    #1
-}
-
-\newtcolorbox{answerbox}[1][]{
-    title=Answer,
-    breakable,
-    #1
-}
-
-\newtcolorbox{notebox}[1][]{
-    title=Notes,
-    breakable,
+    unibox,
+    title=Rechnung,
+    colback=black!2,
+    colframe=black!55,
     #1
 }
 
 \newtcolorbox{sidecalcbox}[1][]{
-    title=Side Calculation,
-    breakable,
+    unibox,
+    title=Nebenrechnung,
+    colback=black!1,
+    colframe=black!40,
+    #1
+}
+
+\newtcolorbox{solutionbox}[1][]{
+    unibox,
+    title=L\"osung,
+    colback=blue!2,
+    colframe=blue!45!black,
+    #1
+}
+
+\newtcolorbox{answerbox}[1][]{
+    unibox,
+    title=Antwort,
+    colback=green!3,
+    colframe=green!45!black,
+    #1
+}
+
+\newtcolorbox{notebox}[1][]{
+    unibox,
+    title=Notiz,
+    colback=yellow!6,
+    colframe=yellow!45!black,
+    #1
+}
+
+\newtcolorbox{definitionbox}[1][]{
+    unibox,
+    title=Definition,
+    colback=cyan!3,
+    colframe=cyan!45!black,
+    #1
+}
+
+\newtcolorbox{warningbox}[1][]{
+    unibox,
+    title=Achtung,
+    colback=red!3,
+    colframe=red!55!black,
+    #1
+}
+
+\newtcolorbox{summarybox}[1][]{
+    unibox,
+    title=Zusammenfassung,
+    colback=violet!3,
+    colframe=violet!50!black,
+    #1
+}
+
+% Compact formula box for central formulas.
+\newtcolorbox{formulabox}[1][]{
+    unibox,
+    title=Formel,
+    colback=orange!4,
+    colframe=orange!65!black,
+    #1
+}
+
+% A task wrapper for homework sheets.
+\newtcolorbox{taskbox}[1][]{
+    unibox,
+    title=Aufgabe,
+    colback=white,
+    colframe=black!75,
+    #1
+}
+
+\newtcolorbox{presentationbox}[1][]{
+    unibox,
+    title=Tafelvortrag,
+    colback=teal!3,
+    colframe=teal!50!black,
     #1
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% General university LaTeX template -- theorem-like environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
+
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-    \title{Physik 4 - Blatt 09}
-    \author{Tobias Laser}
-    \date{\today}
-    \maketitle
-    \vfill
-    \thispagestyle{empty}
-    \newpage
+\makeuniversitytitle
+\tableofcontents
+\newpage
 
-    \pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Homework content starts here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-    \paragraph{Aufgabe 1: Alles ist relativ (egal)}
+\section*{Vorbereitung f\"ur den Tafelvortrag}
+\addcontentsline{toc}{section}{Vorbereitung f\"ur den Tafelvortrag}
 
-    Betrachten Sie die Reaktion
-    \[
-        \pi^- + p \longrightarrow \Delta^0 \longrightarrow \pi^0+n.
-    \]
-    Nehmen Sie dabei an, dass das Proton in Ruhe sein soll. Rechnen Sie im Folgenden
-    in Einheiten von MeV mit einer Genauigkeit von zwei Nachkommastellen.
+\begin{summarybox}[title={Was man aus diesem Blatt lernen soll}]
+Dieses Aufgabenblatt trainiert relativistische Kinematik in der Teilchenphysik. Die zentralen Werkzeuge sind
+\begin{itemize}
+    \item die invariante Masse beziehungsweise Mandelstam-Gr\"o\ss e $s$,
+    \item die Umrechnung zwischen Laborsystem und Schwerpunktsystem,
+    \item die Lorentztransformation von Energie und Impuls,
+    \item die feste Energie- und Impulsaufteilung bei einem Zweik\"orperzerfall.
+\end{itemize}
+Wir verwenden nat\"urliche Einheiten $c=1$. Energien, Massen und Impulse werden deshalb in $\MeV$ oder $\GeV$ geschrieben. Wenn alle Komponenten eines Viererimpulses angegeben werden, ist die Konvention
+\[
+    p^\mu = (E,p_x,p_y,p_z)
+\]
+gemeint. Streng mit $c$ w\"are dies $p^\mu=(E/c,p_x,p_y,p_z)$; in Einheiten $c=1$ fallen beide Schreibweisen zusammen.
+\end{summarybox}
 
-    \begin{enumerate}[label=(\alph*)]
-        \item
-            Berechnen Sie als Erstes die Schwellenergie des $\pi^-$ für die Erzeugung der
-            $\Delta^0$-Resonanz, indem Sie allgemein die Schwerpunktsenergie bestimmen
-            und diese als die Masse der $\Delta^0$-Resonanz annehmen.
+\begin{presentationbox}[title={Roter Faden f\"ur den Vortrag}]
+\begin{enumerate}
+    \item Zuerst erkl\"aren: Nicht Energie oder Impuls einzeln sind allgemein invariant, sondern $s=(p_1+p_2)^2$.
+    \item Bei ruhendem Target ausnutzen: $s=m_1^2+m_2^2+2m_2E_1$.
+    \item Schwerpunktsystem-Geschwindigkeit aus Gesamtimpuls durch Gesamtenergie bestimmen: $\beta_{\mathrm{CM}}=p_{\mathrm{ges}}/E_{\mathrm{ges}}$.
+    \item Beim Zerfall immer zuerst im Ruhesystem des Mutterteilchens rechnen. Danach mit Lorentztransformation ins Labor boosten.
+    \item Bei Aufgabe 2 klar sagen: Der Boost ist entlang $+x$, die Zerfallsimpulse im Schwerpunktsystem liegen entlang $\pm y$. Daher bleibt $p_y$ unver\"andert und nur $E$ und $p_x$ mischen sich.
+\end{enumerate}
+\end{presentationbox}
 
-            \begin{calculationbox}
-                Die Idee ist, mit einer Lorentz-invarianten Größe zu arbeiten. Dafür verwendet
-                man das Quadrat der Gesamtviererimpulses:
-                \[
-                    s = (p_{\pi}+p_p)^2.
-                \]
-                Im Schwerpunktsystem ist die Gesamtimpuls-Summe null. Daher gilt dort
-                \[
-                    \sqrt{s}=E_{\mathrm{cm}}.
-                \]
-                An der Schwelle soll gerade die $\Delta^0$-Resonanz erzeugt werden. Also muss
-                im Schwerpunktsystem gerade ihre Ruheenergie verfügbar sein:
-                \[
-                    E_{\mathrm{cm}}=m_{\Delta}c^2.
-                \]
+\newpage
 
-                \begin{calculationbox}
-                    Wir rechnen in Teilchenphysik-Einheiten mit $c=1$. Dann haben Massen die
-                    Einheit MeV und Impulse die Einheit MeV. Im Laborsystem ruht das Proton:
-                    \[
-                        p_p=(m_p,0),
-                        \qquad
-                        p_{\pi}=(E_{\pi},\vec p_{\pi}).
-                    \]
-                    Damit ist
-                    \begin{align*}
-                        s
-                        &= (p_{\pi}+p_p)^2\\
-                        &= p_{\pi}^2+p_p^2+2p_{\pi}\cdot p_p\\
-                        &= m_{\pi}^2+m_p^2+2m_pE_{\pi}.
-                    \end{align*}
-                    An der Schwelle setzen wir $s=m_{\Delta}^2$:
-                    \[
-                        m_{\Delta}^2=m_{\pi}^2+m_p^2+2m_pE_{\pi,\mathrm{thr}}.
-                    \]
-                    Auflösen nach der Pionenergie liefert
-                    \[
-                        E_{\pi,\mathrm{thr}}
-                        =\frac{m_{\Delta}^2-m_p^2-m_{\pi}^2}{2m_p}.
-                    \]
-                \end{calculationbox}
+\section{Aufgabe 1: Alles ist relativ (egal)}
 
-                \begin{calculationbox}
-                    Mit
-                    \[
-                        m_{\Delta}=\SI{1232}{MeV},
-                        \qquad
-                        m_p=\SI{938.3}{MeV},
-                        \qquad
-                        m_{\pi^-}=\SI{139.6}{MeV}
-                    \]
-                    folgt
-                    \begin{align*}
-                        E_{\pi,\mathrm{thr}}
-                        &=\frac{(1232)^2-(938.3)^2-(139.6)^2}{2\cdot 938.3}\,\si{MeV}\\
-                        &=\SI{329.28}{MeV}.
-                    \end{align*}
-                    Falls man die kinetische Energie des Pions meint, muss noch die Ruheenergie
-                    des Pions abgezogen werden:
-                    \begin{align*}
-                        T_{\pi,\mathrm{thr}}
-                        &=E_{\pi,\mathrm{thr}}-m_{\pi}\\
-                        &=\SI{329.28}{MeV}-\SI{139.60}{MeV}\\
-                        &=\SI{189.68}{MeV}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{taskbox}
+Betrachtet wird die Reaktion
+\[
+    \pionm + p \longrightarrow \Dzero \longrightarrow \pionz + n.
+\]
+Das Proton ruht im Laborsystem. Gesucht sind die Schwellenergie des einlaufenden $\pionm$, die Geschwindigkeit des Schwerpunktsystems bei dieser Schwellenergie und die maximal beziehungsweise minimal m\"ogliche Neutronenergie im Laborsystem nach dem Zerfall der $\Dzero$-Resonanz.
+\end{taskbox}
 
-            \begin{answerbox}
-                Die Schwellenergie als Gesamtenergie des einlaufenden Pions ist
-                \[
-                    \boxed{E_{\pi,\mathrm{thr}}=\SI{329.28}{MeV}.}
-                \]
-                Die dazugehörige kinetische Schwellenergie ist
-                \[
-                    \boxed{T_{\pi,\mathrm{thr}}=\SI{189.68}{MeV}.}
-                \]
-                Für die Rechnung im nächsten Teil verwenden wir die Gesamtenergie
-                $E_{\pi,\mathrm{thr}}$.
-            \end{answerbox}
+\subsection{Teil (a): Schwellenergie f\"ur die Erzeugung der $\Dzero$-Resonanz}
 
-        \item
-            Bestimmen Sie für die Situation, dass das Pion gerade die Schwellenergie hat,
-            die Geschwindigkeit in Einheiten der Lichtgeschwindigkeit, mit der sich das
-            Schwerpunktsystem relativ zum Laborsystem bewegt.
+\begin{presentationbox}
+An der Tafel zuerst die Idee formulieren: Eine Resonanz kann erzeugt werden, wenn im Schwerpunktsystem mindestens ihre Ruheenergie vorhanden ist. Das hei\ss t hier
+\[
+    \sqrt{s}=m_\Delta.
+\]
+Dann $s$ im Laborsystem ausrechnen, weil dort das Proton ruht.
+\end{presentationbox}
 
-            \begin{calculationbox}
-                Das Schwerpunktsystem bewegt sich relativ zum Laborsystem mit der Geschwindigkeit,
-                bei der der Gesamtimpuls verschwindet. Für ein System aus Pion und ruhendem Proton gilt
-                in Einheiten $c=1$:
-                \[
-                    \beta_{\mathrm{cm}}
-                    =\frac{\abs{\vec p_{\mathrm{ges}}}}{E_{\mathrm{ges}}}
-                    =\frac{p_{\pi}}{E_{\pi}+m_p}.
-                \]
-                Der Impuls des Pions bei Schwellenergie folgt aus der relativistischen
-                Energie-Impuls-Beziehung:
-                \[
-                    E_{\pi}^2=p_{\pi}^2+m_{\pi}^2.
-                \]
+\begin{calculationbox}[title=Invariante Masse und Schwerpunktsenergie]
+Die invariante Gr\"o\ss e ist das Quadrat des Gesamtviererimpulses:
+\[
+    s=(p_\pi+p_p)^2.
+\]
+Im Schwerpunktsystem verschwindet der Gesamtimpuls. Deshalb gilt dort
+\[
+    \sqrt{s}=E_{\mathrm{CM}}.
+\]
+An der Schwelle soll gerade die $\Dzero$-Resonanz erzeugt werden. Also ist
+\[
+    E_{\mathrm{CM}}=m_\Delta.
+\]
+\end{calculationbox}
 
-                \begin{calculationbox}
-                    Also
-                    \begin{align*}
-                        p_{\pi,\mathrm{thr}}
-                        &=\sqrt{E_{\pi,\mathrm{thr}}^2-m_{\pi}^2}\\
-                        &=\sqrt{(329.28)^2-(139.6)^2}\,\si{MeV}\\
-                        &=\SI{298.22}{MeV}.
-                    \end{align*}
-                    Damit ist
-                    \begin{align*}
-                        \beta_{\mathrm{cm}}
-                        &=\frac{298.22}{329.28+938.3}\\
-                        &=0.23527.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{calculationbox}[title=Auswertung im Laborsystem]
+Das Proton ruht im Laborsystem. Also gilt
+\[
+    p_p=(m_p,0),
+    \qquad
+    p_\pi=(E_\pi,\vect{p}_\pi).
+\]
+Damit folgt
+\begin{align*}
+    s
+    &= (p_\pi+p_p)^2 \\
+    &= p_\pi^2+p_p^2+2p_\pi\cdot p_p \\
+    &= m_\pi^2+m_p^2+2m_pE_\pi.
+\end{align*}
+An der Schwelle setzen wir $s=m_\Delta^2$:
+\[
+    m_\Delta^2=m_\pi^2+m_p^2+2m_pE_{\pi,\mathrm{thr}}.
+\]
+Aufl\"osen nach der Gesamtenergie des einlaufenden Pions liefert
+\[
+    E_{\pi,\mathrm{thr}}
+    =\frac{m_\Delta^2-m_p^2-m_\pi^2}{2m_p}.
+\]
+Mit
+\[
+    m_\Delta=\SI{1232}{MeV},\qquad
+    m_p=\SI{938,3}{MeV},\qquad
+    m_{\pi^-}=\SI{139,6}{MeV}
+\]
+ergibt sich
+\begin{align*}
+    E_{\pi,\mathrm{thr}}
+    &=\frac{(1232)^2-(938,3)^2-(139,6)^2}{2\cdot 938,3}\,\MeV \\
+    &=\SI{329,28}{MeV}.
+\end{align*}
+Die kinetische Schwellenergie w\"are
+\begin{align*}
+    T_{\pi,\mathrm{thr}}
+    &=E_{\pi,\mathrm{thr}}-m_\pi \\
+    &=\SI{329,28}{MeV}-\SI{139,60}{MeV} \\
+    &=\SI{189,68}{MeV}.
+\end{align*}
+\end{calculationbox}
 
-            \begin{answerbox}
-                Das Schwerpunktsystem bewegt sich relativ zum Laborsystem mit
-                \[
-                    \boxed{\beta_{\mathrm{cm}}=0.24}
-                \]
-                beziehungsweise genauer mit
-                \[
-                    \boxed{v_{\mathrm{cm}}=0.23527\,c.}
-                \]
-            \end{answerbox}
+\begin{answerbox}
+Die Schwellenergie als Gesamtenergie des einlaufenden Pions ist
+\[
+    \boxed{E_{\pi,\mathrm{thr}}=\SI{329,28}{MeV}}.
+\]
+Die zugeh\"orige kinetische Schwellenergie ist
+\[
+    \boxed{T_{\pi,\mathrm{thr}}=\SI{189,68}{MeV}}.
+\]
+F\"ur die weiteren Rechnungen wird die Gesamtenergie $E_{\pi,\mathrm{thr}}$ verwendet.
+\end{answerbox}
 
-        \item
-            Im Schwerpunktsystem zerfällt das $\Delta^0$ nach kurzer Zeit in ein neutrales Pion
-            und ein Neutron. Dafür kann man berechnen, dass die Energie des Neutrons im
-            Schwerpunktsystem \SI{966.88}{MeV} und sein Impuls \SI{228.19}{MeV/c} beträgt.
-            Bestimmen Sie daraus die maximale und die minimale Energie, die das Neutron
-            im Laborsystem haben kann.
+\subsection{Teil (b): Geschwindigkeit des Schwerpunktsystems relativ zum Labor}
 
-            \begin{calculationbox}
-                Wir transformieren die Neutronenergie aus dem Schwerpunktsystem in das Laborsystem.
-                Die Lorentztransformation für die Energie lautet bei einem Boost entlang der
-                Bewegungsrichtung des Schwerpunktsystems
-                \[
-                    E_{\mathrm{lab}}=\gamma_{\mathrm{cm}}
-                    \left(E^*+\beta_{\mathrm{cm}}p^*\cos\theta^*\right).
-                \]
-                Dabei bezeichnet der Stern Größen im Schwerpunktsystem. Der Winkel $\theta^*$ ist
-                der Winkel zwischen der Neutron-Flugrichtung im Schwerpunktsystem und der Boostrichtung.
+\begin{presentationbox}
+Die Geschwindigkeit des Schwerpunktsystems ist genau die Geschwindigkeit, mit der man in ein System boostet, in dem der Gesamtimpuls verschwindet. Im Labor ist der Gesamtimpuls nur der Pionimpuls, die Gesamtenergie ist $E_\pi+m_p$.
+\end{presentationbox}
 
-                \begin{calculationbox}
-                    Zuerst berechnen wir
-                    \[
-                        \gamma_{\mathrm{cm} }
-                        =\frac{1}{\sqrt{1-\beta_{\mathrm{cm}}^2}}
-                        =\frac{1}{\sqrt{1-0.23527^2}}
-                        =1.02888.
-                    \]
-                    Die maximale Energie entsteht, wenn das Neutron im Schwerpunktsystem in
-                    Boostrichtung fliegt, also $\cos\theta^*=+1$:
-                    \begin{align*}
-                        E_{\max}
-                        &=\gamma_{\mathrm{cm}}(E_n^*+\beta_{\mathrm{cm}}p_n^*)\\
-                        &=1.02888\left(966.88+0.23527\cdot 228.19\right)\,\si{MeV}\\
-                        &=\SI{1050.04}{MeV}.
-                    \end{align*}
-                    Die minimale Energie entsteht, wenn das Neutron entgegen der Boostrichtung
-                    fliegt, also $\cos\theta^*=-1$:
-                    \begin{align*}
-                        E_{\min}
-                        &=\gamma_{\mathrm{cm}}(E_n^*-\beta_{\mathrm{cm}}p_n^*)\\
-                        &=1.02888\left(966.88-0.23527\cdot 228.19\right)\,\si{MeV}\\
-                        &=\SI{939.57}{MeV}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{calculationbox}
+F\"ur das System aus einlaufendem Pion und ruhendem Proton gilt
+\[
+    \betacm
+    =\frac{\abs{\vect{p}_{\mathrm{ges}}}}{E_{\mathrm{ges}}}
+    =\frac{p_\pi}{E_\pi+m_p}.
+\]
+Der Pionimpuls bei Schwellenergie folgt aus
+\[
+    E_\pi^2=p_\pi^2+m_\pi^2.
+\]
+Also ist
+\begin{align*}
+    p_{\pi,\mathrm{thr}}
+    &=\sqrt{E_{\pi,\mathrm{thr}}^2-m_\pi^2} \\
+    &=\sqrt{(329,28)^2-(139,6)^2}\,\MeV \\
+    &=\SI{298,22}{MeV}.
+\end{align*}
+Damit folgt
+\begin{align*}
+    \betacm
+    &=\frac{298,22}{329,28+938,3} \\
+    &=0,23527.
+\end{align*}
+\end{calculationbox}
 
-            \begin{answerbox}
-                Die maximale Neutronenergie im Laborsystem ist
-                \[
-                    \boxed{E_{\max}=\SI{1050.04}{MeV}.}
-                \]
-                Die minimale Neutronenergie im Laborsystem ist
-                \[
-                    \boxed{E_{\min}=\SI{939.57}{MeV}.}
-                \]
-                Interpretation: Vorwärts emittierte Neutronen werden durch den Boost energetisch
-                angehoben, rückwärts emittierte Neutronen energetisch abgesenkt.
-            \end{answerbox}
-    \end{enumerate}
+\begin{answerbox}
+Das Schwerpunktsystem bewegt sich relativ zum Laborsystem mit
+\[
+    \boxed{\betacm=0,23527}
+\]
+beziehungsweise gerundet auf zwei Nachkommastellen mit
+\[
+    \boxed{v_{\mathrm{CM}}\approx 0,24c}.
+\]
+\end{answerbox}
 
-    \newpage
-    \paragraph{Aufgabe 2: Delta und (invariante) Masse}
+\subsection{Teil (c): Maximale und minimale Neutronenergie im Laborsystem}
 
-    Ein $\Delta^0$-Baryon mit
-    \[
-        m_{\Delta^0}=\SI{1232}{MeV/c^2}
-    \]
-    und einer relativistischen Gesamtenergie von \SI{1.35}{GeV} fliegt im Laborsystem
-    entlang der positiven $x$-Achse und zerfällt über die Reaktion
-    \[
-        \Delta^0 \longrightarrow p+\pi^-.
-    \]
-    Zusätzlich betrachten wir den Prozess in dem Schwerpunktsystem, welches sich durch
-    eine einfache Lorentz-Transformation des Laborsystems ergibt. In diesem sollen die
-    beiden Zerfallsprodukte entlang der $y$-Achse voneinander wegfliegen.
+\begin{presentationbox}
+Hier ist die entscheidende physikalische Idee: Im Schwerpunktsystem hat das Neutron immer dieselbe Energie $E_n^\ast$ und denselben Impulsbetrag $p_n^\ast$. Die Laborenergie h\"angt nur davon ab, ob das Neutron in Boostrichtung oder entgegen der Boostrichtung emittiert wird.
+\end{presentationbox}
 
-    \begin{enumerate}[label=(\alph*)]
-        \item
-            Machen Sie eine Skizze für beide Systeme.
+\begin{calculationbox}
+Die Lorentztransformation f\"ur die Energie bei einem Boost entlang der Bewegungsrichtung des Schwerpunktsystems lautet
+\[
+    E_{\mathrm{lab}}
+    =\gammacm\paren{E^\ast+\betacm p^\ast\cos\theta^\ast}.
+\]
+Dabei ist $\theta^\ast$ der Winkel zwischen Neutronimpuls im Schwerpunktsystem und Boostrichtung. Weiter gilt
+\[
+    \gammacm=\frac{1}{\sqrt{1-\betacm^2}}
+    =\frac{1}{\sqrt{1-0,23527^2}}
+    =1,02888.
+\]
+Gegeben sind
+\[
+    E_n^\ast=\SI{966,88}{MeV},\qquad
+    p_n^\ast=\SI{228,19}{MeV}.
+\]
+Die maximale Energie erh\"alt man f\"ur $\cos\theta^\ast=+1$:
+\begin{align*}
+    E_{\max}
+    &=\gammacm\paren{E_n^\ast+\betacm p_n^\ast} \\
+    &=1,02888\paren{966,88+0,23527\cdot 228,19}\,\MeV \\
+    &=\SI{1050,04}{MeV}.
+\end{align*}
+Die minimale Energie erh\"alt man f\"ur $\cos\theta^\ast=-1$:
+\begin{align*}
+    E_{\min}
+    &=\gammacm\paren{E_n^\ast-\betacm p_n^\ast} \\
+    &=1,02888\paren{966,88-0,23527\cdot 228,19}\,\MeV \\
+    &=\SI{939,57}{MeV}.
+\end{align*}
+\end{calculationbox}
 
-            \begin{calculationbox}
-                Im Laborsystem bewegt sich das $\Delta^0$ entlang der positiven $x$-Achse. Sein
-                Zerfall findet während dieser Vorwärtsbewegung statt. Im Schwerpunktsystem ruht
-                das $\Delta^0$ vor dem Zerfall. Dort fliegen Proton und Pion rein entlang der
-                $y$-Achse auseinander. Wir wählen für die Rechnung
-                \[
-                    p \text{ in } +y\text{-Richtung},
-                    \qquad
-                    \pi^- \text{ in } -y\text{-Richtung}.
-                \]
+\begin{answerbox}
+Die maximale Neutronenergie im Laborsystem ist
+\[
+    \boxed{E_{\max}=\SI{1050,04}{MeV}}.
+\]
+Die minimale Neutronenergie im Laborsystem ist
+\[
+    \boxed{E_{\min}=\SI{939,57}{MeV}}.
+\]
+Vorw\"arts emittierte Neutronen werden durch den Boost energetisch angehoben; r\"uckw\"arts emittierte Neutronen werden energetisch abgesenkt.
+\end{answerbox}
 
-                \begin{center}
-                    \begin{tikzpicture}[scale=1.0,>=stealth]
-                        % left: lab
-                        \draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};
-                        \draw[->] (0,-1.2) -- (0,1.4) node[above] {$y$};
-                        \node at (2,1.75) {Laborsystem};
-                        \draw[->,thick] (0.4,0.15) -- (2.0,0.15) node[midway,above] {$\Delta^0$};
-                        \fill (2.1,0.15) circle (1.5pt);
-                        \draw[->,thick] (2.1,0.15) -- (3.4,0.85) node[right] {$p$};
-                        \draw[->,thick] (2.1,0.15) -- (3.0,-0.75) node[right] {$\pi^-$};
+\FloatBarrier
+\newpage
 
-                        % right: cm
-                        \begin{scope}[xshift=7cm]
-                            \draw[->] (-1.7,0) -- (1.7,0) node[right] {$x'$};
-                            \draw[->] (0,-1.4) -- (0,1.4) node[above] {$y'$};
-                            \node at (0,1.75) {Schwerpunktsystem};
-                            \fill (0,0) circle (1.5pt) node[below right] {$\Delta^0$ ruht};
-                            \draw[->,thick] (0,0) -- (0,1.0) node[right] {$p$};
-                            \draw[->,thick] (0,0) -- (0,-1.0) node[right] {$\pi^-$};
-                        \end{scope}
-                    \end{tikzpicture}
-                \end{center}
-            \end{calculationbox}
+\section{Aufgabe 2: Delta und invariante Masse}
 
-            \begin{answerbox}
-                Die Skizze zeigt den entscheidenden Unterschied: Im Laborsystem bewegt sich das
-                Gesamtsystem nach rechts, im Schwerpunktsystem ruht das $\Delta^0$ und die beiden
-                Zerfallsprodukte haben entgegengesetzte Impulse entlang der $y$-Achse.
-            \end{answerbox}
+\begin{taskbox}
+Ein $\Dzero$-Baryon mit
+\[
+    m_{\Dzero}=\SI{1232}{MeV}/c^2
+\]
+und Gesamtenergie
+\[
+    E_\Delta=\SI{1,35}{GeV}
+\]
+fliegt im Laborsystem entlang der positiven $x$-Achse und zerf\"allt gem\"a\ss
+\[
+    \Dzero \longrightarrow p+\pionm.
+\]
+Im Schwerpunktsystem, also im Ruhesystem des $\Dzero$, sollen Proton und Pion entlang der $y$-Achse auseinanderfliegen.
+\end{taskbox}
 
-        \item
-            Mit welchem Bruchteil der Lichtgeschwindigkeit $\beta$ bewegt sich das $\Delta^0$
-            im Laborsystem?
+\subsection{Teil (a): Skizze beider Systeme}
 
-            \begin{calculationbox}
-                Für ein einzelnes Teilchen gilt
-                \[
-                    E^2=p^2+m^2.
-                \]
-                Außerdem gilt für die Geschwindigkeit in Einheiten von $c$:
-                \[
-                    \beta=\frac{p}{E}.
-                \]
+\begin{calculationbox}[title=Skizze und Konvention]
+Im Laborsystem bewegt sich das $\Dzero$ entlang $+x$. Im Schwerpunktsystem ruht das $\Dzero$ vor dem Zerfall. Wir w\"ahlen f\"ur die Rechnung
+\[
+    p \text{ in } +y\text{-Richtung},
+    \qquad
+    \pionm \text{ in } -y\text{-Richtung}.
+\]
 
-                \begin{calculationbox}
-                    Mit
-                    \[
-                        E_{\Delta}=\SI{1.35}{GeV},
-                        \qquad
-                        m_{\Delta}=\SI{1.232}{GeV}
-                    \]
-                    folgt zuerst
-                    \begin{align*}
-                        p_{\Delta}
-                        &=\sqrt{E_{\Delta}^2-m_{\Delta}^2}\\
-                        &=\sqrt{(1.35)^2-(1.232)^2}\,\si{GeV}\\
-                        &=\SI{0.5520}{GeV}.
-                    \end{align*}
-                    Damit ist
-                    \begin{align*}
-                        \beta
-                        &=\frac{p_{\Delta}}{E_{\Delta}}\\
-                        &=\frac{0.5520}{1.35}\\
-                        &=0.40887.
-                    \end{align*}
-                    Der Lorentzfaktor ist zugleich
-                    \[
-                        \gamma=\frac{E_{\Delta}}{m_{\Delta}}=\frac{1.35}{1.232}=1.09578.
-                    \]
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=1.05]
+    % Lab frame
+    \node at (0,2.4) {Laborsystem};
+    \draw[->] (-2.1,0) -- (2.2,0) node[right] {$x$};
+    \draw[->] (0,-1.45) -- (0,1.65) node[above] {$y$};
+    \draw[->,very thick] (-1.65,0) -- (-0.35,0) node[midway,above] {$\Dzero$};
+    \fill (0,0) circle (1.5pt);
+    \draw[->,thick] (0,0) -- (1.35,1.0) node[right] {$p$};
+    \draw[->,thick] (0,0) -- (1.35,-1.0) node[right] {$\pionm$};
 
-            \begin{answerbox}
-                Das $\Delta^0$ bewegt sich im Laborsystem mit
-                \[
-                    \boxed{\beta=0.41}
-                \]
-                beziehungsweise genauer
-                \[
-                    \boxed{v=0.40887\,c.}
-                \]
-            \end{answerbox}
+    % CM frame
+    \begin{scope}[xshift=7cm]
+        \node at (0,2.4) {Schwerpunktsystem};
+        \draw[->] (-2.1,0) -- (2.2,0) node[right] {$x'$};
+        \draw[->] (0,-1.45) -- (0,1.65) node[above] {$y'$};
+        \fill (0,0) circle (1.5pt) node[below right] {$\Dzero$ ruht};
+        \draw[->,thick] (0,0) -- (0,1.25) node[above] {$p$};
+        \draw[->,thick] (0,0) -- (0,-1.25) node[below] {$\pionm$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+\end{calculationbox}
 
-        \item
-            Geben Sie die Viererimpulse von Proton und Pion im Schwerpunktsystem an in
-            Einheiten von GeV/$c$ für alle Komponenten. Verwenden Sie dazu die Formel für
-            die Aufteilung der Energie beim Zweikörperzerfall. Hinweis:
-            $m_p=\SI{938.3}{MeV/c^2}$, $m_{\pi}=\SI{139.6}{MeV/c^2}$.
+\begin{answerbox}
+Im Laborsystem hat das Gesamtsystem einen Impuls in $+x$-Richtung. Im Schwerpunktsystem ruht das $\Dzero$, und die Zerfallsprodukte haben entgegengesetzte Impulse entlang der $y$-Achse.
+\end{answerbox}
 
-            \begin{calculationbox}
-                Im Schwerpunktsystem ist das $\Delta^0$ in Ruhe. Daher ist die Gesamtenergie
-                \[
-                    E^*_{\mathrm{ges}}=m_{\Delta}.
-                \]
-                Beim Zweikörperzerfall $\Delta^0\to p+\pi^-$ sind die Energien im
-                Schwerpunktsystem fest:
-                \[
-                    E_p^*=\frac{m_{\Delta}^2+m_p^2-m_{\pi}^2}{2m_{\Delta}},
-                    \qquad
-                    E_{\pi}^*=\frac{m_{\Delta}^2+m_{\pi}^2-m_p^2}{2m_{\Delta}}.
-                \]
+\subsection{Teil (b): Geschwindigkeit des $\Dzero$ im Laborsystem}
 
-                \begin{calculationbox}
-                    Wir verwenden GeV:
-                    \[
-                        m_{\Delta}=1.232,
-                        \qquad
-                        m_p=0.9383,
-                        \qquad
-                        m_{\pi}=0.1396.
-                    \]
-                    Damit
-                    \begin{align*}
-                        E_p^*
-                        &=\frac{1.232^2+0.9383^2-0.1396^2}{2\cdot1.232}\,\si{GeV}\\
-                        &=\SI{0.96540}{GeV},\\[0.5em]
-                        E_{\pi}^*
-                        &=\frac{1.232^2+0.1396^2-0.9383^2}{2\cdot1.232}\,\si{GeV}\\
-                        &=\SI{0.26660}{GeV}.
-                    \end{align*}
-                    Der Impulsbetrag ist für beide Zerfallsprodukte gleich groß:
-                    \begin{align*}
-                        p^*
-                        &=\sqrt{(E_p^*)^2-m_p^2}\\
-                        &=\SI{0.22713}{GeV}.
-                    \end{align*}
-                \end{calculationbox}
+\begin{calculationbox}
+F\"ur ein einzelnes relativistisches Teilchen gilt
+\[
+    E^2=p^2+m^2,
+    \qquad
+    \beta=\frac{p}{E}.
+\]
+Mit
+\[
+    E_\Delta=\SI{1,35}{GeV},
+    \qquad
+    m_\Delta=\SI{1,232}{GeV}
+\]
+ergibt sich zuerst
+\begin{align*}
+    p_\Delta
+    &=\sqrt{E_\Delta^2-m_\Delta^2} \\
+    &=\sqrt{(1,35)^2-(1,232)^2}\,\GeV \\
+    &=\SI{0,55198}{GeV}.
+\end{align*}
+Damit folgt
+\begin{align*}
+    \beta
+    &=\frac{p_\Delta}{E_\Delta} \\
+    &=\frac{0,55198}{1,35} \\
+    &=0,40887.
+\end{align*}
+Der Lorentzfaktor ist
+\[
+    \gamma=\frac{E_\Delta}{m_\Delta}
+    =\frac{1,35}{1,232}
+    =1,09578.
+\]
+\end{calculationbox}
 
-                \begin{calculationbox}
-                    Da die Teilchen entlang der $y$-Achse auseinanderfliegen, wählen wir
-                    \[
-                        \vec p_p^*=(0,+p^*,0),
-                        \qquad
-                        \vec p_{\pi}^*=(0,-p^*,0).
-                    \]
-                    In der Konvention
-                    \[
-                        p^{\mu}=\left(\frac{E}{c},p_x,p_y,p_z\right)
-                    \]
-                    erhalten wir in Einheiten von GeV/$c$:
-                    \[
-                        p_p^{*\mu}=(0.96540,0,+0.22713,0),
-                    \]
-                    \[
-                        p_{\pi}^{*\mu}=(0.26660,0,-0.22713,0).
-                    \]
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{answerbox}
+Das $\Dzero$ bewegt sich im Laborsystem mit
+\[
+    \boxed{\beta=0,40887}
+\]
+beziehungsweise gerundet
+\[
+    \boxed{v\approx 0,41c}.
+\]
+\end{answerbox}
 
-            \begin{answerbox}
-                Die Viererimpulse im Schwerpunktsystem sind
-                \[
-                    \boxed{p_p^{*\mu}=(0.96540,0,+0.22713,0)\,\si{GeV/c}}
-                \]
-                und
-                \[
-                    \boxed{p_{\pi}^{*\mu}=(0.26660,0,-0.22713,0)\,\si{GeV/c}.}
-                \]
-                Die Summe ist
-                \[
-                    p_p^{*\mu}+p_{\pi}^{*\mu}=(1.232,0,0,0)\,\si{GeV/c},
-                \]
-                also genau der Viererimpuls des ruhenden $\Delta^0$.
-            \end{answerbox}
+\subsection{Teil (c): Viererimpulse im Schwerpunktsystem}
 
-        \item
-            Berechnen Sie dann die Viererimpulse von Proton und Pion im Laborsystem und
-            bilden Sie zur Kontrolle die Summe. Hinweis: Benutzen Sie die Lorentztransformation
-            und überlegen Sie sich das richtige Vorzeichen vor dem Diagonalelement $\gamma\beta$
-            der Lorentzmatrix.
+\begin{presentationbox}
+Beim Zweik\"orperzerfall im Ruhesystem des Mutterteilchens sind die Energien der Tochterteilchen kinematisch fest. Der Impulsbetrag ist f\"ur beide gleich gro\ss, aber die Richtungen sind entgegengesetzt.
+\end{presentationbox}
 
-            \begin{calculationbox}
-                Das Laborsystem erhält man aus dem Schwerpunktsystem durch einen Boost in positive
-                $x$-Richtung. Für die Transformation vom Schwerpunktsystem ins Laborsystem gilt
-                \[
-                    \begin{pmatrix}
-                        E\\ p_x\\ p_y\\ p_z
-                    \end{pmatrix}_{\mathrm{lab}}
-                    =
-                    \begin{pmatrix}
-                        \gamma & \gamma\beta & 0 & 0\\
-                        \gamma\beta & \gamma & 0 & 0\\
-                        0 & 0 & 1 & 0\\
-                        0 & 0 & 0 & 1
-                    \end{pmatrix}
-                    \begin{pmatrix}
-                        E^*\\ p_x^*\\ p_y^*\\ p_z^*
-                    \end{pmatrix}.
-                \]
-                Hier ist das Pluszeichen richtig, weil wir vom Ruhesystem des $\Delta^0$ in das
-                Laborsystem boosten, in dem das $\Delta^0$ in positive $x$-Richtung fliegt.
+\begin{formulabox}[title=Zweik\"orperzerfall]
+F\"ur $M\to 1+2$ im Ruhesystem von $M$ gilt
+\[
+    E_1^\ast=\frac{M^2+m_1^2-m_2^2}{2M},
+    \qquad
+    E_2^\ast=\frac{M^2+m_2^2-m_1^2}{2M}.
+\]
+\end{formulabox}
 
-                \begin{calculationbox}
-                    Da im Schwerpunktsystem $p_x^*=0$ gilt, vereinfacht sich die Transformation zu
-                    \[
-                        E_{\mathrm{lab}}=\gamma E^*,
-                        \qquad
-                        p_{x,\mathrm{lab}}=\gamma\beta E^*,
-                        \qquad
-                        p_{y,\mathrm{lab}}=p_y^*.
-                    \]
-                    Mit
-                    \[
-                        \beta=0.40887,
-                        \qquad
-                        \gamma=1.09578
-                    \]
-                    folgt für das Proton
-                    \begin{align*}
-                        E_p&=1.09578\cdot0.96540=\SI{1.05786}{GeV},\\
-                        p_{p,x}&=1.09578\cdot0.40887\cdot0.96540=\SI{0.43253}{GeV},\\
-                        p_{p,y}&=+\SI{0.22713}{GeV}.
-                    \end{align*}
-                    Also
-                    \[
-                        p_p^{\mu}=(1.05786,0.43253,+0.22713,0)\,\si{GeV/c}.
-                    \]
-                \end{calculationbox}
+\begin{calculationbox}
+Wir verwenden
+\[
+    m_\Delta=\SI{1,232}{GeV},
+    \qquad
+    m_p=\SI{0,9383}{GeV},
+    \qquad
+    m_\pi=\SI{0,1396}{GeV}.
+\]
+Damit gilt
+\begin{align*}
+    E_p^\ast
+    &=\frac{m_\Delta^2+m_p^2-m_\pi^2}{2m_\Delta} \\
+    &=\frac{1,232^2+0,9383^2-0,1396^2}{2\cdot 1,232}\,\GeV \\
+    &=\SI{0,96540}{GeV},\\[0.5em]
+    E_\pi^\ast
+    &=\frac{m_\Delta^2+m_\pi^2-m_p^2}{2m_\Delta} \\
+    &=\frac{1,232^2+0,1396^2-0,9383^2}{2\cdot 1,232}\,\GeV \\
+    &=\SI{0,26660}{GeV}.
+\end{align*}
+Der gemeinsame Impulsbetrag ist
+\begin{align*}
+    p^\ast
+    &=\sqrt{(E_p^\ast)^2-m_p^2} \\
+    &=\sqrt{(0,96540)^2-(0,9383)^2}\,\GeV \\
+    &=\SI{0,22713}{GeV}.
+\end{align*}
+Da wir $p$ in $+y$-Richtung und $\pi^-$ in $-y$-Richtung w\"ahlen, sind die Viererimpulse im Schwerpunktsystem
+\[
+    p_p^{\ast\mu}=\fourp{0,96540}{0}{+0,22713}{0}\,\GeV,
+\]
+\[
+    p_\pi^{\ast\mu}=\fourp{0,26660}{0}{-0,22713}{0}\,\GeV.
+\]
+\end{calculationbox}
 
-                \begin{calculationbox}
-                    Für das Pion folgt analog
-                    \begin{align*}
-                        E_{\pi}&=1.09578\cdot0.26660=\SI{0.29214}{GeV},\\
-                        p_{\pi,x}&=1.09578\cdot0.40887\cdot0.26660=\SI{0.11945}{GeV},\\
-                        p_{\pi,y}&=-\SI{0.22713}{GeV}.
-                    \end{align*}
-                    Also
-                    \[
-                        p_{\pi}^{\mu}=(0.29214,0.11945,-0.22713,0)\,\si{GeV/c}.
-                    \]
-                \end{calculationbox}
+\begin{answerbox}
+Die Viererimpulse im Schwerpunktsystem sind
+\[
+    \boxed{p_p^{\ast\mu}=\fourp{0,96540}{0}{+0,22713}{0}\,\GeV}
+\]
+und
+\[
+    \boxed{p_\pi^{\ast\mu}=\fourp{0,26660}{0}{-0,22713}{0}\,\GeV}.
+\]
+Die Summe ist
+\[
+    p_p^{\ast\mu}+p_\pi^{\ast\mu}
+    =\fourp{1,23200}{0}{0}{0}\,\GeV,
+\]
+also genau der Viererimpuls des ruhenden $\Dzero$.
+\end{answerbox}
 
-                \begin{calculationbox}
-                    Als Kontrolle bilden wir die Summe:
-                    \begin{align*}
-                        p_p^{\mu}+p_{\pi}^{\mu}
-                        &=(1.05786+0.29214,\,0.43253+0.11945,\,0.22713-0.22713,\,0)\\
-                        &=(1.35000,0.55198,0,0)\,\si{GeV/c}.
-                    \end{align*}
-                    Das passt zum Viererimpuls des $\Delta^0$ im Laborsystem:
-                    \[
-                        p_{\Delta}^{\mu}=(E_{\Delta},p_{\Delta},0,0)
-                        =(1.35,0.55198,0,0)\,\si{GeV/c}.
-                    \]
-                \end{calculationbox}
-            \end{calculationbox}
+\subsection{Teil (d): Viererimpulse im Laborsystem}
 
-            \begin{answerbox}
-                Die Viererimpulse im Laborsystem sind
-                \[
-                    \boxed{p_p^{\mu}=(1.05786,0.43253,+0.22713,0)\,\si{GeV/c}}
-                \]
-                und
-                \[
-                    \boxed{p_{\pi}^{\mu}=(0.29214,0.11945,-0.22713,0)\,\si{GeV/c}.}
-                \]
-                Die Summe ist
-                \[
-                    \boxed{p_p^{\mu}+p_{\pi}^{\mu}=(1.35000,0.55198,0,0)\,\si{GeV/c}.}
-                \]
-            \end{answerbox}
+\begin{presentationbox}
+Der Boost geht vom Ruhesystem des $\Dzero$ ins Laborsystem. Weil das $\Dzero$ im Labor in $+x$-Richtung fliegt, steht in der Boostmatrix das Pluszeichen bei $\gamma\beta$.
+\end{presentationbox}
 
-        \item
-            Wie groß ist der Winkel $\alpha$ zwischen dem Impuls des Protons und der $x$-Achse
-            im Laborsystem? Berechnen Sie analog den entsprechenden Winkel für das Pion.
-            Wie groß ist also der Öffnungswinkel zwischen den Bahnen der beiden Zerfallsprodukte
-            im Laborsystem?
+\begin{calculationbox}[title=Lorentztransformation]
+F\"ur den Boost aus dem Schwerpunktsystem ins Laborsystem gilt
+\[
+\begin{pmatrix}
+E\\ p_x\\ p_y\\ p_z
+\end{pmatrix}_{\!\mathrm{lab}}
+=
+\begin{pmatrix}
+\gamma & \gamma\beta & 0 & 0\\
+\gamma\beta & \gamma & 0 & 0\\
+0&0&1&0\\
+0&0&0&1
+\end{pmatrix}
+\begin{pmatrix}
+E^\ast\\ p_x^\ast\\ p_y^\ast\\ p_z^\ast
+\end{pmatrix}.
+\]
+Da $p_x^\ast=0$ gilt, vereinfacht sich das zu
+\[
+    E_{\mathrm{lab}}=\gamma E^\ast,
+    \qquad
+    p_{x,\mathrm{lab}}=\gamma\beta E^\ast,
+    \qquad
+    p_{y,\mathrm{lab}}=p_y^\ast.
+\]
+Mit
+\[
+    \beta=0,40887,
+    \qquad
+    \gamma=1,09578
+\]
+folgt f\"ur das Proton
+\begin{align*}
+    E_p&=1,09578\cdot 0,96540=\SI{1,05786}{GeV},\\
+    p_{p,x}&=1,09578\cdot 0,40887\cdot 0,96540=\SI{0,43253}{GeV},\\
+    p_{p,y}&=+\SI{0,22713}{GeV}.
+\end{align*}
+Also
+\[
+    p_p^\mu=\fourp{1,05786}{0,43253}{+0,22713}{0}\,\GeV.
+\]
+F\"ur das Pion folgt analog
+\begin{align*}
+    E_\pi&=1,09578\cdot 0,26660=\SI{0,29214}{GeV},\\
+    p_{\pi,x}&=1,09578\cdot 0,40887\cdot 0,26660=\SI{0,11945}{GeV},\\
+    p_{\pi,y}&=-\SI{0,22713}{GeV}.
+\end{align*}
+Also
+\[
+    p_\pi^\mu=\fourp{0,29214}{0,11945}{-0,22713}{0}\,\GeV.
+\]
+\end{calculationbox}
 
-            \begin{calculationbox}
-                Der Winkel zur positiven $x$-Achse ergibt sich aus den Impulskomponenten:
-                \[
-                    \tan\alpha=\frac{\abs{p_y}}{p_x}.
-                \]
-                Für das Proton ist
-                \begin{align*}
-                    \alpha_p
-                    &=\arctan\left(\frac{0.22713}{0.43253}\right)\\
-                    &=\SI{27.70}{\degree}.
-                \end{align*}
-                Für das Pion ist
-                \begin{align*}
-                    \alpha_{\pi}
-                    &=\arctan\left(\frac{0.22713}{0.11945}\right)\\
-                    &=\SI{62.26}{\degree}.
-                \end{align*}
-                Da die beiden Teilchen auf verschiedenen Seiten der $x$-Achse fliegen, ist der
-                Öffnungswinkel die Summe dieser beiden Winkel:
-                \begin{align*}
-                    \theta_{\mathrm{open}}
-                    &=\alpha_p+\alpha_{\pi}\\
-                    &=\SI{27.70}{\degree}+\SI{62.26}{\degree}\\
-                    &=\SI{89.97}{\degree}.
-                \end{align*}
-            \end{calculationbox}
+\begin{calculationbox}[title=Kontrolle durch Summenbildung]
+Die Summe der beiden Viererimpulse ist
+\begin{align*}
+    p_p^\mu+p_\pi^\mu
+    &=\fourp{1,05786+0,29214}{0,43253+0,11945}{0,22713-0,22713}{0}\,\GeV\\
+    &=\fourp{1,35000}{0,55198}{0}{0}\,\GeV.
+\end{align*}
+Das stimmt mit dem Viererimpuls des $\Dzero$ im Laborsystem \"uberein:
+\[
+    p_\Delta^\mu=(E_\Delta,p_\Delta,0,0)
+    =\fourp{1,35000}{0,55198}{0}{0}\,\GeV.
+\]
+\end{calculationbox}
 
-            \begin{answerbox}
-                Der Winkel des Protons zur $x$-Achse ist
-                \[
-                    \boxed{\alpha_p=\SI{27.70}{\degree}.}
-                \]
-                Der entsprechende Winkel des Pions zur $x$-Achse ist
-                \[
-                    \boxed{\alpha_{\pi}=\SI{62.26}{\degree}.}
-                \]
-                Der Öffnungswinkel zwischen beiden Bahnen ist
-                \[
-                    \boxed{\theta_{\mathrm{open}}=\SI{89.97}{\degree}.}
-                \]
-            \end{answerbox}
+\begin{answerbox}
+Die Viererimpulse im Laborsystem sind
+\[
+    \boxed{p_p^\mu=\fourp{1,05786}{0,43253}{+0,22713}{0}\,\GeV}
+\]
+und
+\[
+    \boxed{p_\pi^\mu=\fourp{0,29214}{0,11945}{-0,22713}{0}\,\GeV}.
+\]
+Die Kontrolle ergibt
+\[
+    \boxed{p_p^\mu+p_\pi^\mu=\fourp{1,35000}{0,55198}{0}{0}\,\GeV}.
+\]
+\end{answerbox}
 
-        \item
-            Welche Geschwindigkeit ist größer: Die des Protons oder die des Pions? Versuchen
-            Sie ohne Rechnung eine Antwort zu finden, und zwar zuerst für das Schwerpunktsystem
-            und dann für das Laborsystem.
+\subsection{Teil (e): Winkel und \"Offnungswinkel im Laborsystem}
 
-            \begin{calculationbox}
-                Im Schwerpunktsystem haben Proton und Pion betragsmäßig denselben Impuls, weil
-                sie aus dem ruhenden $\Delta^0$ in entgegengesetzte Richtungen auseinanderfliegen.
-                Die Geschwindigkeit eines relativistischen Teilchens ist
-                \[
-                    v=\frac{pc^2}{E}.
-                \]
-                Bei gleichem Impuls hat das leichtere Teilchen die kleinere Energie und deshalb
-                die größere Geschwindigkeit. Da das Pion viel leichter ist als das Proton, ist im
-                Schwerpunktsystem das Pion schneller.
+\begin{calculationbox}
+Der Winkel zur positiven $x$-Achse ergibt sich aus den Impulskomponenten:
+\[
+    \tan\alpha=\frac{\abs{p_y}}{p_x}.
+\]
+F\"ur das Proton folgt
+\begin{align*}
+    \alpha_p
+    &=\arctan\paren{\frac{0,22713}{0,43253}} \\
+    &=27,70^\circ.
+\end{align*}
+F\"ur das Pion folgt
+\begin{align*}
+    \alpha_\pi
+    &=\arctan\paren{\frac{0,22713}{0,11945}} \\
+    &=62,26^\circ.
+\end{align*}
+Da Proton und Pion auf verschiedenen Seiten der $x$-Achse fliegen, ist der \"Offnungswinkel die Summe:
+\begin{align*}
+    \theta_{\mathrm{open}}
+    &=\alpha_p+\alpha_\pi \\
+    &=27,70^\circ+62,26^\circ \\
+    &=89,97^\circ.
+\end{align*}
+\end{calculationbox}
 
-                \begin{calculationbox}
-                    Auch im Laborsystem bleibt das Pion schneller. Man kann das qualitativ so sehen:
-                    Der Boost in $x$-Richtung gibt beiden Teilchen dieselbe zusätzliche
-                    $x$-Geschwindigkeit des Schwerpunktsystems,
-                    \[
-                        v_x=\beta c.
-                    \]
-                    Die transversale Geschwindigkeitskomponente wird aber durch den Faktor
-                    $\gamma$ und durch die jeweilige Energie skaliert. Das Pion hatte im
-                    Schwerpunktsystem die größere Geschwindigkeit und behält auch im Laborsystem
-                    den größeren Geschwindigkeitsbetrag.
-                \end{calculationbox}
+\begin{answerbox}
+Der Winkel des Protons zur $x$-Achse ist
+\[
+    \boxed{\alpha_p=27,70^\circ}.
+\]
+Der entsprechende Winkel des Pions zur $x$-Achse ist
+\[
+    \boxed{\alpha_\pi=62,26^\circ}.
+\]
+Der \"Offnungswinkel zwischen beiden Bahnen ist
+\[
+    \boxed{\theta_{\mathrm{open}}=89,97^\circ}.
+\]
+\end{answerbox}
 
-                \begin{calculationbox}
-                    Als Kontrolle kann man die Beträge berechnen:
-                    \begin{align*}
-                        \frac{v_p}{c}
-                        &=\frac{\sqrt{0.43253^2+0.22713^2}}{1.05786}
-                        =0.46182,\\
-                        \frac{v_{\pi}}{c}
-                        &=\frac{\sqrt{0.11945^2+0.22713^2}}{0.29214}
-                        =0.87844.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+\subsection{Teil (f): Vergleich der Geschwindigkeiten von Proton und Pion}
 
-            \begin{answerbox}
-                Sowohl im Schwerpunktsystem als auch im Laborsystem ist das Pion schneller:
-                \[
-                    \boxed{v_{\pi}>v_p.}
-                \]
-                Im Laborsystem erhält man zur Kontrolle ungefähr
-                \[
-                    \boxed{v_p=0.46c,\qquad v_{\pi}=0.88c.}
-                \]
-            \end{answerbox}
-    \end{enumerate}
+\begin{presentationbox}
+Qualitativ kann man zuerst ohne Rechnen argumentieren: Im Schwerpunktsystem haben beide denselben Impulsbetrag. Das leichtere Teilchen hat bei gleichem Impuls die gr\"o\ss ere Geschwindigkeit. Das ist das Pion. Im Laborsystem wird zwar in $x$-Richtung geboostet, aber das Pion bleibt deutlich schneller.
+\end{presentationbox}
+
+\begin{calculationbox}[title=Qualitative Begr\"undung]
+Im Schwerpunktsystem haben Proton und Pion betragsm\"a\ss ig denselben Impuls, weil sie aus einem ruhenden Mutterteilchen in entgegengesetzte Richtungen zerfallen. F\"ur ein relativistisches Teilchen gilt
+\[
+    \frac{v}{c}=\frac{p}{E}.
+\]
+Bei gleichem Impuls hat das leichtere Teilchen die kleinere Energie und damit das gr\"o\ss ere $p/E$. Da
+\[
+    m_\pi \ll m_p,
+\]
+ist das Pion im Schwerpunktsystem schneller.
+
+Auch im Laborsystem bleibt das Pion schneller. Der Boost in $+x$-Richtung ver\"andert die Impulskomponenten, aber das Pion hat weiterhin den deutlich gr\"o\ss eren Geschwindigkeitsbetrag.
+\end{calculationbox}
+
+\begin{sidecalcbox}[title=Kontrolle durch direkte Rechnung]
+Mit $v/c=\abs{\vect{p}}/E$ erh\"alt man im Laborsystem
+\begin{align*}
+    \frac{v_p}{c}
+    &=\frac{\sqrt{0,43253^2+0,22713^2}}{1,05786}
+    =0,46182,\\[0.5em]
+    \frac{v_\pi}{c}
+    &=\frac{\sqrt{0,11945^2+0,22713^2}}{0,29214}
+    =0,87844.
+\end{align*}
+\end{sidecalcbox}
+
+\begin{answerbox}
+Sowohl im Schwerpunktsystem als auch im Laborsystem ist das Pion schneller:
+\[
+    \boxed{v_\pi>v_p}.
+\]
+Im Laborsystem gilt zur Kontrolle n\"aherungsweise
+\[
+    \boxed{v_p\approx 0,46c,\qquad v_\pi\approx 0,88c}.
+\]
+\end{answerbox}
+
+\FloatBarrier
+\newpage
+
+\section*{Lernzusammenfassung}
+\addcontentsline{toc}{section}{Lernzusammenfassung}
+
+\begin{summarybox}[title={Formeln, die man sicher beherrschen sollte}]
+\begin{align*}
+    s&=(p_1+p_2)^2,\\
+    s_{\text{ruhendes Target}}&=m_1^2+m_2^2+2m_2E_1,\\
+    E_{\mathrm{thr}}&=\frac{M^2-m_2^2-m_1^2}{2m_2},\\
+    \beta_{\mathrm{CM}}&=\frac{p_{\mathrm{ges}}}{E_{\mathrm{ges}}},\\
+    E_{\mathrm{lab}}&=\gamma(E^\ast+\beta p_x^\ast),\\
+    p_{x,\mathrm{lab}}&=\gamma(p_x^\ast+\beta E^\ast),\\
+    p_y&=p_y^\ast,\qquad p_z=p_z^\ast \quad \text{bei Boost entlang } x.
+\end{align*}
+\end{summarybox}
+
+\begin{warningbox}[title={Typische Fehlerquellen}]
+\begin{itemize}
+    \item Schwellenergie kann Gesamtenergie oder kinetische Energie bedeuten. In der invarianten Rechnung ist zun\"achst $E_{\pi,\mathrm{thr}}$ die Gesamtenergie.
+    \item Beim Lorentzboost muss die Richtung stimmen. Vom Ruhesystem ins Labor bei Bewegung in $+x$ verwendet man $+\gamma\beta$.
+    \item Ein Boost entlang $x$ ver\"andert $E$ und $p_x$, aber nicht $p_y$ und $p_z$.
+    \item Beim \"Offnungswinkel in Aufgabe 2 liegen Proton und Pion auf verschiedenen Seiten der $x$-Achse. Deshalb werden die beiden Einzelwinkel addiert.
+\end{itemize}
+\end{warningbox}
+
+\begin{summarybox}[title={Endergebnisse}]
+\begin{itemize}
+    \item Aufgabe 1(a): $E_{\pi,\mathrm{thr}}=\SI{329,28}{MeV}$, $T_{\pi,\mathrm{thr}}=\SI{189,68}{MeV}$.
+    \item Aufgabe 1(b): $\beta_{\mathrm{CM}}=0,23527\approx 0,24$.
+    \item Aufgabe 1(c): $E_{\max}=\SI{1050,04}{MeV}$, $E_{\min}=\SI{939,57}{MeV}$.
+    \item Aufgabe 2(b): $\beta_\Delta=0,40887\approx 0,41$, $\gamma=1,09578$.
+    \item Aufgabe 2(c): $p_p^{\ast\mu}=\fourp{0,96540}{0}{+0,22713}{0}\,\GeV$, $p_\pi^{\ast\mu}=\fourp{0,26660}{0}{-0,22713}{0}\,\GeV$.
+    \item Aufgabe 2(d): $p_p^\mu=\fourp{1,05786}{0,43253}{+0,22713}{0}\,\GeV$, $p_\pi^\mu=\fourp{0,29214}{0,11945}{-0,22713}{0}\,\GeV$.
+    \item Aufgabe 2(e): $\alpha_p=27,70^\circ$, $\alpha_\pi=62,26^\circ$, $\theta_{\mathrm{open}}=89,97^\circ$.
+    \item Aufgabe 2(f): $v_\pi>v_p$, im Labor ungef\"ahr $v_p=0,46c$ und $v_\pi=0,88c$.
+\end{itemize}
+\end{summarybox}
 
 \end{document}

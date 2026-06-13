@@ -1,0 +1,614 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physik IV - Anwesenheitsblaetter Lernfassung
+% Standalone one-file version, oriented on ps-p4-blatt-06-laser-tobias.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt,a4paper]{scrartcl}
+\newcommand{\CourseTitle}{Physik IV: Kerne und Teilchen}
+\newcommand{\CourseShortTitle}{Physik IV}
+\newcommand{\DocumentKind}{Anwesenheitsaufgaben, Tafelvortrag und Lernfassung}
+\newcommand{\DocumentTitle}{Anwesenheitsblaetter 1--12}
+\newcommand{\DocumentSubtitle}{Proseminar zur Physik IV}
+\newcommand{\AuthorName}{Tobias Laser}
+\newcommand{\InstitutionName}{Universit\"at Innsbruck}
+\newcommand{\SubmissionDate}{\today}
+\newcommand{\makeuniversitytitle}{%
+\begin{titlepage}\centering\vspace*{2cm}{\Large \CourseTitle\par}\vspace{1.2cm}{\huge\bfseries \DocumentTitle\par}\vspace{0.4cm}{\Large \DocumentSubtitle\par}\vspace{1cm}{\Large \DocumentKind\par}\vfill{\large \AuthorName\par}\vspace{0.2cm}{\large \InstitutionName\par}\vspace{0.8cm}{\large \SubmissionDate\par}\end{titlepage}\pagenumbering{arabic}}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern,microtype,csquotes}
+\usepackage{amsmath,amssymb,mathtools,bm}
+\usepackage{graphicx,tikz,pgfplots}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,positioning,calc}
+\pgfplotsset{compat=1.18}
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{enumitem}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\clearpairofpagestyles\ihead{\CourseShortTitle}\ohead{\DocumentKind}\cfoot{\pagemark}\pagestyle{scrheadings}
+\setlist[enumerate]{itemsep=0.35em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.2em,topsep=0.3em}
+\tcbset{unibox/.style={enhanced,breakable,sharp corners,boxrule=0.6pt,left=1.2mm,right=1.2mm,top=1mm,bottom=1mm,before skip=0.8em,after skip=0.8em,fonttitle=\bfseries}}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{learningbox}[1][]{unibox,title=Lernidee,colback=purple!3,colframe=purple!50!black,#1}
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{talkbox}[1][]{unibox,title=Tafelvortrag,colback=teal!3,colframe=teal!50!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\avg}[1]{\left\langle#1\right\rangle}
+\newcommand{\ket}[1]{\left|#1\right\rangle}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\Ekin}{E_{\mathrm{kin}}}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\fermi}{fm}
+\begin{document}
+\makeuniversitytitle
+\tableofcontents
+\newpage
+\section*{Einordnung}
+\addcontentsline{toc}{section}{Einordnung}
+\begin{summarybox}[title={Ziel dieser Datei}]
+Diese Datei fasst die Anwesenheitsaufgaben 1--12 im Stil der Beispielausarbeitung zusammen: pro Blatt gibt es eine kurze Einordnung, die wichtigsten Rechenschritte, die Endergebnisse und eine knappe Tafelstruktur. Wo in der Aufgabenstellung experimentelle Graphen oder externe Tabellenwerte vorausgesetzt werden, steht die robuste Auswertungsformel im Vordergrund.
+\end{summarybox}
+
+\section{Anwesenheitsblatt 1: Wirkungsquerschnitt, Coulombenergie und Streuung}
+\begin{taskbox}[title=Aufgaben]\begin{itemize}
+\item Sonnenneutrino-Fluss, effektive Querschnittsflaeche und Reaktionsrate im menschlichen Koerper.
+\item Elektrostatische Abstoßungsenergie und Feldenergie einer homogen geladenen Kugel.
+\item Nichtrelativistische Transformation zwischen Labor- und Schwerpunktsystem bei elastischer Streuung.
+\end{itemize}\end{taskbox}
+\subsection{Lernteil}
+\begin{learningbox}
+Ein Wirkungsquerschnitt ist eine effektive Flaeche. Die Rate folgt aus \(R=\phi\,\sigma_{\mathrm{eff}}\). Bei Streuprozessen ist das Schwerpunktsystem oft einfacher, weil die Impulse dort vor und nach dem Stoß paarweise entgegengesetzt sind.
+\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Diskussionsaufgabe: Sonnenneutrinos}]
+Mit \(\dot N_\nu\simeq 2\cdot10^{38}\,\mathrm{s}^{-1}\) und \(r=1\,\mathrm{AU}=1.496\cdot10^{11}\,\mathrm{m}\) gilt
+\[\phi=\frac{\dot N_\nu}{4\pi r^2}\simeq 7.1\cdot10^{14}\,\mathrm{m}^{-2}\mathrm{s}^{-1} .\]
+Eine Person mit \(m=\SI{75}{kg}\) enthaelt naeherungsweise
+\[N_N=\frac{75}{1.67\cdot10^{-27}}\simeq 4.49\cdot10^{28}\]
+Nukleonen. Mit \(\sigma\simeq10^{-49}\,\mathrm{m^2}\) wird
+\[\sigma_{\mathrm{eff}}=N_N\sigma\simeq4.49\cdot10^{-21}\,\mathrm{m^2},\qquad R=\phi\sigma_{\mathrm{eff}}\simeq3.2\cdot10^{-6}\,\mathrm{s}^{-1}.\]
+Das entspricht etwa \(0.28\) Reaktionen pro Tag.
+\end{calculationbox}
+\begin{calculationbox}[title={Homogen geladene Kugel}]
+Die Ladung innerhalb von \(r\) ist \(q(r)=Q r^3/R^3\), daher \(\dd q=3Q r^2/R^3\dd r\). Die Aufbauarbeit ist
+\[E_{\mathrm{ab}}=\int_0^R \frac{q(r)}{4\pi\varepsilon_0 r}\,\dd q=\frac{3}{5}\frac{Q^2}{4\pi\varepsilon_0R}.\]
+Die Feldenergie ergibt denselben Wert:
+\[E_F=\frac{\varepsilon_0}{2}\int E^2\dd V=\frac{3}{5}\frac{Q^2}{4\pi\varepsilon_0R}.\]
+Fuer \(R\to0\) divergiert die Feldenergie. Die Arbeit steckt also im elektrischen Feld.
+\end{calculationbox}
+\begin{calculationbox}[title={Streuprozess}]
+Der Schwerpunkt bewegt sich mit
+\[v_s=\frac{m_1v_1}{m_1+m_2}.\]
+Im Schwerpunktsystem gilt \(\vect v_i^\star=\vect v_i-\vect v_s\), also
+\[v_{x,1}^\star=\frac{m_2}{m_1+m_2}v_1,\qquad v_{x,2}^\star=-\frac{m_1}{m_1+m_2}v_1.\]
+Damit sind \(p_1^\star=-p_2^\star\). Fuer den Zusammenhang der Streuwinkel des Projektils gilt
+\[\tan\alpha=\frac{\sin\alpha^\star}{\cos\alpha^\star+m_1/m_2}.\]
+\end{calculationbox}
+\begin{talkbox}Tafel: \(\phi=\dot N/(4\pi r^2)\), dann \(R=\phi N\sigma\). Fuer die Kugel: \(q(r)=Qr^3/R^3\Rightarrow E=\frac35Q^2/(4\pi\varepsilon_0R)\). Fuer Streuung: ins Schwerpunktsystem transformieren und Winkelrelation notieren.\end{talkbox}
+
+
+\section{Anwesenheitsblatt 2: Raumwinkel, Rutherford-Streuung und Formfaktoren}
+\begin{taskbox}\begin{itemize}\item Raumwinkel definieren und einfache Raumwinkel berechnen.\item Rutherford-Formel diskutieren und Formfaktor einfuehren.\end{itemize}\end{taskbox}
+\subsection{Lernteil}
+\begin{learningbox}Der Raumwinkel ist das dreidimensionale Analogon zum Winkel. Fuer Streuung an ausgedehnten Objekten wird die Punktladungsnaehung durch einen Formfaktor korrigiert.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Raumwinkel}]
+Im Kreis gilt \(s=r\varphi\), also \(\varphi=s/r\). Analog gilt auf der Kugel
+\[\dd\Omega=\frac{\dd A}{r^2}=\sin\theta\,\dd\theta\,\dd\varphi.\]
+Der Himmel ueber dem Horizont ist eine Halbkugel:
+\[\Omega_{\mathrm{Himmel}}=2\pi\,\mathrm{sr}=2\pi\left(\frac{180}{\pi}\right)^2\simeq 2.06\cdot10^4\,\mathrm{deg^2}.\]
+Ein Teleskop mit Winkeldurchmesser \(2^\circ\) hat Halbwinkel \(1^\circ\):
+\[\Omega=2\pi(1-
+\cos1^\circ)\simeq9.57\cdot10^{-4}\,\mathrm{sr}\simeq3.14\,\mathrm{deg^2}.\]
+Eine Kreisscheibe mit Radius \(r\) in Abstand \(d\) liefert \(\Omega=2\pi(1-d/\sqrt{d^2+r^2})\); fuer \(r=\SI{10}{cm}\), \(d=\SI{5.73}{m}\) folgt praktisch derselbe Wert.
+\end{calculationbox}
+\begin{calculationbox}[title={Rutherford und Formfaktor}]
+Die Rutherford-Formel nimmt punktfoermige, spinlose, nichtrelativistische Teilchen, reine Coulomb-Wechselwirkung und Einfachstreuung an. Da \(\diffxs\propto\sin^{-4}(\vartheta/2)\), ist
+\[\frac{(\diffxs)_{5^\circ}}{(\diffxs)_{170^\circ}}=\frac{\sin^4(85^\circ)}{\sin^4(2.5^\circ)}\simeq2.7\cdot10^5.\]
+Der Formfaktor hebt die Punktladungsannahme auf:
+\[F(\vect q)=\int e^{i\vect q\cdot\vect x/\hbar}f(\vect x)\dd^3x,\qquad \left(\diffxs\right)_{\mathrm{real}}=\left(\diffxs\right)_{\mathrm{punkt}}\abs{F(q)}^2.\]
+Fuer eine Punktladung gilt \(F(q)=1\). Ausgedehnte Verteilungen erzeugen Beugungsstrukturen und Minima.
+\end{calculationbox}
+\begin{talkbox}Tafel: Erst \(\dd\Omega=\dd A/r^2\), dann Rutherford \(\sim\sin^{-4}(\vartheta/2)\), dann Korrektur \(\abs{F(q)}^2\).\end{talkbox}
+
+
+\section{Anwesenheitsblatt 3: Formfaktor-Anwendung, de-Broglie-Aufloesung und Zaehlerate}
+\begin{taskbox}\begin{itemize}\item Kernradien aus Formfaktor-Minima bestimmen.\item Mindestenergie ueber de-Broglie-Wellenlaenge abschaetzen.\item Zaehlerate aus differentiellem Wirkungsquerschnitt berechnen.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Aufloesung ist Impulsuebertrag: kleine Strukturen erfordern kurze Wellenlaengen bzw. große Energien. Experimentell verbindet der differentielle Wirkungsquerschnitt die Streuprobabilitaet mit der Rate im Detektor.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Kernradien aus Minima}]
+Fuer die homogene Kugel gilt
+\[F(q)=3\frac{\sin u-u\cos u}{u^3},\qquad u=\frac{qR}{\hbar}.\]
+Bei einem Minimum mit bekannter Nullstelle \(u_n\) folgt
+\[R=\frac{u_n\hbar}{q}=\frac{u_n\hbar c}{2E\sin(\theta/2)}.\]
+Typische Ergebnisse liegen grob bei \(R(^{12}\mathrm C)\approx\SI{2.5}{fm}\), \(R(^{40}\mathrm{Ca})\approx\SI{3.5}{fm}\), \(R(^{48}\mathrm{Ca})\approx\SI{3.6}{fm}\). Fuer die konkrete Abbildung muss man den Winkel des jeweiligen Minimums ablesen und in obige Formel einsetzen.
+\end{calculationbox}
+\begin{calculationbox}[title={de-Broglie-Aufloesung}]
+Nichtrelativistisch: \(\lambda=h/p\), \(E=p^2/(2m)=h^2/(2m\lambda^2)\). Fuer \(\lambda\approx R_{\mathrm{Atom}}=1.73\cdot10^{-10}\,\mathrm m\):
+\[E\simeq6.9\cdot10^{-3}\,\mathrm{eV}.\]
+Fuer \(\lambda\approx R_{\mathrm{Kern}}=7.5\cdot10^{-15}\,\mathrm m\):
+\[E\simeq3.7\,\mathrm{MeV}.\]
+\end{calculationbox}
+\begin{calculationbox}[title={Rutherford-Zaehlerate}]
+Bei \(z=2\), \(Z=82\), \(E=\SI{10}{MeV}\), \(\theta=90^\circ\):
+\[\diffxs=1.3\cdot10^{-3}\frac{\mathrm b}{\mathrm{sr}}\left(\frac{zZ}{E/\SI{1}{MeV}}\right)^2\frac{1}{\sin^4(\theta/2)}\simeq1.40\,\frac{\mathrm b}{\mathrm{sr}}.\]
+Die Anzahldichte von Blei ist
+\[n=\frac{\rho}{m_{\mathrm{Pb}}}=\frac{11340}{207.2\cdot1.66\cdot10^{-27}}\simeq3.30\cdot10^{28}\,\mathrm{m}^{-3}.\]
+Mit \(I=10^6\,\mathrm{s}^{-1}\), \(D=10^{-3}\,\mathrm m\), \(A/d^2=10^{-4}\) ergibt sich
+\[R=I D n\diffxs\frac{A}{d^2}\simeq0.46\,\mathrm{s}^{-1}.\]
+\end{calculationbox}
+\begin{talkbox}Tafel: \(R=u_n\hbar c/(2E\sin\theta/2)\), \(E=h^2/(2m\lambda^2)\), \(R_{\mathrm{Det}}=IDn(\dd\sigma/\dd\Omega)A/d^2\).\end{talkbox}
+
+
+\section{Anwesenheitsblatt 4: Troepfchenmodell und Energiebilanz der Sonne}
+\begin{taskbox}\begin{itemize}\item Terme der Bethe-Weizsaecker-Formel erklaeren.\item Leuchtkraft und Lebensdauer des Wasserstoffbrennens der Sonne abschaetzen.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Das Troepfchenmodell trennt kurzreichweitige starke Bindung, Oberflaechenkorrektur, Coulombabstoßung, Fermigas-Asymmetrie und Paarung. Die Sonnenlebensdauer folgt als Energiespeicher geteilt durch Leuchtkraft.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Terme der Massenformel}]
+\begin{itemize}
+\item Ruhemasse: \((A-Z)m_N+Zm_P+Zm_e\).
+\item Volumenterm \(-a_VA\): Bindung durch kurzreichweitige Kernkraft, jeder Nukleon hat etwa konstante Zahl von Nachbarn.
+\item Oberflaechenterm \(+a_SA^{2/3}\) in der Masse bzw. \(-a_SA^{2/3}\) in der Bindungsenergie: Oberflaechen-Nukleonen haben weniger Nachbarn; Flaeche \(\sim R^2\sim A^{2/3}\).
+\item Coulombterm: Proton-Proton-Abstoßung. Mit \(E_C\sim Z^2/R\) und \(R\sim A^{1/3}\) folgt \(E_C\sim Z^2A^{-1/3}\).
+\item Asymmetrieterm: Energiezunahme fuer \(N\neq Z\) aus Fermigas/Pauli-Prinzip, \(\sim(A-2Z)^2/A\).
+\item Paarungsterm: gerade-gerade Kerne sind zusaetzlich gebunden, ungerade-ungerade weniger.
+\end{itemize}
+\end{calculationbox}
+\begin{calculationbox}[title={Sonnenleistung und Brenndauer}]
+Die Leuchtkraft ist
+\[P_\odot=4\pi r^2S_0\simeq4\pi(1.5\cdot10^{11}\,\mathrm m)^2(1361\,\mathrm{W/m^2})\simeq3.85\cdot10^{26}\,\mathrm W.\]
+Pro Reaktion \(4p\to\alpha+2e^++2\nu_e+2\gamma\) werden etwa \(Q\simeq\SI{26.7}{MeV}\) frei. Wenn \(10\%\) der Sonnenmasse Wasserstoff verbrannt werden, ist
+\[N_{\mathrm{Reaktionen}}\simeq \frac{0.1M_\odot}{4m_p},\qquad E_{\mathrm{gesamt}}\simeq NQ\simeq1.28\cdot10^{44}\,\mathrm J.\]
+Daraus folgt
+\[t\simeq \frac{E_{\mathrm{gesamt}}}{P_\odot}\simeq3.3\cdot10^{17}\,\mathrm s\simeq1.05\cdot10^{10}\,\mathrm a.\]
+\end{calculationbox}
+\begin{talkbox}Tafel: Terme benennen, dann \(P=4\pi r^2S_0\) und \(t=(0.1M_\odot/4m_p)Q/P_\odot\).\end{talkbox}
+
+
+\section{Anwesenheitsblatt 5: Kernspaltung und Drehimpulsformalismus}
+\begin{taskbox}\begin{itemize}\item Neutroneninduzierte Spaltung und Energiefreisetzung bei Little Boy.\item Eigenwerte und Kopplung von Drehimpulsen.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Der angeregte Compound-Kern \(^{236}\mathrm U^\ast\) ist nicht dasselbe wie der langlebige Grundzustand: die Anregungsenergie macht Spaltung wahrscheinlich. Drehimpulse werden durch \(J^2\) und \(J_z\) charakterisiert; bei Kopplung addieren sich Quantenzahlen nach der Dreiecksregel.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Spaltung und Kettenreaktion}]
+Der Neutroneneinfang erzeugt \(^{236}\mathrm U^\ast\). Dieser Compound-Kern liegt energetisch hoch und kann die Spaltbarriere ueberwinden. Bei
+\[\nuclide{236}{92}{U}^\ast\to\nuclide{141}{56}{Ba}+\nuclide{92}{36}{Kr}+3n+Q\]
+liegt \(Q\) typisch bei etwa \(\SI{200}{MeV}\) pro Spaltung. Die frei werdenden Neutronen koennen weitere \(^{235}\mathrm U\)-Kerne spalten; daher entsteht bei ausreichender Geometrie und Masse eine Kettenreaktion.
+\end{calculationbox}
+\begin{calculationbox}[title={Little Boy Abschaetzung}]
+Wenn \(\SI{1}{kg}\) \(^{235}\mathrm U\) gespalten wird, ist
+\[N=\frac{1}{235u}\simeq2.56\cdot10^{24}.\]
+Mit \(Q\simeq\SI{200}{MeV}\) pro Spaltung folgt
+\[E=NQ\simeq8.2\cdot10^{13}\,\mathrm J.\]
+Das entspricht
+\[\frac{E}{4.184\cdot10^9\,\mathrm{J/t\ TNT}}\simeq1.96\cdot10^4\,\mathrm{t\ TNT}=19.6\,\mathrm{kt\ TNT}.\]
+Der Massendefekt ist
+\[\Delta m=E/c^2\simeq9.1\cdot10^{-4}\,\mathrm{kg}.\]
+\end{calculationbox}
+\begin{calculationbox}[title={Drehimpulsformalismus}]
+\[J^2\ket{jm}=\hbar^2j(j+1)\ket{jm},\qquad J_z\ket{jm}=\hbar m\ket{jm},\qquad m=-j,-j+1,\dots,j.\]
+Fuer \(j=1/2\): \(J^2=\frac34\hbar^2\), \(m=\pm1/2\). Halbzahlige Werte treten als Spin auf. Fuer \(j=1\): \(J^2=2\hbar^2\), \(m=-1,0,+1\). Bei Kopplung gilt
+\[j=\abs{j_2-j_1},\abs{j_2-j_1}+1,\dots,j_1+j_2.\]
+Fuer \(j_1=1/2\), \(j_2=2\): \(j=3/2,5/2\). Dann hat jedes \(j\) die magnetischen Werte \(m_j=-j,\dots,j\).
+\end{calculationbox}
+\begin{talkbox}Tafel: \(^{236}U^\ast\) ist angeregt; \(Q\approx200\,\mathrm{MeV}\); \(1\,\mathrm{kg}\to20\,\mathrm{kt}\). Danach \(J^2\), \(J_z\), Kopplungsregel.\end{talkbox}
+
+
+\section{Anwesenheitsblatt 6: Radioisotopengenerator Perseverance}
+\begin{taskbox}\begin{itemize}\item MMRTG-Leistung und Lebensdauer.\item \(^{238}\mathrm{Pu}\)-Alpha-Zerfall, benoetigte Stoffmenge und Leistung nach Zerfallsgesetz.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Ein Radioisotopengenerator nutzt Zerfallswaerme. Elektrische Leistung ist \(P_{\mathrm{el}}=\eta P_{\mathrm{th}}\); die thermische Leistung folgt aus Aktivitaet mal Zerfallsenergie.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Zerfall und Leistung}]
+Der Zerfall lautet
+\[\nuclide{238}{94}{Pu}\to\nuclide{234}{92}{U}+\nuclide{4}{2}{He}+Q,\]
+mit \(Q\approx\SI{5.6}{MeV}\). Die Aktivitaet ist
+\[A=\lambda N,\qquad \lambda=\frac{\ln2}{T_{1/2}},\qquad T_{1/2}=\SI{87.8}{a}.\]
+Ist die Startleistung elektrisch etwa \(P_{\mathrm{el}}\approx\SI{110}{W}\) und der Wirkungsgrad \(\eta=0.06\), braucht man thermisch
+\[P_{\mathrm{th}}=P_{\mathrm{el}}/\eta\approx\SI{1.83}{kW}.\]
+Daraus folgt
+\[N=\frac{P_{\mathrm{th}}}{\lambda Q}\approx6\cdot10^{24}\quad\text{Kerne},\]
+entsprechend einigen Kilogramm \(\mathrm{PuO_2}\). Die exakte Zahl haengt davon ab, ob man reine Isotopenmasse, Oxidmasse und Sicherheitsmargen mitrechnet.
+\end{calculationbox}
+\begin{calculationbox}[title={Leistung nach operational lifetime und Solarvergleich}]
+Nach Zeit \(t\) gilt
+\[P(t)=P(0)2^{-t/T_{1/2}}.\]
+Fuer \(t=14\,\mathrm a\) ergibt sich \(P(t)/P(0)\approx2^{-14/87.8}\approx0.895\). Aus \(110\,\mathrm W\) werden also etwa \(98\,\mathrm W\). Pro Sol liefert der MMRTG zu Beginn ungefaehr
+\[E=P\Delta t\approx110\,\mathrm W\cdot24.66\,\mathrm h\approx2.7\,\mathrm{kWh}.\]
+Wenn \(1.3\,\mathrm{m^2}\) Solarzellen im besten Fall \(0.9\,\mathrm{kWh}\) pro Sol liefern, waeren fuer \(2.7\,\mathrm{kWh}\) etwa
+\[A\approx1.3\frac{2.7}{0.9}\simeq3.9\,\mathrm{m^2}\]
+noetig.
+\end{calculationbox}
+\begin{talkbox}Tafel: \(P=\eta\lambda NQ\), \(N=P/(\eta\lambda Q)\), dann \(P(t)=P_02^{-t/T_{1/2}}\).\end{talkbox}
+
+
+\section{Anwesenheitsblatt 7: Zerfaelle, Fermis goldene Regel und Zerfallsreihen}
+\begin{taskbox}\begin{itemize}\item Alpha-, Beta- und Gamma-Zerfaelle auf Kern- und Nukleonenebene.\item Fermis goldene Regel qualitativ anwenden.\item Uran-Radium-Zerfallsreihe analysieren.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Zerfallsarten werden durch Erhaltungssaetze und verfuegbaren Phasenraum gesteuert. Groesseres \(Q\) bedeutet meist groesseren Phasenraum und damit kuerzere Lebensdauer, falls das Matrixelement vergleichbar ist.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Zerfallsreaktionen}]
+\[\alpha:\quad \nuclide{A}{Z}{X}\to\nuclide{A-4}{Z-2}{Y}+\nuclide{4}{2}{He}.\]
+\[\beta^-:\quad \nuclide{A}{Z}{X}\to\nuclide{A}{Z+1}{Y}+e^-+\bar\nu_e,\qquad n\to p+e^-+\bar\nu_e.\]
+\[\beta^+:\quad \nuclide{A}{Z}{X}\to\nuclide{A}{Z-1}{Y}+e^++\nu_e,\qquad p\to n+e^++\nu_e\quad\text{nur im Kern moeglich}.\]
+\[\text{Elektroneneinfang:}\quad \nuclide{A}{Z}{X}+e^-\to\nuclide{A}{Z-1}{Y}+\nu_e,\qquad p+e^-\to n+\nu_e.\]
+\[\gamma:\quad \nuclide{A}{Z}{X}^{\ast}\to\nuclide{A}{Z}{X}+\gamma.\]
+Neutronzerfall: \(Q=(m_n-m_p-m_e)c^2\approx\SI{0.782}{MeV}\). Deshalb ist freier \(\beta^-\)-Zerfall moeglich; freier \(\beta^+\)-Zerfall des Protons nicht.
+\end{calculationbox}
+\begin{calculationbox}[title={Fermis goldene Regel und Zerfallsreihe}]
+\[R=\frac{2\pi}{\hbar}\abs{M}^2\rho(E_f).\]
+Bei vergleichbarem \(M\) hat der Zerfall mit \(Q_1=\SI{834.2}{keV}\) mehr Phasenraum als jener mit \(Q_2=\SI{182.8}{keV}\), daher kuerzere Halbwertszeit.
+Fuer die Uran-Radium-Reihe startet man bei \(\nuclide{238}{92}{U}\). Natuerlich endet sie bei \(\nuclide{206}{82}{Pb}\), weil \(238-206=32=8\cdot4\): es braucht 8 Alpha-Zerfaelle. Dadurch sinkt \(Z\) um 16 auf 76. Um von \(Z=76\) auf \(Z=82\) zu kommen, braucht man 6 \(\beta^-\)-Zerfaelle. \(\beta^+\)-Zerfaelle werden nicht erwartet.
+\end{calculationbox}
+\begin{talkbox}Tafel: Zerfallsreaktionen sauber schreiben; \(Q_n=0.782\,\mathrm{MeV}\); goldene Regel: \(Q\uparrow\Rightarrow\rho\uparrow\Rightarrow T_{1/2}\downarrow\); Uranreihe: 8 \(\alpha\), 6 \(\beta^-\).\end{talkbox}
+
+
+\section{Anwesenheitsblatt 8: Alternative zum Alpha-Zerfall}
+\begin{taskbox}\begin{itemize}\item Drei Alpha-Zerfaelle von \(^{228}\mathrm{Th}\) mit direktem \(^{12}\mathrm C\)-Clusterzerfall vergleichen.\item Coulombbarriere, Gamow-Faktor und Halbwertszeit qualitativ/quantitativ abschaetzen.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Nicht nur der \(Q\)-Wert entscheidet ueber Zerfallswahrscheinlichkeit. Die Tunnelwahrscheinlichkeit enthaelt \(\exp(-G)\); bei groesserer Ladung und Masse des emittierten Clusters waechst \(G\) stark.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Reaktionskanaele}]
+Drei Alpha-Schritte:
+\[\nuclide{228}{90}{Th}\to\nuclide{224}{88}{Ra}+\alpha,\quad
+\nuclide{224}{88}{Ra}\to\nuclide{220}{86}{Rn}+\alpha,\quad
+\nuclide{220}{86}{Rn}\to\nuclide{216}{84}{Po}+\alpha.\]
+Direkter Clusterkanal:
+\[\nuclide{228}{90}{Th}\to\nuclide{216}{84}{Po}+\nuclide{12}{6}{C}.\]
+Die Gesamtenergie berechnet man jeweils ueber
+\[Q=(m_{\mathrm{Anfang}}-m_{\mathrm{Ende}})c^2.\]
+Der direkte \(^{12}\mathrm C\)-Kanal kann energetisch erlaubt sein; trotzdem ist er massiv unterdrueckt.
+\end{calculationbox}
+\begin{calculationbox}[title={Coulombbarriere und Gamow-Faktor}]
+Am Kernrand \(R=R_0A^{1/3}\) ist
+\[V_C(R)=\frac{1}{4\pi\varepsilon_0}\frac{Z_1Z_2e^2}{R}\simeq \frac{1.44\,\mathrm{MeV\,fm}\,Z_1Z_2}{R(\mathrm{fm})}.\]
+Fuer den \(\alpha\)-Kanal ist \(Z_1Z_2=2\cdot88\); fuer den \(^{12}\mathrm C\)-Kanal \(Z_1Z_2=6\cdot84\). Die Carbon-Barriere ist daher schon wegen der Ladung etwa dreimal hoeher. Der Gamow-Faktor ist
+\[G=\frac{2}{\hbar}\int_R^{r_2}\sqrt{2m(V(r)-E_i)}\,\dd r,\qquad r_2=\frac{1.44\,Z_1Z_2}{E_i}\,\mathrm{fm}.\]
+Die Zerfallskonstante lautet \(\lambda=\lambda_0e^{-G}\), mit \(\lambda_0\) etwa Stoßfrequenz an die Barriere. Wegen groesserer reduzierter Masse, groesserer Ladung und kleinerer Vorbildungswahrscheinlichkeit ist der \(^{12}\mathrm C\)-Zerfall extrem selten.
+\end{calculationbox}
+\begin{answerbox}Der beobachtete Alpha-Zerfall dominiert nicht notwendigerweise wegen eines viel groesseren \(Q\)-Werts, sondern vor allem wegen der exponentiell groesseren Tunnelwahrscheinlichkeit und der hoeheren Vorbildungswahrscheinlichkeit des Alpha-Clusters.\end{answerbox}
+\begin{talkbox}Tafel: Kanaele schreiben; \(Q=\Delta mc^2\); \(V_C\sim Z_1Z_2/R\); \(\lambda=\lambda_0e^{-G}\). Schluss: Carbon-Emission ist exponentiell unterdrueckt.\end{talkbox}
+
+
+\section{Anwesenheitsblatt 9: Pionenschwelle in Proton-Proton-Kollisionen}
+\begin{taskbox}Berechnung der minimalen kinetischen Energie fuer \(p+p\to p+p+\pi^0\), wobei ein Proton im Labor ruht.\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Schwellenenergien berechnet man am saubersten mit der invarianten Masse \(s=(p_1+p_2)^2\). Am Schwellenpunkt ruhen die Endteilchen im Schwerpunktsystem relativ zueinander.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}
+Im Labor ist das Target-Proton in Ruhe. Mit \(c=1\) gilt
+\[s=(p_{\mathrm{beam}}+p_{\mathrm{target}})^2=m_p^2+m_p^2+2m_pE_{\mathrm{beam}}.\]
+Am Schwellenpunkt ist
+\[s_{\mathrm{thr}}=(2m_p+m_{\pi^0})^2.\]
+Also
+\[E_{\mathrm{beam,thr}}=\frac{(2m_p+m_{\pi^0})^2-2m_p^2}{2m_p}.\]
+Die gesuchte kinetische Energie ist
+\[T_{\mathrm{thr}}=E_{\mathrm{beam,thr}}-m_p.\]
+Mit \(m_p=\SI{938.272}{MeV}\) und \(m_{\pi^0}=\SI{134.977}{MeV}\):
+\[E_{\mathrm{beam,thr}}\simeq\SI{1217.9}{MeV},\qquad \boxed{T_{\mathrm{thr}}\simeq\SI{279.7}{MeV}}.\]
+\end{calculationbox}
+\begin{talkbox}Tafel: \(s=2m_p^2+2m_pE\), Schwelle \(s=(2m_p+m_\pi)^2\), dann \(T=E-m_p\).\end{talkbox}
+
+
+\section{Anwesenheitsblatt 10: Relativistik und invariante Masse}
+\begin{taskbox}\begin{itemize}\item Grundgroessen der speziellen Relativitaet wiederholen.\item Lorentz-Invarianz von \(p^\mu p_\mu\) zeigen und Energie-Impuls-Beziehung herleiten.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Die invariante Masse ist die Norm des Viererimpulses. Sie ist fuer alle Inertialsysteme gleich und verbindet Energie und Impuls.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Grundgroessen}]
+\[\beta=\frac vc,\qquad \gamma=\frac{1}{\sqrt{1-\beta^2}},\qquad E=\gamma mc^2,\qquad E_{\mathrm{kin}}=(\gamma-1)mc^2.\]
+\[\abs{\vect p}=\gamma mv,\qquad x^\mu=(ct,x,y,z),\qquad p^\mu=\left(\frac Ec,p_x,p_y,p_z\right).\]
+Eine Lorentztransformation in x-Richtung ist
+\[\Lambda=\begin{pmatrix}\gamma&-\beta\gamma&0&0\\-\beta\gamma&\gamma&0&0\\0&0&1&0\\0&0&0&1\end{pmatrix}.\]
+\end{calculationbox}
+\begin{calculationbox}[title={Invarianz}]
+Mit \(p'^0=\gamma(p^0-\beta p^1)\), \(p'^1=\gamma(p^1-\beta p^0)\) folgt
+\[(p'^0)^2-(p'^1)^2=(p^0)^2-(p^1)^2,\]
+weil die gemischten Terme wegfallen und \(\gamma^2(1-\beta^2)=1\). Da \(p'^2=p^2\), \(p'^3=p^3\), gilt insgesamt
+\[p'_\mu p'^\mu=p_\mu p^\mu.\]
+Im Ruhesystem ist \(\vect p=0\), \(E=mc^2\), also
+\[p_\mu p^\mu=m^2c^2.\]
+Damit in jedem System
+\[\left(\frac Ec\right)^2-\vect p^{\,2}=m^2c^2\quad\Rightarrow\quad \boxed{E^2=p^2c^2+m^2c^4}.\]
+\end{calculationbox}
+\begin{talkbox}Tafel: Definitionen, Lorentzmatrix, dann \((p'^0)^2-(p'^1)^2=(p^0)^2-(p^1)^2\), Ruhesystem einsetzen.\end{talkbox}
+
+
+\section{Anwesenheitsblatt 11: Feynman-Diagramme}
+\begin{taskbox}\begin{itemize}\item Linienstile, Pfeilrichtungen und Erhaltungssaetze.\item Niedrigste Ordnung fuer Moller-Streuung, Compton-Streuung, Paarannihilation, Elektroneneinfang und \(W\)-Paar-Erzeugung.\end{itemize}\end{taskbox}
+\subsection{Lernteil}\begin{learningbox}Feynman-Diagramme sind Buchhaltung fuer erlaubte Vertices, Teilchenlinien und Erhaltungsgroessen. An jedem Vertex muessen Ladung, Energie-Impuls und passende Quantenzahlen erhalten sein.\end{learningbox}
+\subsection{Ausfuehrliche Loesung}
+\begin{calculationbox}[title={Regeln}]
+Fermionen werden als durchgezogene Linien gezeichnet, Photonen als Wellenlinien, Gluonen als Spirallinien, \(W/Z\)-Bosonen oft als gestrichelte oder gewellte Linien. Pfeile auf Fermionlinien geben die Fermionzahlrichtung an; Antiteilchen laufen formal entgegen der Pfeilrichtung. Photonen sind neutral und haben keine Fermionpfeile. Zu pruefen sind mindestens Energie-Impuls, elektrische Ladung, Leptonenzahl/Baryonenzahl und die zur Wechselwirkung passenden Quantenzahlen.
+\end{calculationbox}
+\begin{calculationbox}[title={Niedrigste Ordnungen}]
+\begin{itemize}
+\item \(e^-e^-\to e^-e^-\): t-Kanal-Photonenaustausch zwischen zwei Elektronen; wegen identischer Endelektronen auch u-Kanal-Austauschdiagramm.
+\item \(\gamma e^-\to\gamma e^-\): zwei Compton-Diagramme, je nachdem ob das Elektron zuerst das einlaufende Photon absorbiert oder zuerst das auslaufende Photon emittiert.
+\item \(e^-e^+\to\gamma\gamma\): zwei Diagramme mit internem Elektronpropagator; ein einzelnes Photon im Endzustand waere durch Energie-Impuls-Erhaltung fuer freie Teilchen verboten.
+\item \(p+e^-\to n+\nu_e\): auf Quarkebene \(u+e^-\to d+\nu_e\) ueber \(W^-\)-Austausch; im Proton wird dadurch \(uud\to udd\).
+\item \(e^+e^-\to W^+W^-\): niedrigste Ordnung: s-Kanal \(\gamma/Z\) sowie t-Kanal-\(\nu_e\)-Austausch.
+\end{itemize}
+\end{calculationbox}
+\begin{center}
+\begin{tikzpicture}[>=Latex,scale=0.9]
+\draw[->] (-2,1)--(0,0); \draw[->] (-2,-1)--(0,0); \draw[decorate,decoration={snake,amplitude=1.5pt,segment length=6pt}] (0,0)--(2,0); \draw[->] (2,0)--(3,1); \draw[->] (2,0)--(3,-1);
+\node at (-2.2,1) {$e^-$}; \node at (-2.2,-1) {$e^+$}; \node at (1,0.35) {$\gamma/Z$}; \node at (3.25,1) {$W^-$}; \node at (3.25,-1) {$W^+$};
+\end{tikzpicture}
+\end{center}
+\begin{talkbox}Tafel: Erst Legende fuer Linien; dann pro Prozess die erlaubten Vertices pruefen; Diagramme niedrigster Ordnung systematisch nach internen Austauschbosonen zeichnen.\end{talkbox}
+
+
+\section{Anwesenheitsblatt 12: Feynman-Vertices, Quarks und charmante Baryonen}
+\begin{taskbox}[title={Aufgaben}]
+\begin{itemize}
+\item Feynman-Vertices aus dem Blatt auf Erhaltungssaetze pruefen.
+\item Quark-Familien, Flavour-Quantenzahlen, Ladungen und Hadronzusammensetzungen wiederholen.
+\item Leichteste charmante Baryonen klassifizieren, in Isospin-Multipletts einordnen und in Diagrammen darstellen.
+\end{itemize}
+\end{taskbox}
+
+\subsection{Aufgabe 1: Wiederholung Feynman-Vertices}
+\begin{learningbox}
+Ein Feynman-Vertex ist nur erlaubt, wenn er einer fundamentalen Kopplung der Theorie entspricht und an diesem Vertex die relevanten Erhaltungsgroessen stimmen. Fuer die hier wichtigen Standardmodell-Vertices gilt besonders:
+\[
+\gamma f\bar f \quad\text{ist erlaubt,}\qquad W^\pm \ell \nu_\ell \quad\text{ist erlaubt,}\qquad \gamma\gamma\gamma \quad\text{ist in QED nicht erlaubt.}
+\]
+Dabei muss man bei Fermionlinien zwischen Teilchen und Antiteilchen die Pfeilrichtung beachten.
+\end{learningbox}
+
+\begin{calculationbox}[title={Pruefung der abgebildeten Vertices}]
+\begin{enumerate}[label=(\arabic*)]
+\item \(e^-e^+\gamma\): erlaubt. Ladung ist insgesamt neutral und der QED-Vertex koppelt ein Photon an ein geladenes Fermion-Antifermion-Paar. Dieser Vertex beschreibt z. B. Paarvernichtung oder Paarerzeugung, wenn die aeusseren Linien passend interpretiert werden.
+\item \(\mu^-\nu_\mu W^+\): als Zerfall \(\mu^-\to \nu_\mu+W^+\) waere der Vertex nicht erlaubt, denn die elektrische Ladung waere nicht erhalten: links \(-1\), rechts \(+1\). Erlaubt ist die geladene schwache Kopplung aber in der Orientierung
+\[
+\mu^-+W^+\to \nu_\mu
+\]
+oder aequivalent mit den entsprechenden Antiteilchenlinien. Wichtig ist: Das Bosonzeichen muss zur Fermionpfeilrichtung passen.
+\item \(\gamma\gamma\gamma\): nicht erlaubt. Photonen tragen keine elektrische Ladung und koppeln in QED nicht direkt aneinander. Ein effektiver Mehrphotonenprozess kann nur ueber geladene virtuelle Teilchen in Schleifen entstehen, nicht als fundamentaler Dreiphoton-Vertex.
+\item \(e^-\gamma\gamma\) an einem einzelnen Vertex: nicht erlaubt als fundamentaler QED-Vertex. Ein Elektron koppelt an genau ein Photon pro QED-Vertex. Zwei Photonen an einer Elektronlinie erfordern zwei separate Vertices mit einem internen Elektronpropagator.
+\item \(e^-\gamma\bar\nu_e\): nicht erlaubt. Die elektrische Ladung ist nicht erhalten und ausserdem koppelt ein Photon nicht an ein Neutrino. Ein Elektron-Neutrino-Uebergang braucht ein geladenes \(W\)-Boson, nicht ein Photon.
+\end{enumerate}
+\end{calculationbox}
+\begin{answerbox}
+Erlaubt sind also der QED-Vertex \(e^-e^+\gamma\) und der schwache \(\mu\)-\(\nu_\mu\)-\(W\)-Vertex nur mit korrekter Orientierung des \(W^\pm\). Nicht fundamental erlaubt sind \(\gamma\gamma\gamma\), ein einzelner \(e^-\gamma\gamma\)-Vertex und \(e^-\gamma\bar\nu_e\).
+\end{answerbox}
+
+\begin{talkbox}[title={Tafelvortrag zu Aufgabe 1}]
+Tafelstruktur:
+\begin{enumerate}
+\item Erst die erlaubten Grundvertices notieren: \(\gamma f\bar f\), \(W^\pm \ell\nu_\ell\), \(gq\bar q\), aber kein \(\gamma\gamma\gamma\).
+\item Dann jeden gezeichneten Vertex auf elektrische Ladung und Teilchenart pruefen.
+\item Merksatz: Ein Photon aendert keine Flavour- oder Leptonenart; ein \(W\)-Boson kann geladene Leptonen in Neutrinos bzw. Quarkflavours innerhalb einer schwachen Kopplung umwandeln.
+\end{enumerate}
+\end{talkbox}
+
+\subsection{Aufgabe 2: Quarks und deren Eigenschaften}
+\begin{learningbox}
+Quarks sind Fermionen mit Baryonenzahl \(B=1/3\), Spin \(1/2\), Farbladung und elektrischer Ladung \(+2/3\) oder \(-1/3\). Isolierte Quarks werden nicht beobachtet; beobachtbare Hadronen sind farbneutrale Kombinationen.
+\end{learningbox}
+
+\begin{calculationbox}[title={(a) Quark-Familien}]
+Es gibt drei Quark-Familien:
+\[
+\begin{array}{c|c|c}
+\text{Familie} & \text{up-artig} & \text{down-artig}\\\hline
+1 & u & d\\
+2 & c & s\\
+3 & t & b
+\end{array}
+\]
+Die up-artigen Quarks \(u,c,t\) haben elektrische Ladung \(+\frac23 e\), die down-artigen Quarks \(d,s,b\) haben \(-\frac13 e\).
+\end{calculationbox}
+
+\begin{calculationbox}[title={(b) Flavour-Quantenzahlen und Ladungen}]
+\[
+\begin{array}{c|c|c|c|c|c|c}
+\text{Quark} & Q/e & I_3 & S & C & \tilde B & T\\\hline
+u & +\frac23 & +\frac12 & 0 & 0 & 0 & 0\\
+d & -\frac13 & -\frac12 & 0 & 0 & 0 & 0\\
+s & -\frac13 & 0 & -1 & 0 & 0 & 0\\
+c & +\frac23 & 0 & 0 & +1 & 0 & 0\\
+b & -\frac13 & 0 & 0 & 0 & -1 & 0\\
+t & +\frac23 & 0 & 0 & 0 & 0 & +1
+\end{array}
+\]
+Fuer Antiquarks haben alle additiven Quantenzahlen das entgegengesetzte Vorzeichen, insbesondere auch die elektrische Ladung.
+\end{calculationbox}
+
+\begin{calculationbox}[title={(c) Mesonen und Baryonen}]
+Normale Mesonen bestehen aus einem Quark und einem Antiquark,
+\[
+M=q\bar q.
+\]
+Normale Baryonen bestehen aus drei Quarks,
+\[
+B=qqq,
+\]
+und Antibaryonen aus drei Antiquarks. Die Kombination \(cs\bar d\) ist weder ein normales Meson noch ein normales Baryon. Sie hat zudem
+\[
+B=\frac13+\frac13-\frac13=\frac13,
+\]
+also keine ganzzahlige Baryonenzahl eines isolierten Hadrons. Auch farbneutral laesst sich aus \(3\otimes3\otimes\bar 3\) kein Singulett bilden. Daher ist \(cs\bar d\) kein moegliches isoliertes Standard-Hadron.
+\end{calculationbox}
+
+\begin{calculationbox}[title={(d) Additivitaet von Quantenzahlen}]
+Die Flavour-Quantenzahlen eines Hadrons sind die Summe der Quantenzahlen seiner Konstituenten:
+\[
+S_{\mathrm{Hadron}}=\sum_i S_i,\quad C_{\mathrm{Hadron}}=\sum_i C_i,\quad \tilde B_{\mathrm{Hadron}}=\sum_i \tilde B_i,\quad T_{\mathrm{Hadron}}=\sum_i T_i.
+\]
+Beispiel:
+\[
+K^0=d\bar s: \quad S=0+(+1)=+1,\qquad Q=-\frac13+\frac13=0.
+\]
+\end{calculationbox}
+
+\begin{calculationbox}[title={(e) Erhaltung in Wechselwirkungen}]
+\begin{itemize}
+\item Starke Wechselwirkung: erhaelt elektrische Ladung, Baryonenzahl, Energie-Impuls, Drehimpuls, Paritaet und die Flavour-Quantenzahlen \(S,C,\tilde B,T\).
+\item Elektromagnetische Wechselwirkung: erhaelt elektrische Ladung und ebenfalls die Flavour-Quantenzahlen; sie kann aber Isospin-Symmetrie brechen, weil sie Ladungen unterscheidet.
+\item Schwache Wechselwirkung: erhaelt elektrische Ladung und Baryonenzahl, kann aber Flavour aendern. Deshalb sind \(S,C,\tilde B,T\) bei schwachen Prozessen im Allgemeinen nicht erhalten.
+\end{itemize}
+\end{calculationbox}
+
+\begin{calculationbox}[title={(f) Quarkzusammensetzungen}]
+\[
+\begin{array}{c|c|c|c|c}
+\text{Teilchen} & \text{Quarkinhalt} & Q/e & S & C\\\hline
+K^0 & d\bar s & 0 & +1 & 0\\
+n & udd & 0 & 0 & 0\\
+\Delta^0 & udd & 0 & 0 & 0\\
+\Lambda_c^+ & udc & +1 & 0 & +1
+\end{array}
+\]
+Neutron und \(\Delta^0\) haben denselben Quarkinhalt \(udd\), unterscheiden sich aber im Spin und in der inneren Symmetrie: Das Neutron gehoert zum Spin-\(1/2\)-Baryonenoktett, \(\Delta^0\) zum Spin-\(3/2\)-Baryonendekuplett.
+\end{calculationbox}
+
+\begin{talkbox}[title={Tafelvortrag zu Aufgabe 2}]
+Tafelstruktur:
+\begin{enumerate}
+\item Tabelle der sechs Quarks mit Ladungen: up-artig \(+2/3\), down-artig \(-1/3\).
+\item Normale Hadronen: \(q\bar q\) und \(qqq\). Daraus direkt zeigen, dass \(cs\bar d\) kein normales isoliertes Hadron ist.
+\item Quantenzahlen addieren. Beispiel \(K^0=d\bar s\) und \(\Lambda_c^+=udc\).
+\item Erhaltung: Flavour stark/EM ja, schwach nein; elektrische Ladung immer.
+\end{enumerate}
+\end{talkbox}
+
+\subsection{Aufgabe 3: Charmante Baryonen}
+\begin{learningbox}
+Wir betrachten Baryonen der Form \(cab\) mit genau einem Charm-Quark und zwei leichten Quarks \(a,b\in\{u,d,s\}\). Fuer den Grundzustand gilt orbital \(L=0\), daher ist die Paritaet positiv. Der Farbanteil ist antisymmetrisch; deshalb muss der kombinierte Spin-Flavour-Anteil passend symmetrisiert werden.
+\end{learningbox}
+
+\begin{calculationbox}[title={(a) Einteilung nach Spin des leichten Quarkpaars}]
+Das leichte Quarkpaar \(ab\) kann Spin \(S_{ab}=0\) oder \(S_{ab}=1\) haben. Dieses Paar koppelt mit dem Charm-Quarkspin \(s_c=1/2\):
+\[
+S_{ab}=0:\quad J=\frac12,
+\]
+\[
+S_{ab}=1:\quad J=\frac12\quad\text{oder}\quad J=\frac32.
+\]
+Da \(L=0\), ist die Paritaet jeweils positiv: \(J^P=1/2^+\) oder \(3/2^+\).
+\end{calculationbox}
+
+\begin{calculationbox}[title={Gruppe (i): \(J^P=\frac12^+\), leichtes Paar mit Spin 0}]
+Spin 0 ist antisymmetrisch im Spin; daher gehoert dazu die antisymmetrische Flavour-Kombination der leichten Quarks. Moegliche Kombinationen und Teilchen sind:
+\[
+\begin{array}{c|c|c|c|c}
+\text{Quarkinhalt} & \text{Teilchen} & I & I_3 & Y=B+S+C+\tilde B+T\\\hline
+cud & \Lambda_c^+ & 0 & 0 & 2\\
+cu s & \Xi_c^+ & \frac12 & +\frac12 & 1\\
+cd s & \Xi_c^0 & \frac12 & -\frac12 & 1
+\end{array}
+\]
+Hier wurde \(B=1\), \(C=1\) und pro Strange-Quark \(S=-1\) verwendet.
+\end{calculationbox}
+
+\begin{calculationbox}[title={Gruppe (ii): \(J^P=\frac12^+\), leichtes Paar mit Spin 1}]
+Spin 1 ist symmetrisch im Spin; dazu gehoert die symmetrische Flavour-Kombination. Die leichtesten Zustandsnamen sind:
+\[
+\begin{array}{c|c|c|c|c}
+\text{Quarkinhalt} & \text{Teilchen} & I & I_3 & Y\\\hline
+cuu & \Sigma_c^{++} & 1 & +1 & 2\\
+cud & \Sigma_c^+ & 1 & 0 & 2\\
+cdd & \Sigma_c^0 & 1 & -1 & 2\\
+cu s & \Xi_c^{\prime +} & \frac12 & +\frac12 & 1\\
+cd s & \Xi_c^{\prime 0} & \frac12 & -\frac12 & 1\\
+css & \Omega_c^0 & 0 & 0 & 0
+\end{array}
+\]
+\end{calculationbox}
+
+\begin{calculationbox}[title={Gruppe (iii): \(J^P=\frac32^+\), leichtes Paar mit Spin 1}]
+Derselbe symmetrische Flavour-Sextett-Inhalt kann mit dem Charm-Spin zu \(J=3/2\) koppeln:
+\[
+\begin{array}{c|c|c|c|c}
+\text{Quarkinhalt} & \text{Teilchen} & I & I_3 & Y\\\hline
+cuu & \Sigma_c^{\ast ++} & 1 & +1 & 2\\
+cud & \Sigma_c^{\ast +} & 1 & 0 & 2\\
+cdd & \Sigma_c^{\ast 0} & 1 & -1 & 2\\
+cu s & \Xi_c^{\ast +} & \frac12 & +\frac12 & 1\\
+cd s & \Xi_c^{\ast 0} & \frac12 & -\frac12 & 1\\
+css & \Omega_c^{\ast 0} & 0 & 0 & 0
+\end{array}
+\]
+Der Stern bezeichnet hier die Spin-\(3/2\)-Anregung bzw. den entsprechenden Partner im Sextett.
+\end{calculationbox}
+
+\begin{calculationbox}[title={(b) Isospin-Multipletts}]
+\begin{itemize}
+\item \(\Lambda_c^+\): Isospin-Singulett \(I=0\).
+\item \((\Xi_c^+,\Xi_c^0)\): Isospin-Dublett \(I=1/2\).
+\item \((\Sigma_c^{++},\Sigma_c^+,\Sigma_c^0)\): Isospin-Triplett \(I=1\).
+\item \((\Xi_c^{\prime +},\Xi_c^{\prime 0})\): Isospin-Dublett \(I=1/2\).
+\item \(\Omega_c^0\): Isospin-Singulett \(I=0\).
+\end{itemize}
+Fuer die Spin-\(3/2\)-Partner gilt dieselbe Isospinstruktur wie fuer das symmetrische Spin-\(1/2\)-Sextett.
+\end{calculationbox}
+
+\begin{calculationbox}[title={(c) Diagramm 1: Hyperladung gegen \(I_3\)}]
+\begin{center}
+\begin{tikzpicture}[scale=1.15,>=Latex]
+\draw[->] (-1.5,0) -- (1.55,0) node[right] {$I_3$};
+\draw[->] (0,-0.25) -- (0,2.45) node[above] {$Y$};
+\foreach \x/\lab in {-1/-1,-0.5/-\frac12,0/0,0.5/\frac12,1/1}{\draw (\x,0.04)--(\x,-0.04) node[below=2pt] {$\lab$};}
+\foreach \y in {0,1,2}{\draw (0.04,\y)--(-0.04,\y) node[left=2pt] {$\y$};}
+\node[draw,circle,inner sep=1.3pt,label=above:{\scriptsize $\Sigma_c^{0,+,++}$}] at (0,2) {};
+\fill (-1,2) circle (1.6pt); \fill (0,2) circle (1.6pt); \fill (1,2) circle (1.6pt);
+\node[above right=0pt and 2pt] at (0,2) {\scriptsize $\Lambda_c^+$};
+\draw[dashed] (-1,2)--(1,2);
+\fill (-0.5,1) circle (1.6pt); \fill (0.5,1) circle (1.6pt);
+\node[right=2pt] at (0.5,1) {\scriptsize $\Xi_c^{(\prime,\ast)+}$};
+\node[left=2pt] at (-0.5,1) {\scriptsize $\Xi_c^{(\prime,\ast)0}$};
+\draw[dashed] (-0.5,1)--(0.5,1);
+\fill (0,0) circle (1.6pt);
+\node[right=2pt] at (0,0) {\scriptsize $\Omega_c^{(\ast)0}$};
+\end{tikzpicture}
+\end{center}
+Das Diagramm zeigt eine Antitriplett-Struktur \((\Lambda_c,\Xi_c)\) und eine Sextett-Struktur \((\Sigma_c,\Xi_c',\Omega_c)\). Die Spin-\(3/2\)-Partner liegen in denselben \((I_3,Y)\)-Punkten wie das Sextett mit Spin \(1/2\).
+\end{calculationbox}
+
+\begin{calculationbox}[title={(c) Diagramm 2: Gesamtisospin gegen \(I_3\)}]
+\begin{center}
+\begin{tikzpicture}[scale=1.15,>=Latex]
+\draw[->] (-1.5,0) -- (1.55,0) node[right] {$I_3$};
+\draw[->] (0,-0.15) -- (0,1.35) node[above] {$I$};
+\foreach \x/\lab in {-1/-1,-0.5/-\frac12,0/0,0.5/\frac12,1/1}{\draw (\x,0.03)--(\x,-0.03) node[below=2pt] {$\lab$};}
+\foreach \y/\lab in {0/0,0.5/\frac12,1/1}{\draw (0.04,\y)--(-0.04,\y) node[left=2pt] {$\lab$};}
+\fill (-1,1) circle (1.7pt); \fill (0,1) circle (1.7pt); \fill (1,1) circle (1.7pt);
+\node[above=2pt] at (0,1) {\scriptsize $\Sigma_c^{(\ast)}$};
+\fill (-0.5,0.5) circle (1.7pt); \fill (0.5,0.5) circle (1.7pt);
+\node[right=2pt] at (0.5,0.5) {\scriptsize $\Xi_c,\Xi_c',\Xi_c^\ast$};
+\fill (0,0) circle (1.7pt);
+\node[right=2pt] at (0,0) {\scriptsize $\Lambda_c,\Omega_c^{(\ast)}$};
+\end{tikzpicture}
+\end{center}
+Im zweiten Diagramm sieht man nicht die Strangeness- bzw. Hyperladungsstaffelung, sondern nur die Isospin-Multiplettgroesse: Tripletts bei \(I=1\), Dubletts bei \(I=1/2\) und Singuletts bei \(I=0\).
+\end{calculationbox}
+
+\begin{answerbox}[title={Kommentar zu den charmanten Baryonen}]
+Die charmanten Grundzustandsbaryonen mit einem Charm-Quark zerfallen gruppentheoretisch in ein antisymmetrisches Flavour-Antitriplett mit \(S_{ab}=0\) und ein symmetrisches Flavour-Sextett mit \(S_{ab}=1\). Das Sextett tritt wegen Kopplung mit dem Charm-Spin sowohl als \(J^P=1/2^+\) als auch als \(J^P=3/2^+\) auf.
+\end{answerbox}
+
+\begin{talkbox}[title={Tafelvortrag zu Aufgabe 3}]
+Tafelstruktur:
+\begin{enumerate}
+\item Ansatz: \(cab\), \(a,b\in\{u,d,s\}\), \(L=0\Rightarrow P=+\).
+\item Leichtes Paar: \(S_{ab}=0\Rightarrow J=1/2\), \(S_{ab}=1\Rightarrow J=1/2,3/2\).
+\item Tabellen der drei Gruppen: Antitriplett \((\Lambda_c,\Xi_c)\), Sextett \((\Sigma_c,\Xi_c',\Omega_c)\), Stern-Sextett \((\Sigma_c^\ast,\Xi_c^\ast,\Omega_c^\ast)\).
+\item Isospin-Multipletts: Singulett, Dublett, Triplett. Danach Diagramm \(Y\) gegen \(I_3\) zeichnen.
+\end{enumerate}
+\end{talkbox}
+
+
+\end{document}

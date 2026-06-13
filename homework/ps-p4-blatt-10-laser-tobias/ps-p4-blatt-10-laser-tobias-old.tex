@@ -1,0 +1,724 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physik 4 - Blatt 10 Abgabe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{scrartcl}
+
+% Layout
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+
+% General packages
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{icomma}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{tikz}
+
+% Units / tables / floats / references
+\usepackage[locale = DE,space-before-unit=true,per-mode = symbol]{siunitx}
+\usepackage{booktabs,multirow}
+\usepackage{placeins}
+\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage{csquotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% Graphics paths
+\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+
+% Optional math shortcuts
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\dd}{\,\mathrm{d}}
+
+% Optional units
+\DeclareSIUnit{\year}{a}
+\DeclareSIUnit{\day}{d}
+
+% Box styles
+\newtcolorbox{calculationbox}[1][]{
+    title=Calculation,
+    breakable,
+    #1
+}
+
+\newtcolorbox{solutionbox}[1][]{
+    title=Solution,
+    breakable,
+    #1
+}
+
+\newtcolorbox{answerbox}[1][]{
+    title=Answer,
+    breakable,
+    #1
+}
+
+\newtcolorbox{notebox}[1][]{
+    title=Notes,
+    breakable,
+    #1
+}
+
+\newtcolorbox{sidecalcbox}[1][]{
+    title=Side Calculation,
+    breakable,
+    #1
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    \title{Physik 4 - Blatt 10}
+    \author{Tobias Laser}
+    \date{\today}
+    \maketitle
+    \vfill
+    \thispagestyle{empty}
+    \newpage
+
+    \pagenumbering{arabic}
+
+    \paragraph{Aufgabe 1: Elektromagnetische Teilchenschauer}
+
+    Teilchenschauer sind u. a. für die Beobachtung von hochenergetischen Teilchen der
+    kosmischen Strahlung relevant. In diesem Fall wird deren Wechselwirkung mit der
+    Erdatmosphäre untersucht. Im Folgenden werden wir der Einfachheit halber nur
+    elektromagnetische Schauer betrachten.
+
+    In einem elektromagnetischen Schauer sind die dominierenden Prozesse Bremsstrahlung
+    und Paarbildung. Wir betrachten hier ein vereinfachtes Modell für einen solchen
+    Schauer nach dem deutschen Physiker Walter Heinrich Heitler. Dabei nimmt man an,
+    daß ein hochenergetisches Elektron mit Energie $E_0$, das auf die Erdatmosphäre
+    trifft, nach einer Strahlungslänge $X_0$ ein Photon der Energie $E_0/2$ abstrahlt.
+    Nach einer weiteren Strecke $X_0$ wird das Photon in ein Elektron-Positron-Paar
+    umgewandelt, wobei die Energie ebenfalls gleichmäßig aufgeteilt wird. Ebenso strahlt
+    das primäre Elektron unter Abgabe seiner halben Energie ein weiteres Photon ab.
+    Auf diese Weise entwickelt sich der Schauer so lange weiter, bis die Teilchen eine
+    kritische Energie $E_c$ erreichen, ab der keine neuen Teilchen mehr produziert werden
+    können. Nach diesem Schauermaximum verlieren die Teilchen durch verschiedene Prozesse
+    ihre Restenergie und können bald nicht mehr beobachtet werden.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+            Skizzieren Sie zuerst die ersten drei Stufen des Schauers und nutzen Sie
+            unterschiedliche Symbole für Leptonen und Photonen.
+
+            \begin{calculationbox}
+                Wir unterscheiden Leptonen, also Elektronen und Positronen, von Photonen.
+                Eine einfache symbolische Wahl ist
+                \[
+                    e^-,e^+ \text{ als durchgezogene Linien},
+                    \qquad
+                    \gamma \text{ als gewellte Linien}.
+                \]
+                Die ersten drei Stufen des Heitler-Modells lassen sich dann so darstellen:
+
+                \begin{center}
+                    \begin{tikzpicture}[scale=1.0,>=stealth]
+                        \foreach \x/\lab in {0/{0},2/{$X_0$},4/{$2X_0$},6/{$3X_0$}}{
+                            \draw[dashed,gray] (\x,-2.0) -- (\x,2.0);
+                            \node[above] at (\x,2.0) {\lab};
+                        }
+
+                        \draw[->,thick] (0,0) -- (2,0.9) node[midway,above] {$e^-$};
+                        \draw[decorate,decoration={snake,amplitude=1.5pt,segment length=6pt},->,thick]
+                            (2,0.9) -- (4,1.6) node[midway,above] {$\gamma$};
+                        \draw[->,thick] (2,0.9) -- (4,0.55) node[midway,below] {$e^-$};
+
+                        \draw[->,thick] (4,1.6) -- (6,1.85) node[midway,above] {$e^-$};
+                        \draw[->,thick] (4,1.6) -- (6,1.25) node[midway,below] {$e^+$};
+                        \draw[->,thick] (4,0.55) -- (6,0.20) node[midway,below] {$e^-$};
+                        \draw[decorate,decoration={snake,amplitude=1.5pt,segment length=6pt},->,thick]
+                            (4,0.55) -- (6,0.85) node[midway,above] {$\gamma$};
+
+                        \node[left] at (0,0) {$e^-(E_0)$};
+                        \node[below] at (0,-2.0) {Start};
+                    \end{tikzpicture}
+                \end{center}
+
+                \begin{calculationbox}
+                    Die Skizze ist nicht als exakte Feynman-Darstellung gemeint, sondern als
+                    Baumdiagramm des vereinfachten Heitler-Modells: Nach jeder Strahlungslänge
+                    verdoppelt sich idealisiert die Teilchenzahl und die Energie pro Teilchen
+                    halbiert sich.
+                \end{calculationbox}
+            \end{calculationbox}
+
+        \item
+            Finden Sie die Strahlungslänge $X_{\max}$, bei der das Schauermaximum erreicht
+            wird. Geben Sie das Ergebnis in Einheiten von $X_0$ an. Wie groß ist die Zahl
+            $N_{\max}$ der Teilchen im Schauermaximum?
+
+            \begin{calculationbox}
+                Im Heitler-Modell verdoppelt sich nach jeder Stufe die Teilchenzahl. Nach $n$
+                Stufen gilt daher
+                \[
+                    N(n)=2^n.
+                \]
+                Gleichzeitig wird die Energie gleichmäßig auf alle Teilchen verteilt:
+                \[
+                    E(n)=\frac{E_0}{2^n}.
+                \]
+
+                \begin{calculationbox}
+                    Das Schauermaximum ist erreicht, wenn die Energie pro Teilchen gerade auf
+                    die kritische Energie abgesunken ist:
+                    \[
+                        E(n_{\max})=E_c.
+                    \]
+                    Also
+                    \begin{align*}
+                        \frac{E_0}{2^{n_{\max}}}&=E_c,\
+                        2^{n_{\max}}&=\frac{E_0}{E_c},\
+                        n_{\max}&=\frac{\ln(E_0/E_c)}{\ln 2}.
+                    \end{align*}
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Da jede Stufe einer Strahlungslänge $X_0$ entspricht, folgt
+                    \[
+                        X_{\max}=n_{\max}X_0
+                        =X_0\frac{\ln(E_0/E_c)}{\ln 2}.
+                    \]
+                    In Einheiten von $X_0$ ist also
+                    \[
+                        \frac{X_{\max}}{X_0}=\frac{\ln(E_0/E_c)}{\ln 2}.
+                    \]
+                    Die Teilchenzahl im Maximum ist
+                    \[
+                        N_{\max}=2^{n_{\max}}=\frac{E_0}{E_c}.
+                    \]
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Das Schauermaximum liegt bei
+                \[
+                    \boxed{\frac{X_{\max}}{X_0}=\frac{\ln(E_0/E_c)}{\ln 2}}
+                \]
+                und die maximale Teilchenzahl ist
+                \[
+                    \boxed{N_{\max}=\frac{E_0}{E_c}.}
+                \]
+            \end{answerbox}
+
+        \item
+            Für elektromagnetische Schauer in Luft beträgt $E_c$ circa \SI{84}{MeV}.
+            Welche Schauerlängen in Einheiten von $X_0$ ergeben sich damit für primäre
+            Photonen mit einer Energie von $10^{11}\,\si{eV}$ bzw. $10^{16}\,\si{eV}$?
+            Gehen Sie dazu davon aus, daß das Schauermaximum etwa bei $2/3$ der
+            Schauerlänge liegt. Welche physikalischen Prozesse determinieren die kritische
+            Energie?
+
+            \begin{calculationbox}
+                Zunächst rechnen wir die kritische Energie in eV um:
+                \[
+                    E_c=\SI{84}{MeV}=8.4\cdot 10^7\,\si{eV}.
+                \]
+                Für das Schauermaximum verwenden wir aus Teil (b)
+                \[
+                    \frac{X_{\max}}{X_0}=\frac{\ln(E_0/E_c)}{\ln 2}.
+                \]
+                Wenn das Maximum bei etwa $2/3$ der gesamten Schauerlänge $L$ liegt, gilt
+                \[
+                    X_{\max}\approx \frac{2}{3}L
+                    \qquad\Longrightarrow\qquad
+                    L\approx \frac{3}{2}X_{\max}.
+                \]
+
+                \begin{calculationbox}
+                    Für $E_0=10^{11}\,\si{eV}$ ergibt sich
+                    \begin{align*}
+                        \frac{X_{\max}}{X_0}
+                        &=\frac{\ln(10^{11}/(8.4\cdot10^7))}{\ln2}\\
+                        &=10.22.
+                    \end{align*}
+                    Damit ist die gesamte Schauerlänge näherungsweise
+                    \[
+                        \frac{L}{X_0}\approx\frac{3}{2}\cdot 10.22=15.33.
+                    \]
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Für $E_0=10^{16}\,\si{eV}$ ergibt sich analog
+                    \begin{align*}
+                        \frac{X_{\max}}{X_0}
+                        &=\frac{\ln(10^{16}/(8.4\cdot10^7))}{\ln2}\\
+                        &=26.83.
+                    \end{align*}
+                    Damit ist
+                    \[
+                        \frac{L}{X_0}\approx\frac{3}{2}\cdot 26.83=40.24.
+                    \]
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Die kritische Energie wird physikalisch dadurch bestimmt, daß bei dieser
+                    Energie die dominierenden Verlustmechanismen wechseln. Für Elektronen und
+                    Positronen ist $E_c$ näherungsweise die Energie, bei der Strahlungsverluste
+                    durch Bremsstrahlung und kontinuierliche Energieverluste, vor allem durch
+                    Ionisation und Anregung des Mediums, vergleichbar groß werden. Unterhalb
+                    von $E_c$ ist die weitere Teilchenproduktion ineffizient.
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Für $10^{11}\,\si{eV}$ erhält man
+                \[
+                    \boxed{\frac{X_{\max}}{X_0}=10.22,\qquad \frac{L}{X_0}=15.33.}
+                \]
+                Für $10^{16}\,\si{eV}$ erhält man
+                \[
+                    \boxed{\frac{X_{\max}}{X_0}=26.83,\qquad \frac{L}{X_0}=40.24.}
+                \]
+            \end{answerbox}
+
+        \item
+            Die atmosphärische Tiefe $X$ in Einheiten von $\si{g/cm^2}$ hängt exponentiell
+            von der Höhe $h$ über dem Meeresspiegel ab:
+            \[
+                X=X_Ee^{-h/H_0},
+            \]
+            wobei $H_0=\SI{8}{km}$ und $X_E=\SI{1030}{g/cm^2}$ die totale atmosphärische
+            Tiefe ist. In welcher Höhe befindet sich also das Schauermaximum für die Photonen
+            aus (c), wenn die Strahlungslänge $X_0=\SI{37.8}{g/cm^2}$ beträgt?
+
+            \begin{calculationbox}
+                Aus Teil (c) kennen wir $X_{\max}/X_0$. Daraus erhalten wir die atmosphärische
+                Tiefe des Maximums:
+                \[
+                    X_{\max}^{(\si{g/cm^2})}=\frac{X_{\max}}{X_0}\cdot X_0.
+                \]
+                Anschließend lösen wir
+                \[
+                    X=X_Ee^{-h/H_0}
+                \]
+                nach $h$ auf:
+                \[
+                    h=-H_0\ln\left(\frac{X}{X_E}\right).
+                \]
+
+                \begin{calculationbox}
+                    Für $E_0=10^{11}\,\si{eV}$ ist
+                    \begin{align*}
+                        X_{\max}&=10.22\cdot \SI{37.8}{g/cm^2}\\
+                        &=\SI{386.21}{g/cm^2}.
+                    \end{align*}
+                    Daher
+                    \begin{align*}
+                        h&=-\SI{8}{km}\cdot\ln\left(\frac{386.21}{1030}\right)\\
+                        &=\SI{7.85}{km}.
+                    \end{align*}
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Für $E_0=10^{16}\,\si{eV}$ ist
+                    \begin{align*}
+                        X_{\max}&=26.83\cdot \SI{37.8}{g/cm^2}\\
+                        &=\SI{1014.06}{g/cm^2}.
+                    \end{align*}
+                    Daher
+                    \begin{align*}
+                        h&=-\SI{8}{km}\cdot\ln\left(\frac{1014.06}{1030}\right)\\
+                        &=\SI{0.12}{km}.
+                    \end{align*}
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Für ein primäres Photon mit $10^{11}\,\si{eV}$ liegt das Schauermaximum bei
+                \[
+                    \boxed{h=\SI{7.85}{km}.}
+                \]
+                Für ein primäres Photon mit $10^{16}\,\si{eV}$ liegt es bei
+                \[
+                    \boxed{h=\SI{0.12}{km}.}
+                \]
+            \end{answerbox}
+
+        \item
+            Bestimmen Sie schließlich die Energie, die ein Elektron der kosmischen Strahlung
+            haben muß, damit das Schauermaximum gerade am Technik-Campus der Universität
+            Innsbruck auftritt.
+
+            \begin{calculationbox}
+                Für die Höhe des Technik-Campus verwenden wir näherungsweise die Höhe von
+                Innsbruck über dem Meeresspiegel,
+                \[
+                    h\approx\SI{0.574}{km}.
+                \]
+                Mit der barometrischen Formel ist die atmosphärische Tiefe an dieser Höhe
+                \[
+                    X(h)=X_Ee^{-h/H_0}.
+                \]
+
+                \begin{calculationbox}
+                    Einsetzen liefert
+                    \begin{align*}
+                        X(h)&=\SI{1030}{g/cm^2}\cdot e^{-0.574/8}\\
+                        &=\SI{958.69}{g/cm^2}.
+                    \end{align*}
+                    In Einheiten der Strahlungslänge ist das
+                    \begin{align*}
+                        \frac{X_{\max}}{X_0}
+                        &=\frac{958.69}{37.8}\\
+                        &=25.36.
+                    \end{align*}
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Aus
+                    \[
+                        \frac{X_{\max}}{X_0}=\frac{\ln(E_0/E_c)}{\ln2}
+                    \]
+                    folgt
+                    \[
+                        E_0=E_c\,2^{X_{\max}/X_0}.
+                    \]
+                    Damit ergibt sich
+                    \begin{align*}
+                        E_0
+                        &=8.4\cdot10^7\,\si{eV}\cdot 2^{25.36}\\
+                        &=3.62\cdot10^{15}\,\si{eV}.
+                    \end{align*}
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Ein Elektron der kosmischen Strahlung müßte näherungsweise die Energie
+                \[
+                    \boxed{E_0\approx 3.62\cdot 10^{15}\,\si{eV}=\SI{3.62}{PeV}}
+                \]
+                haben, damit das Schauermaximum gerade in etwa auf Höhe des Technik-Campus
+                Innsbruck liegt. Das Ergebnis hängt leicht von der konkret verwendeten
+                Campus-Höhe ab.
+            \end{answerbox}
+    \end{enumerate}
+
+    \newpage
+    \paragraph{Aufgabe 2: Elektromagnetische Teilchenschauer}
+
+    Die Ausbreitungsgeschwindigkeit von Licht in einem optisch durchlässigen Medium ist
+    um dessen Brechungsindex $n$ verringert, also $c_n=c/n$. Durchquert nun ein geladenes
+    Teilchen mit Geschwindigkeit $v=\beta c>c_n$ dieses Medium, so kommt es zur Emission
+    von Cherenkov-Licht. Dieses wird relativ zur Flugrichtung unter einem Winkel
+    $\vartheta_c$ emittiert, welcher sich folgendermaßen berechnen lässt:
+    \[
+        \cos\vartheta_c=\frac{1}{\beta n}.
+    \]
+    Der Cherenkov-Effekt tritt unter anderem in der Atmosphäre auf, wenn ein hochenergetisches
+    Teilchen der kosmischen Strahlung oder auch ein Gamma-Quant einen Teilchenschauer auslöst.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+            Berechnen Sie $\vartheta_c$ für ein Positron mit $E=\SI{200}{MeV}$ in einer Höhe
+            $h=\SI{10}{km}$ ü. NN. Der Brechungsindex in Luft ist dabei über die
+            barometrische Höhenformel als
+            \[
+                n(h)=1+0.000283\cdot e^{-h/H_0},\qquad H_0=\SI{8}{km}
+            \]
+            gegeben.
+
+            \begin{calculationbox}
+                Für ein Positron ist die Ruheenergie
+                \[
+                    m_ec^2=\SI{0.511}{MeV}.
+                \]
+                Bei einer Gesamtenergie von $E=\SI{200}{MeV}$ gilt
+                \[
+                    \gamma=\frac{E}{m_ec^2}.
+                \]
+                Daraus folgt
+                \[
+                    \beta=\sqrt{1-\frac{1}{\gamma^2}}.
+                \]
+
+                \begin{calculationbox}
+                    Numerisch erhalten wir
+                    \begin{align*}
+                        \gamma&=\frac{200}{0.511}=391.39,\\
+                        \beta&=\sqrt{1-\frac{1}{391.39^2}}=0.9999967.
+                    \end{align*}
+                    Der Brechungsindex in $h=\SI{10}{km}$ Höhe ist
+                    \begin{align*}
+                        n(10\,\si{km})
+                        &=1+0.000283\cdot e^{-10/8}\\
+                        &=1.0000811.
+                    \end{align*}
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Damit ist
+                    \begin{align*}
+                        \cos\vartheta_c
+                        &=\frac{1}{\beta n}\\
+                        &=\frac{1}{0.9999967\cdot1.0000811}\\
+                        &=0.9999222.
+                    \end{align*}
+                    Also
+                    \begin{align*}
+                        \vartheta_c
+                        &=\arccos(0.9999222)\\
+                        &=0.01247\,\si{rad}\\
+                        &=\SI{0.714}{\degree}.
+                    \end{align*}
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Der Cherenkov-Winkel beträgt
+                \[
+                    \boxed{\vartheta_c=0.01247\,\si{rad}=\SI{0.714}{\degree}.}
+                \]
+            \end{answerbox}
+
+        \item
+            Angenommen das Positron aus der vorherigen Teilaufgabe kommt direkt aus dem Zenit:
+            Wie groß ist der Radius des resultierenden Cherenkov-Kegels auf Meereshöhe?
+
+            \begin{calculationbox}
+                Wenn das Positron senkrecht nach unten läuft und das Licht in Höhe
+                $h=\SI{10}{km}$ unter dem Winkel $\vartheta_c$ emittiert wird, ergibt sich
+                für den Radius des Kegels auf Meereshöhe näherungsweise
+                \[
+                    r=h\tan\vartheta_c.
+                \]
+                Dabei verwenden wir den in Teil (a) berechneten Winkel.
+
+                \begin{calculationbox}
+                    Mit
+                    \[
+                        h=\SI{10}{km}=\SI{10000}{m},
+                        \qquad
+                        \vartheta_c=0.01247\,\si{rad}
+                    \]
+                    folgt
+                    \begin{align*}
+                        r&=\SI{10000}{m}\cdot \tan(0.01247)\\
+                        &=\SI{124.7}{m}.
+                    \end{align*}
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Der Radius des Cherenkov-Kegels auf Meereshöhe ist näherungsweise
+                \[
+                    \boxed{r\approx\SI{125}{m}.}
+                \]
+            \end{answerbox}
+    \end{enumerate}
+
+    \newpage
+    \paragraph{Aufgabe 3: Energieverlust durch Ionisation}
+
+    Der Energieverlust von geladenen Teilchen in Materie wird durch die Bethe-Bloch-Formel
+    beschrieben:
+    \[
+        -\frac{\dd E}{\dd x}
+        =\frac{1}{(4\pi\epsilon_0)^2}\frac{4\pi e^4z^2}{m_ec^2}
+        N_A\frac{Z}{A}\rho\frac{1}{\beta^2}
+        \left(
+            \ln\left(\frac{2m_ec^2\beta^2\gamma^2}{I}\right)-\beta^2
+        \right).
+    \]
+    Dabei ist $\beta=v/c$, $z$ die Kernladungszahl des Teilchens, $Z$ die des
+    Targetmaterials, $\rho$ dessen Dichte, $I$ das mittlere Anregungspotential der Atome
+    und $A$ die molare Masse in $\si{g/mol}$.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+            Berechnen und vergleichen Sie den Energieverlust von Protonen, Deuteronen und
+            $\alpha$-Teilchen mit kinetischer Energie $\SI{1}{GeV}$ beim Durchdringen eines
+            Graphitabsorbers der Dicke $\SI{2}{cm}$. Geben Sie alle für die Berechnung
+            notwendigen Eingangsgrößen explizit an.
+            \[
+                m_p=\SI{938.3}{MeV/c^2},\quad
+                m_D=\SI{1875.6}{MeV/c^2},\quad
+                m_{\alpha}=\SI{3727.4}{MeV/c^2},
+            \]
+            \[
+                A_C=\SI{12.01}{g/mol},\quad
+                Z_C=6,\quad
+                \rho_{\mathrm{gr}}=\SI{2.2}{g/cm^3},\quad
+                I\approx 16\cdot Z^{0.9}\,\si{eV}.
+            \]
+
+            \begin{calculationbox}
+                Für die praktische Rechnung verwenden wir die übliche Konstante
+                \[
+                    K=\frac{1}{(4\pi\epsilon_0)^2}\frac{4\pi e^4}{m_ec^2}N_A
+                    \approx \SI{0.307075}{MeV.cm^2/mol}.
+                \]
+                Dann lautet die verwendete Form
+                \[
+                    -\frac{\dd E}{\dd x}
+                    =Kz^2\frac{Z}{A}\rho\frac{1}{\beta^2}
+                    \left(
+                        \ln\left(\frac{2m_ec^2\beta^2\gamma^2}{I}\right)-\beta^2
+                    \right).
+                \]
+
+                \begin{calculationbox}
+                    Für Graphit setzen wir ein:
+                    \[
+                        Z=6,
+                        \qquad
+                        A=\SI{12.01}{g/mol},
+                        \qquad
+                        \rho=\SI{2.2}{g/cm^3}.
+                    \]
+                    Das mittlere Anregungspotential ist
+                    \begin{align*}
+                        I&=16\cdot 6^{0.9}\,\si{eV}\\
+                        &=\SI{80.25}{eV}\\
+                        &=8.025\cdot10^{-5}\,\si{MeV}.
+                    \end{align*}
+                    Außerdem ist
+                    \[
+                        m_ec^2=\SI{0.511}{MeV},
+                        \qquad
+                        d=\SI{2}{cm}.
+                    \]
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Für jedes Teilchen mit kinetischer Energie $T=\SI{1000}{MeV}$ gilt
+                    \[
+                        \gamma=\frac{T+mc^2}{mc^2},
+                        \qquad
+                        \beta=\sqrt{1-\frac{1}{\gamma^2}}.
+                    \]
+                    Damit ergeben sich die folgenden Werte:
+                    \[
+                    \begin{array}{c|c|c|c|c|c}
+                        \text{Teilchen} & z & \gamma & \beta
+                        & -\dd E/\dd x\,[\si{MeV/cm}] & \Delta E\,[\si{MeV}]\\
+                        \hline
+                        p & 1 & 2.0658 & 0.8750 & 4.35 & 8.70\\
+                        D & 1 & 1.5332 & 0.7580 & 5.39 & 10.78\\
+                        \alpha & 2 & 1.2683 & 0.6151 & 30.61 & 61.21
+                    \end{array}
+                    \]
+                    Dabei wurde jeweils
+                    \[
+                        \Delta E=\left(-\frac{\dd E}{\dd x}\right)d
+                    \]
+                    mit $d=\SI{2}{cm}$ verwendet.
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Die Energieverluste im \SI{2}{cm} dicken Graphitabsorber sind näherungsweise
+                \[
+                    \boxed{\Delta E_p=\SI{8.70}{MeV},\qquad
+                    \Delta E_D=\SI{10.78}{MeV},\qquad
+                    \Delta E_{\alpha}=\SI{61.21}{MeV}.}
+                \]
+                Das $\alpha$-Teilchen verliert deutlich mehr Energie, hauptsächlich wegen des
+                Faktors $z^2=4$ und wegen seiner kleineren Geschwindigkeit bei gleicher
+                kinetischer Energie.
+            \end{answerbox}
+
+        \item
+            Skizzieren Sie qualitativ den Energieverlust $-\dd E/\dd x$ über den Energiebereich
+            von $\SI{1}{MeV}$ bis $\SI{1}{TeV}$. Nutzen Sie zur Normierung die Ergebnisse aus
+            (a) und verwenden Sie logarithmische Achsen.
+
+            \begin{calculationbox}
+                Qualitativ besitzt die Bethe-Bloch-Kurve drei wichtige Bereiche:
+                \begin{enumerate}[label=\arabic*.]
+                    \item Bei kleinen Energien ist $\beta$ klein. Wegen des Faktors $1/\beta^2$
+                    ist der Energieverlust sehr groß.
+                    \item Bei mittleren Energien fällt die Kurve bis zu einem Minimum ab. Dieses
+                    Gebiet nennt man den Bereich minimal ionisierender Teilchen.
+                    \item Bei sehr hohen Energien wächst der Energieverlust durch den logarithmischen
+                    Term langsam wieder an. Das ist der relativistische Anstieg.
+                \end{enumerate}
+
+                \begin{calculationbox}
+                    Eine qualitative log-log-Skizze ist:
+                    \begin{center}
+                        \begin{tikzpicture}
+                            \begin{loglogaxis}[
+                                width=0.86\textwidth,
+                                height=6.5cm,
+                                xlabel={$T$ [MeV]},
+                                ylabel={$-\dd E/\dd x$ [rel. Einheiten]},
+                                xmin=1, xmax=1e6,
+                                ymin=0.7, ymax=80,
+                                grid=both,
+                                legend pos=south west
+                            ]
+                            \addplot[thick,domain=1:1e6,samples=200]
+                                {1 + 8/(x^(0.55)) + 0.20*ln(1+x/1000)};
+                            \addlegendentry{qualitativ}
+                            \addplot[only marks,mark=*] coordinates {(1000,4.35)};
+                            \addlegendentry{$p$ bei \SI{1}{GeV}}
+                            \addplot[only marks,mark=square*] coordinates {(1000,5.39)};
+                            \addlegendentry{$D$ bei \SI{1}{GeV}}
+                            \addplot[only marks,mark=triangle*] coordinates {(1000,30.61)};
+                            \addlegendentry{$\alpha$ bei \SI{1}{GeV}}
+                            \end{loglogaxis}
+                        \end{tikzpicture}
+                    \end{center}
+                    Die eingezeichnete Kurve ist qualitativ. Die Punkte bei $\SI{1}{GeV}$ dienen
+                    nur zur Normierung mit den Ergebnissen aus Teil (a).
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Die Kurve fällt bei kleinen Energien stark ab, erreicht ein Minimum und steigt
+                bei hohen Energien nur langsam logarithmisch wieder an. Die in Teil (a)
+                berechneten Werte legen die Größenordnung für Proton, Deuteron und
+                $\alpha$-Teilchen bei $\SI{1}{GeV}$ fest.
+            \end{answerbox}
+
+        \item
+            Lässt sich die Bethe-Bloch-Formel auch für den Durchgang von Elektronen durch
+            Materie verwenden? Begründen Sie Ihre Antwort.
+
+            \begin{calculationbox}
+                Die oben angegebene Bethe-Bloch-Formel ist in dieser einfachen Form für schwere
+                geladene Teilchen gedacht, also zum Beispiel Myonen, Protonen, Deuteronen oder
+                $\alpha$-Teilchen. Für Elektronen ist die Situation anders.
+
+                \begin{calculationbox}
+                    Der wichtigste Grund ist, daß das einlaufende Teilchen dann dieselbe Masse
+                    hat wie die gebundenen Target-Elektronen. Deshalb sind die Annahmen der
+                    Herleitung für schwere Projektile nicht mehr direkt erfüllt. Insbesondere
+                    muß man die Ununterscheidbarkeit von Elektronen im Endzustand und die
+                    veränderte Kinematik der Energieübertragung berücksichtigen.
+                \end{calculationbox}
+
+                \begin{calculationbox}
+                    Zusätzlich werden bei Elektronen schon bei vergleichsweise niedrigeren
+                    Energien Strahlungsverluste durch Bremsstrahlung wichtig. Für Elektronen
+                    beschreibt man den Energieverlust daher mit modifizierten Formeln, die
+                    Kollisionsverluste und Strahlungsverluste getrennt bzw. gemeinsam behandeln.
+                \end{calculationbox}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                In der angegebenen einfachen Form sollte man die Bethe-Bloch-Formel nicht direkt
+                für Elektronen verwenden. Elektronen benötigen eine modifizierte Behandlung,
+                weil Projektil und Target-Elektronen gleiche Masse haben und weil Bremsstrahlung
+                für sie eine deutlich wichtigere Rolle spielt.
+            \end{answerbox}
+    \end{enumerate}
+
+\end{document}

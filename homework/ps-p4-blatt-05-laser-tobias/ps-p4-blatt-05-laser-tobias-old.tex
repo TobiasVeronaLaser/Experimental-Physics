@@ -1,0 +1,349 @@
+% Header: General study / work / project template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{scrartcl}
+
+% Layout
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+
+% General packages
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{icomma}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Language: choose one
+% \usepackage[ngerman]{babel}
+\usepackage[english]{babel}
+
+% Units / tables / floats / references
+\usepackage[locale = UK,space-before-unit=true,per-mode = symbol]{siunitx}
+\usepackage{booktabs,multirow}
+\usepackage{placeins}
+\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage{csquotes}
+
+% Optional bibliography
+% \addbibresource{references.bib}
+
+% Graphics paths
+\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+
+% Optional math shortcuts
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ol}[1]{\overline{#1}}
+
+% Optional units
+\DeclareSIUnit{\dBm}{dBm}
+
+% Box styles
+\newtcolorbox{calculationbox}[1][]{
+    title=Calculation,
+    breakable,
+    #1
+}
+
+\newtcolorbox{solutionbox}[1][]{
+    title=Solution,
+    breakable,
+    #1
+}
+
+\newtcolorbox{answerbox}[1][]{
+    title=Answer,
+    breakable,
+    #1
+}
+
+\newtcolorbox{notebox}[1][]{
+    title=Notes,
+    breakable,
+    #1
+}
+
+\newtcolorbox{sidecalcbox}[1][]{
+    title=Side Calculation,
+    breakable,
+    #1
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    \title{Physik 4 - Blatt 05}
+    \author{Tobias Laser}
+    \date{\today}
+    \maketitle
+    \vfill
+    \thispagestyle{empty}
+
+    \pagenumbering{arabic}
+
+    \paragraph{Aufgabe 1: Q-Wert und CNO-Zyklus}
+
+        Für die Energiebilanz einer Kernreaktion $A + a \rightarrow B + b$ wird der Q-Wert genutz. Dieser entspricht (bezugssystemunabhängig) der insgesamt freiwerdenden kinetischen Energie.
+
+        Die astronomisch relevanteste Kernreaktion ist hierbei das Wasserstoffbrennen, welches in zwei Hauptreaktionen unterteil wird: die pp-Kette (bei der Protonen zunächst zu Deuterium, dann weiter zu Helium-3 und schließlich Helium-4 verschmelzen) und der CN-Zyklus, bei dem in Teilreaktionen mit Kohlenstoff, Stickstoff und Sauerstoff Wasserstoff in Helium umgesetzt wird. Hier möchten wir nun eine mögliche Varante des CNO-Zyklus diskutieren.
+
+        \begin{enumerate}
+            \item 
+                Berechnen Sie hierzu zunächst die \underline{gesamte} freiwerdende Energie über den CNO-Zyklus unter Vernachlässigung des Energieverlusts durch Neutrinos. Beachten Sie dabei die obigen Reaktionsgleichungen sind für die nackten Atomkerne gegeben. Erstellen Sie zunächst die \underline{Gesamtreaktionsbilanz} dieses Zyklus. Erhänzen Sie dann die Gleichung links und rechts mit den notwendigen Elektronenmassen. Berechnen Sie daraus die freiwerdende Energie unter Zuhilfenahme der ATommassen in der NUBASE 2020 der IAEA:
+                
+                \url{https://www-nds.iaea.org/relnsd/nubase/nubase_min.html}
+
+                \begin{align*}
+                    {}^{12}\mathrm{C} + p &\;\to\; {}^{13}\mathrm{N} + \gamma + Q_1 \\
+                    {}^{13}\mathrm{N} &\;\to\; {}^{13}\mathrm{C} + e^{+} + \nu_e + Q_2 \\
+                    {}^{13}\mathrm{C} + p &\;\to\; {}^{14}\mathrm{N} + \gamma + Q_3 \\
+                    {}^{14}\mathrm{N} + p &\;\to\; {}^{15}\mathrm{O} + \gamma + Q_4 \\
+                    {}^{15}\mathrm{O} &\;\to\; {}^{15}\mathrm{N} + e^{+} + \nu_e + Q_5 \\
+                    {}^{15}\mathrm{N} + p &\;\to\; {}^{12}\mathrm{C} + \alpha + Q_6
+                \end{align*}
+
+            \item 
+                Zu einem geringeren Prozentsatz kann auch der CNO (II) Prozess stattfinden, erstellen sie wiederum die Gesamtreaktionsbilanz und berechnen sie die freiwerdende Energie. Was ist der Hauptunterschied zwischen CNO (I) und CNP (II)?
+
+                \begin{align*}
+                    {}^{15}\mathrm{N} + p &\;\to\; {}^{16}\mathrm{O} + \gamma + Q_1 \\
+                    {}^{16}\mathrm{O} + p &\;\to\; {}^{17}\mathrm{F} + \gamma + Q_2 \\
+                    {}^{17}\mathrm{F} &\;\to\; {}^{17}\mathrm{O} + e^{+} + \nu_e + Q_3 \\
+                    {}^{17}\mathrm{O} + p &\;\to\; {}^{14}\mathrm{N} + \alpha + Q_4 \\
+                    {}^{14}\mathrm{N} + p &\;\to\; {}^{15}\mathrm{O} + \gamma + Q_5 \\
+                    {}^{15}\mathrm{O} &\;\to\; {}^{15}\mathrm{N} + e^{+} + \nu_e + Q_6
+                \end{align*}
+
+            \item
+                Wie viel Kilogramm Wasserstoff werden über den CNO-Zyklus in 1. in einer Sekunde verbraucht, um eine Leistung von 1MW zu erzeugen? (Wir nehmen hierzu an, dass im Stern ausreichend Kohlenstoff für die Reaktion vorhanden ist).
+
+            \item
+                Welcher Prozess ist für die Sonne relevanter, CNO-Zyklus oder pp-Kette? Warum? Woher hommt der notwendige Kohlenstoff, um den CNO-Zyklus überhaupt starten zu können?
+        \end{enumerate}
+
+    \paragraph{Aufgabe 2: Fermigasmodell}
+
+        In dieser Aufgabe soll das Fermigasmodell der Atomkerne nachvollzogen und der Fermi-Impuls $p_\text{F}$ sowie die zugehörige $E_\text{F}$ nochmals alternativ hergeleitet werden.
+
+        \begin{enumerate}
+            \item 
+                Was versteht man unter dem Fermi-Impuls $p_\text{F}$ bei einem Atomkern?
+
+                \begin{calculationbox}
+                    Der Fermi-Impuls ist der größte Impuls, den ein Nukleon im Grundszustand des Kerns noch haben.
+
+                    Anschaulich:
+                    \begin{itemize}
+                        \item Protonen bzw. Neutronen sind Fermionen.
+                        \item Wegen des Pauli-Prinzip darf jeder Einteilchenzustand nur begrenzt besetzt werden.
+                        \item Deshalb werden im Impulsraum alle Zustände von $p = 0$ bis zu einer Grenzkugel mit Radius $p_\text{F}$ aufgefüllt.
+                    \end{itemize}
+
+                    Diese Grenzkugel im Impulsraum nennt man Fermi-Kugel. 
+
+                    Der Radius dieser Kugel ist $p_\text{F}$.
+
+                    Physikalisch bedeutet das:
+                    \begin{itemize}
+                        \item Alle zustände mit $p$ kleiner oder gleich $p_\text{F}$ sind besetzt.
+                        \item Zustände mit $p$ größer $p_\text{F}$ sind im Grundzustand leer. 
+                    \end{itemize}
+                \end{calculationbox}
+
+            \item
+                Wie groß ist die Anzahl $n$ der (Teilchen-)Zustände im 6-dimensionalen Orts-Impuls-Phasenraum? Gehen Sie hierbei davon aus, dass jeder Zustand ein Phasenraumvolumen von $h^3$ einnimmt (Unschärferelation). Das Volumen des Orts-Implus-Phasenraums entsprich davei dem Produkt aus Ortsvolumen $V$ und dem \textit{Impulsvolumen} einer Kugel mit Radius $p_\text{F}$ Berücksichtigen Sie dabei den Nukleonenspinfaktor 2 und benutzen Sie $h = 2 \pi \hbar$.
+
+                \begin{calculationbox}
+                    Volumen im Ortsraum
+                    \begin{calculationbox}
+                        Das ist einfach das Kernvolumen $V$
+                    \end{calculationbox}
+
+                    Volumen im Impulsraum
+                    \begin{calculationbox}
+                        Im Impulsraum werden alle Zustände innerhalb einer Kugel mit Radius $p_\text{F}$ besetzt:
+
+                        Impulsvolumen $= \frac{4}{3} \pi p_\text{F}^3$
+                    \end{calculationbox}
+
+                    Ein Zustand braucht das Phasenraumvolumen $h^3$
+                    \begin{calculationbox}
+                        Also ist die Zahl der zustände zunächst:
+
+                        $n = \frac{V \frac{4}{3} \pi p_\text{F}^3}{h^3}$
+                    \end{calculationbox}
+
+                    Spin-Faktor 2 Berücksichtigen
+                    \begin{calculationbox}
+                        Jeder rüumlich-impulsmäßige Zustand kann wegen Spin-up / Spin-down doppelt besetzt werden.
+
+                        Also: $n = 2\frac{V\frac{4}{3} \pi p_\text{F}^3}{h^3}$
+                    \end{calculationbox}
+
+                    $h = 2 \pi \hbar$ einsetzen
+                    \begin{calculationbox}
+                        Dann ist: $h^3 = (2 \pi \hbar)^3 = 8 \pi^3 \hbar^3$
+
+                        Also: $n = \frac{2 V \frac{4}{3} \pi p_\text{F}^3}{8 \pi^3 \hbar^3}$
+
+                        Kürzen ergibt: $n = \frac{V p_\text{F}^3}{3 \pi^3 \hbar^3}$ die gesuchte Formel
+                    \end{calculationbox}
+
+                    Formel gilt jeweils für eine Nukleonenart getrennt, also entweder für Protonen oder für Neutronen.
+                \end{calculationbox}
+
+            \item 
+                Für beide Nukleonenarten (Protenen und Neutronen) kann man in guter Näherung $n = A/2$ setzen. Der Kernradius sei über $R = R_ a{1/3}$ mit $R_0 = 1.3 fm$ gegeben- welche Formel und welcher numerische Wert (in der Einheit MeV/c) erbit sich damit für $p_\text{F}$?
+
+                \begin{calculationbox}
+                    Setzen näherungswwweise für jede Nukleonenart: $n = \frac{A}{2}$
+
+                    Außerdem ist der Kernradius: $R = R_0 A^\frac{1}{3}$, mit $R_0 = 1.3$ fm.
+
+                    Daraus folgt für das Kernvolumen: $V = \frac{4}{3} \pi R^3 = \frac{4}{3} \pi R_0^3 A$
+
+                    Jetzt setze man: $n = \frac{V p_\text{F}^3}{3 \pi^2 \hbar^3}$ ein
+
+                    Also : $\frac{A}{2} \frac{\frac{4}{3} \pi R_0^3 A p_\text{F}^3}{3 \pi^2 \hbar^3}$
+
+                    $p_\text{F}^3 = \frac{\frac{9\pi}{8} \hbar^3}{R_0^3}$
+
+                    also $p_\text{F} = \frac{\hbar}{R_0} (9 \frac{\pi}{8})^\frac{1}{3}$
+
+                    Mit $\hbar = 197.3269804$ MeV fm und $R_0 = 1.3$ fm
+
+                    $p_\text{F} c = \frac{\hbar c}{R_0} (9 \frac{\pi}{8})^\frac{1}{3} \approx 231.21$ MeV
+
+                    $p_\text{F} \approx 231$ MeV$/$c
+                \end{calculationbox}
+
+            \item
+                Berechnen Sie nun die Formel für die Fermi-Energie $E_\text{F}$ mittels $E_\text{F} = p^2_\text{F} / (2 m_\text{N})$ und geben Sie deren Wert in MeV an. Was bedeutet $E_\text{F}$ in Bezug auf das Kernpotenzial?
+
+                \begin{calculationbox}
+                    Definition: $E_\text{F} = \frac{p_\text{F}^2}{2 m_N}$
+                    
+                    mit $m_N$ als Nukleonenmasse. Nimmt man näherungsweise $m_N c^2 \approx 939 MeV$, dann folgt:
+
+                    $E_\text{F} \approx 28.47 MeV$
+
+                    $E_\text{F}$ zeigt, dass das Kernpotential deutlich tief sei muss, damit trotz der hohen kinetischen Energie gebundene Zustände existieren.
+                \end{calculationbox}
+
+            \item 
+                Berechnen Sie die mittlere kinetische Energie pro Nukleon in Abhängigkeit der Fermi-Energie.
+
+                \begin{calculationbox}
+                    Gesucht is die mittlere kinetische Energie aller besetzten Zustände von $p = 0$ bis $p= p_\text{F}$. 
+
+                    $T = \frac{p^2}{2m}$
+
+                    Im impulsraum ist die Zustandsdichte proportional zu $p^2 dp$
+
+                    Also: mittlere energie $= \frac{\int\limits_0^{p_\text{F}} T(p) p^2 dp}{\int\limits_0^{p_\text{F}} p^2 dp} = \frac{1}{2m} \frac{\int p^4 dp}{\int p^2 dp}$
+
+                    mittlere Energie $= \frac{1}{2m} \frac{3}{f} p_\text{F}^2 = \frac{3}{5} E_\text{F}$
+                \end{calculationbox}
+
+            \item
+                Besonders für schwere Kerne ist die Näherung $n = A/2$ nicht mehr gut. Betrachten Sie dazu den Kern ${}^{63}Ni$ und berechnen Sie für diesen die genaueren Werte der Fermi-Energien von Protonen und Neutronen.
+
+                \underline{Hinweis:} Letztlich folgt in (3.) aus der Annahme $n = A/2$, dass $n/A = 1/2$. Hier müssen Sie dann nur das korrekte $n$ für Protonen und Neutronen ansetzen.
+
+                \begin{calculationbox}
+                    $A=36$
+
+                    $Z = 28$ Protonen
+
+                    $N = 35$ Neutronen
+
+                    Dann getrennt: $n_p = Z = 28$, $n_n = N = 35$
+
+                    Aus allgemeinen Formel: $n = \frac{V p_\text{F}^3}{3 \pi^2 \hbar^3}$
+
+                    $\implies p_\text{F}^3 = 3 \pi^2 \hbar^3 n / V$, $V= \frac{4}{3} \pi R_0^3 A$
+
+                    $p_F^3 = \frac{9\pi}{4} \hbar^3 \frac{n}{R_0^3 A} $
+
+                    Protonin 63Ni
+
+                    \begin{calculationbox}
+                        $n = Z = 28$
+
+                        $p_{F,p} = \frac{\hbar}{R_0} (\frac{9\pi}{4} \frac{28}{63})^\frac{1}{3} \approx 222.31$ MeV$/$c
+
+                        $E_{F,p} = p_{F, p}^2 / (2m_N) \approx 26.32$ MeV
+                    \end{calculationbox}
+
+                    Neutron in 63 NI
+                    \begin{calculationbox}
+                        $n = _N = 35$
+
+                        $p_{\text{F}, n} = \frac{\hbar}{R_0} (\frac{9\pi}{4} \frac{35}{63})^\frac{1}{3} \approx 239.48 $ MeV$/$c
+
+                        $E_{F,n} = p_{F_n}^2/(2m_N) \approx 3ß.54$ MeV
+                    \end{calculationbox}
+
+                \end{calculationbox}
+
+            \item
+                Offenbar gibt es gewisse Unterschiede zwischen der Fermi-Energie von Protonen und Neutronen. Vergleichen Sie nun diesen Unterschied mit der Coulombenergie pro Proton, die sich aus dem entsprechen Term der Bethe-Weizsäcker-Formel ergibt. Was bedeutet dieses Ergebnis?
+
+                \begin{calculationbox}
+                    Der Coulombterm der Bethe-Weizsäcker-Formel lautet betragsmäßig:
+                    \begin{align*}
+                        E_C = a_C \frac{Z(Z-1)}{A^{1/3}}
+                    \end{align*}
+                    mit $a_C \approx 0.71 \text{ bis } 0.72\,\mathrm{MeV}$.
+
+                    Für ${}^{63}\mathrm{Ni}$ mit $Z = 28$ und $A = 63$ erhält man bei $a_C = 0.72\,\mathrm{MeV}$:
+                    \begin{align*}
+                        E_C \approx 136.80\,\mathrm{MeV}
+                    \end{align*}
+                    gesamt, also pro Proton:
+                    \begin{align*}
+                        \frac{E_C}{Z} \approx 4.89\,\mathrm{MeV}.
+                    \end{align*}
+
+                    Nun vergleichen wir den Unterschied der Fermi-Energien:
+                    \begin{align*}
+                        \Delta E_F &= E_{F,n} - E_{F,p} \\
+                                &\approx 30.54\,\mathrm{MeV} - 26.32\,\mathrm{MeV} \\
+                                &\approx 4.22\,\mathrm{MeV}.
+                    \end{align*}
+
+                    Das liegt größenordnungsmäßig sehr nahe bei der Coulombenergie pro Proton von etwa $4.9\,\mathrm{MeV}$.
+
+                    \paragraph{Bedeutung:}
+
+                    Das ist sehr aufschlussreich:
+                    \begin{itemize}
+                        \item Protonen und Neutronen spüren nahezu dasselbe starke Kernpotential.
+                        \item Protonen unterliegen zusätzlich der elektrischen Coulombabstoßung.
+                        \item Dadurch liegen die Protonenzustände energetisch effektiv höher bzw. sind weniger stark gebunden.
+                        \item Deshalb ist die Protonen-Fermi-Energie kleiner als die der Neutronen.
+                    \end{itemize}
+
+                    Kurz gesagt:
+                    \begin{quote}
+                    Der Unterschied zwischen Protonen- und Neutronen-Fermi-Energie lässt sich in guter Näherung durch den Coulombbeitrag erklären.
+                    \end{quote}
+
+                    Das bedeutet physikalisch:
+                    \begin{itemize}
+                        \item Die starke Wechselwirkung ist für Protonen und Neutronen nahezu identisch.
+                        \item Die beobachtete Energiedifferenz wird im Wesentlichen durch die Coulombabstoßung der Protonen verursacht.
+                    \end{itemize}
+                \end{calculationbox}
+        \end{enumerate}
+
+\end{document}

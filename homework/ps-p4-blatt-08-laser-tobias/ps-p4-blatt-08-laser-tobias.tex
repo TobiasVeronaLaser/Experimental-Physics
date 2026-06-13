@@ -1,0 +1,767 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Standalone general university LaTeX template -- homework sheet
+% One-file version: no \input files needed.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{Proseminar zur Physik IV: Kerne und Teilchen}
+\newcommand{\CourseShortTitle}{Physik IV}
+\newcommand{\DocumentKind}{Hausaufgabe, Tafelvortrag und Lernfassung}
+\newcommand{\DocumentTitle}{Aufgabenblatt 8}
+\newcommand{\DocumentSubtitle}{Schwerpunktsenergie, Compton-Effekt und KATRIN}
+\newcommand{\AuthorName}{YOUR NAME}
+\newcommand{\InstitutionName}{INSTITUTION NAME}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\nue}{\nu_e}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\Ecm}{E_{\mathrm{CMS}}}
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bezüglich}
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
+\DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
+\DeclareSIUnit{\year}{a}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced, breakable, sharp corners, boxrule=0.6pt,
+        left=1.2mm, right=1.2mm, top=1mm, bottom=1mm,
+        before skip=0.8em, after skip=0.8em, fonttitle=\bfseries
+    }
+}
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=Lösung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{talkbox}[1][]{unibox,title=Tafelvortrag,colback=purple!2,colframe=purple!55!black,#1}
+\newtcolorbox{learnbox}[1][]{unibox,title=Lernkommentar,colback=teal!2,colframe=teal!55!black,#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\makeuniversitytitle
+\tableofcontents
+\newpage
+
+\section*{Hinweise zur Verwendung}
+\addcontentsline{toc}{section}{Hinweise zur Verwendung}
+\begin{summarybox}
+Diese Ausarbeitung ist so aufgebaut, dass sie gleichzeitig als \textbf{Abgabe}, als \textbf{Tafelvortrag} und als \textbf{Lernfassung} nutzbar ist. Die zentralen Rechnungen stehen in den Rechnungskästen; die grün markierten Kästen enthalten die Endergebnisse. Für den Tafelvortrag reichen meist die orange markierten Formeln, die Skizzen und die grünen Resultate.
+\end{summarybox}
+
+\section{Aufgabe 1: Schwerpunktsenergie}
+
+\begin{taskbox}
+Gesucht ist die Schwerpunktsenergie bei verschiedenen Kollisionsarten. Grundlage ist die Invarianz des Viererimpulsquadrats
+\[
+    p^2 = p_\mu p^\mu = \frac{E^2}{c^2}-\abs{\vect p}^{2}=m^2c^2.
+\]
+Für mehrere Teilchen verwendet man den Gesamtviererimpuls
+\[
+    P^\mu = p_1^\mu+p_2^\mu+\dots.
+\]
+Die Schwerpunktsenergie ist
+\[
+    \Ecm = M_{\mathrm{inv}}c^2.
+\]
+\end{taskbox}
+
+\begin{formulabox}[title=Zentrale Formel]
+In Einheiten mit $c=1$ gilt für zwei Teilchen
+\[
+    s = \paren{p_1+p_2}^2
+      = m_1^2+m_2^2+2\paren{E_1E_2-\vect p_1\cdot\vect p_2},
+    \qquad
+    \Ecm=\sqrt{s}.
+\]
+Für eine frontale Kollision mit entgegengesetzten Impulsen ist
+\[
+    \vect p_1\cdot\vect p_2=-\abs{\vect p_1}\abs{\vect p_2}.
+\]
+Für ein ruhendes Target mit Masse $m_2$ und Projektilenergie $E_1$ gilt
+\[
+    s=m_1^2+m_2^2+2m_2E_1.
+\]
+\end{formulabox}
+
+\begin{learnbox}
+Der entscheidende Unterschied zwischen \textbf{fixed target} und \textbf{Collider} ist nicht die Laborenergie, sondern wie viel davon im Schwerpunktssystem tatsächlich verfügbar ist. Beim fixed target steckt sehr viel Energie in der Bewegung des Gesamtschwerpunktes. Beim symmetrischen Collider ist der Gesamtimpuls null, daher ist praktisch die gesamte Strahlenergie für neue Teilchen verfügbar.
+\end{learnbox}
+
+\subsection{Teil (a): Kosmisches Proton auf ruhendes Proton}
+
+\begin{calculationbox}
+Wir verwenden $m_pc^2=\SI{0.938272}{GeV}$ und schreiben in natürlichen Einheiten $c=1$.
+Die kosmische Protonenergie ist
+\[
+    E_{\mathrm{kosm}}=6.4\cdot 10^{20}\,\si{eV}
+    =6.4\cdot 10^{11}\,\si{GeV}.
+\]
+Für ein Projektilproton auf ein ruhendes Targetproton gilt
+\[
+    s = m_p^2+m_p^2+2m_pE_{\mathrm{kosm} }
+      =2m_p^2+2m_pE_{\mathrm{kosm}}.
+\]
+Da $E_{\mathrm{kosm}}\gg m_p$ ist, dominiert der zweite Term:
+\[
+    \Ecm=\sqrt{2m_p^2+2m_pE_{\mathrm{kosm}}}
+    =\SI{1.096e6}{GeV}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{\Ecm \approx \SI{1.10e6}{GeV}=\SI{1.10e3}{TeV}.}
+\]
+Ein kosmisches Proton mit $6.4\cdot 10^{20}\,\si{eV}$ erreicht auf ein ruhendes atmosphärisches Proton also etwa \SI{1100}{TeV} Schwerpunktsenergie.
+\end{answerbox}
+
+\subsection{Teil (b): Vergleich verschiedener Experimente}
+
+\begin{calculationbox}
+Für hochrelativistische Collider kann die Teilchenmasse gegenüber der Strahlenergie vernachlässigt werden. Bei gleichen entgegengesetzten Strahlenergien gilt
+\[
+    \Ecm \approx E_1+E_2 = 2E_{\mathrm{Strahl}}.
+\]
+Bei ungleichen frontalen Strahlenergien und vernachlässigbaren Massen gilt
+\[
+    s\approx 4E_1E_2,
+    \qquad
+    \Ecm\approx 2\sqrt{E_1E_2}.
+\]
+\end{calculationbox}
+
+\begin{center}
+\begin{tabular}{llc}
+\toprule
+Experiment & Kollision & Ergebnis für $\Ecm$ \\
+\midrule
+LEP-2 & $e^+e^-$, $E_{e^+}=E_{e^-}=\SI{209}{GeV}$
+      & $\SI{418}{GeV}$ \\
+PEP-II & $e^+e^-$, $E_{e^+}=\SI{4.5}{GeV}$, $E_{e^-}=\SI{5.5}{GeV}$
+      & $2\sqrt{4.5\cdot 5.5}\,\si{GeV}=\SI{9.95}{GeV}$ \\
+Tevatron & $p\pbar$, $E_p=E_{\pbar}=\SI{1.3}{TeV}$
+      & $\SI{2.6}{TeV}$ \\
+LHC & $pp$, $E_p=\SI{2.2}{TeV}$ pro Strahl
+      & $\SI{4.4}{TeV}$ \\
+$^{208}\mathrm{Pb}-p$ & $E_{\mathrm{Pb}}=\SI{1.58}{TeV}$ pro Nukleon, $E_p=\SI{2.3}{TeV}$
+      & $2\sqrt{1.58\cdot 2.3}\,\si{TeV}=\SI{3.81}{TeV}$ pro Nukleonenpaar \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{answerbox}
+Die Schwerpunktsenergien sind
+\[
+\boxed{\begin{array}{rcl}
+\mathrm{LEP\text{-}2} &:& \SI{418}{GeV},\\
+\mathrm{PEP\text{-}II} &:& \SI{9.95}{GeV},\\
+\mathrm{Tevatron} &:& \SI{2.6}{TeV},\\
+\mathrm{LHC} &:& \SI{4.4}{TeV},\\
+^{208}\mathrm{Pb}-p &:& \SI{3.81}{TeV}\ \text{pro Nukleonenpaar}.
+\end{array}}
+\]
+\end{answerbox}
+
+\subsection{Teil (c): Kosmisches Proton mit LHC-Schwerpunktsenergie}
+
+\begin{calculationbox}
+Gesucht ist die Laborenergie $E_{\mathrm{lab}}$ eines Protons, das auf ein ruhendes Proton trifft und dieselbe Schwerpunktsenergie wie die LHC-Protonen aus Teil (b) erreicht:
+\[
+    \Ecm^{\mathrm{LHC}}=\SI{4.4}{TeV}=\SI{4400}{GeV}.
+\]
+Aus
+\[
+    s=2m_p^2+2m_pE_{\mathrm{lab}}
+\]
+folgt
+\[
+    E_{\mathrm{lab} }
+    =\frac{s-2m_p^2}{2m_p}
+    =\frac{\paren{\SI{4400}{GeV}}^2-2\paren{\SI{0.938272}{GeV}}^2}{2\cdot \SI{0.938272}{GeV}}.
+\]
+Damit erhält man
+\[
+    E_{\mathrm{lab}}=\SI{1.032e7}{GeV}=\SI{1.032e16}{eV}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{E_{\mathrm{lab}}\approx \SI{1.0e16}{eV}=\SI{10.3}{PeV}.}
+\]
+Ein fixed-target-Proton braucht also eine Laborenergie von etwa \SI{10}{PeV}, um die Schwerpunktsenergie eines $\SI{2.2}{TeV}+\SI{2.2}{TeV}$-Proton-Colliders zu erreichen.
+\end{answerbox}
+
+\begin{talkbox}
+Tafelstruktur für Aufgabe 1:
+\begin{enumerate}[label=\arabic*.]
+    \item Viererimpulsinvariante anschreiben: $\Ecm=\sqrt{s}$.
+    \item Zwei Spezialfälle trennen: ruhendes Target $s=2m_p^2+2m_pE$ und Collider $\Ecm\approx2\sqrt{E_1E_2}$.
+    \item Numerische Tabelle eintragen.
+    \item Kernaussage: Collider sind effizient, weil der Gesamtimpuls im Laborsystem klein oder null ist.
+\end{enumerate}
+\end{talkbox}
+
+\FloatBarrier
+\newpage
+
+\section{Aufgabe 2: Herleitung des Compton-Effekts}
+
+\begin{taskbox}
+Ein Photon streut elastisch an einem anfangs ruhenden, schwach gebundenen Elektron. Gesucht ist die Änderung der Photonenwellenlänge
+\[
+    \Delta\lambda=\lambda_2-\lambda_1=\lambda_c\paren{1-	heta}
+\]
+mit korrektem Winkelterm $1-\\cos\theta$, also
+\[
+    \Delta\lambda=\lambda_c\paren{1-\cos\theta}.
+\]
+\end{taskbox}
+
+\subsection{Teil (a): Reaktionsgleichung und Skizze}
+
+\begin{solutionbox}
+Die Reaktion lautet
+\[
+    \gamma(p_1)+e^-(\text{in Ruhe})\longrightarrow \gamma(p_2)+e^-(p_e).
+\]
+Dabei bezeichnen $p_1$ und $p_2$ die Beträge der Photonenimpulse vor und nach der Streuung. Der Winkel $\theta$ ist der Streuwinkel des Photons.
+\end{solutionbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.05,>=Latex]
+    \coordinate (O) at (0,0);
+    \draw[->,thick] (-3,0) -- (O) node[midway,above] {$\gamma,\ p_1$};
+    \draw[->,thick] (O) -- (3,1.5) node[midway,above] {$\gamma,\ p_2$};
+    \draw[->,thick] (O) -- (2.6,-1.3) node[midway,below] {$e^-,\ p_e$};
+    \draw[fill=black] (O) circle (1.4pt);
+    \draw[dashed] (O) -- (3,0);
+    \draw[->] (0.85,0) arc[start angle=0,end angle=26.6,radius=0.85];
+    \node at (1.15,0.28) {$\theta$};
+    \node[below] at (-1.2,-0.2) {einfallendes Photon};
+    \node[below right] at (0.2,-0.1) {Elektron anfangs in Ruhe};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Teil (b): Energie-Impuls-Beziehung für Photonen}
+
+\begin{calculationbox}
+Für massive Teilchen gilt
+\[
+    E^2=p^2c^2+m^2c^4.
+\]
+Für Photonen ist $m=0$. Daher folgt
+\[
+    E_\gamma^2=p_\gamma^2c^2
+    \qquad\Rightarrow\qquad
+    E_\gamma=p_\gamma c.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{E_\gamma=p_\gamma c.}
+\]
+\end{answerbox}
+
+\subsection{Teil (c): Impulserhaltung und $p_e^2$}
+
+\begin{calculationbox}
+Die vektorielle Impulserhaltung lautet
+\[
+    \vect p_1=\vect p_2+\vect p_e.
+\]
+Also
+\[
+    \vect p_e=\vect p_1-\vect p_2.
+\]
+Quadrieren liefert mit $\vect p_1\cdot\vect p_2=p_1p_2\cos\theta$:
+\[
+    p_e^2 = \abs{\vect p_1-\vect p_2}^2
+          = p_1^2+p_2^2-2p_1p_2\cos\theta.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{p_e^2=p_1^2+p_2^2-2p_1p_2\cos\theta.}
+\]
+\end{answerbox}
+
+\subsection{Teil (d): Elektronenenergie vor und nach der Reaktion}
+
+\begin{calculationbox}
+Vor der Streuung ruht das Elektron:
+\[
+    E_{e,\mathrm{i}}=m_ec^2.
+\]
+Nach der Streuung hat es Impuls $p_e$ und daher
+\[
+    E_{e,\mathrm{f}}=\sqrt{p_e^2c^2+m_e^2c^4}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{E_{e,\mathrm{i}}=m_ec^2,
+    \qquad
+    E_{e,\mathrm{f}}=\sqrt{p_e^2c^2+m_e^2c^4}.}
+\]
+\end{answerbox}
+
+\subsection{Teil (e): Energieerhaltung geschickt umformen}
+
+\begin{calculationbox}
+Energieerhaltung:
+\[
+    p_1c+m_ec^2=p_2c+\sqrt{p_e^2c^2+m_e^2c^4}.
+\]
+Wir isolieren die Wurzel:
+\[
+    \sqrt{p_e^2c^2+m_e^2c^4}=m_ec^2+(p_1-p_2)c.
+\]
+Jetzt quadrieren:
+\begin{align*}
+    p_e^2c^2+m_e^2c^4
+    &=m_e^2c^4+2m_ec^3(p_1-p_2)+c^2(p_1-p_2)^2.
+\end{align*}
+Nach Kürzen und Division durch $c^2$ folgt
+\[
+    p_e^2=2m_ec(p_1-p_2)+(p_1-p_2)^2.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{p_e^2=2m_ec(p_1-p_2)+(p_1-p_2)^2.}
+\]
+\end{answerbox}
+
+\subsection{Teil (f): Eliminieren von $p_e^2$}
+
+\begin{calculationbox}
+Aus der Impulserhaltung:
+\[
+    p_e^2=p_1^2+p_2^2-2p_1p_2\cos\theta.
+\]
+Aus der Energieerhaltung:
+\[
+    p_e^2=2m_ec(p_1-p_2)+(p_1-p_2)^2.
+\]
+Gleichsetzen ergibt
+\[
+    p_1^2+p_2^2-2p_1p_2\cos\theta
+    =2m_ec(p_1-p_2)+p_1^2+p_2^2-2p_1p_2.
+\]
+Die Terme $p_1^2+p_2^2$ kürzen sich:
+\[
+    -2p_1p_2\cos\theta=2m_ec(p_1-p_2)-2p_1p_2.
+\]
+Damit
+\[
+    2p_1p_2(1-\cos\theta)=2m_ec(p_1-p_2).
+\]
+Nach Division durch $2p_1p_2m_ec$ folgt
+\[
+    \frac{1}{p_2}-\frac{1}{p_1}=\frac{1-\cos\theta}{m_ec}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{\frac{1}{p_2}-\frac{1}{p_1}=\frac{1-\cos\theta}{m_ec}.}
+\]
+\end{answerbox}
+
+\subsection{Teil (g): Comptonsche Formel}
+
+\begin{calculationbox}
+Mit dem de-Broglie-Zusammenhang für Photonen
+\[
+    \lambda=\frac{h}{p}
+\]
+multiplizieren wir die Gleichung aus Teil (f) mit $h$:
+\[
+    h\paren{\frac{1}{p_2}-\frac{1}{p_1}}
+    =\frac{h}{m_ec}(1-\cos\theta).
+\]
+Links steht gerade
+\[
+    \lambda_2-\lambda_1.
+\]
+Also
+\[
+    \lambda_2-\lambda_1=\frac{h}{m_ec}(1-\cos\theta).
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{\Delta\lambda=\lambda_2-\lambda_1=\lambda_c(1-\cos\theta),
+    \qquad
+    \lambda_c=\frac{h}{m_ec}.}
+\]
+Für das Elektron ist $\lambda_c\approx\SI{2.426e-12}{m}$.
+\end{answerbox}
+
+\begin{talkbox}
+Tafelstruktur für Aufgabe 2:
+\begin{enumerate}[label=\arabic*.]
+    \item Skizze: einfallendes Photon, gestreutes Photon mit Winkel $\theta$, Rückstoßelektron.
+    \item Impulsbilanz: $\vect p_e=\vect p_1-\vect p_2$ und daraus $p_e^2$.
+    \item Energiebilanz: Wurzel isolieren, dann quadrieren.
+    \item Beide $p_e^2$-Gleichungen gleichsetzen.
+    \item Mit $\lambda=h/p$ zur Compton-Formel übergehen.
+\end{enumerate}
+\end{talkbox}
+
+\begin{learnbox}
+Der wichtigste algebraische Trick ist das \textbf{Isolieren der Wurzel vor dem Quadrieren}. Wenn man direkt die ganze Energieerhaltung quadriert, entstehen unnötig viele gemischte Wurzelterme. Der Streuwinkel kommt ausschließlich aus dem Skalarprodukt $\vect p_1\cdot\vect p_2=p_1p_2\cos\theta$.
+\end{learnbox}
+
+\FloatBarrier
+\newpage
+
+\section{Aufgabe 3: Das KATRIN-Experiment}
+
+\begin{taskbox}
+Beim $\beta^-$-Zerfall
+\[
+    n\longrightarrow p+e^-+\bar\nu_e
+\]
+entstehen drei Teilchen. Dadurch ist die Elektronenenergie nicht eindeutig festgelegt, sondern liegt in einem kontinuierlichen Spektrum. KATRIN untersucht besonders den Endpunkt dieses Spektrums, weil dort die Neutrinomasse sichtbar wird.
+\end{taskbox}
+
+\subsection{Teil (a): Zweikörperzerfall $0\to 1+2$ im Schwerpunktsystem}
+
+\begin{calculationbox}
+Im CMS ruht Teilchen $0$:
+\[
+    P_0^\mu=\paren{m_0c,\vect 0}.
+\]
+Viererimpulserhaltung:
+\[
+    P_0=P_1+P_2.
+\]
+Wir formen um:
+\[
+    P_2=P_0-P_1.
+\]
+Dann verwenden wir die Invarianz
+\[
+    P_2^2=m_2^2c^2.
+\]
+Also
+\begin{align*}
+    m_2^2c^2
+    &= (P_0-P_1)^2 \\
+    &= P_0^2+P_1^2-2P_0\cdot P_1 \\
+    &= m_0^2c^2+m_1^2c^2-2m_0E_1.
+\end{align*}
+Damit
+\[
+    2m_0E_1=(m_0^2+m_1^2-m_2^2)c^2
+\]
+und folglich
+\[
+    E_1=\frac{m_0^2+m_1^2-m_2^2}{2m_0}c^2.
+\]
+Analog folgt durch Vertauschen von $1$ und $2$:
+\[
+    E_2=\frac{m_0^2+m_2^2-m_1^2}{2m_0}c^2.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{E_1=\frac{m_0^2+m_1^2-m_2^2}{2m_0}c^2,
+    \qquad
+    E_2=\frac{m_0^2+m_2^2-m_1^2}{2m_0}c^2.}
+\]
+\end{answerbox}
+
+\subsection{Teil (b): Elektronenenergie im Dreikörperzerfall}
+
+\begin{calculationbox}
+Der Trick besteht darin, den Proton-Neutrino-Teil als ein zusammengesetztes System $X=(p,\bar\nu_e)$ zu behandeln:
+\[
+    n\longrightarrow e^-+X.
+\]
+Die invariante Masse dieses Systems sei $m_{p,\bar\nu_e}$. Dann ist die Zweikörperformel aus Teil (a) direkt anwendbar mit
+\[
+    m_0=m_n,\qquad m_1=m_e,\qquad m_2=m_{p,\bar\nu_e}.
+\]
+Also
+\[
+    E_e=\frac{m_n^2+m_e^2-m_{p,\bar\nu_e}^2}{2m_n}c^2.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{E_e=\frac{m_n^2+m_e^2-m_{p,\bar\nu_e}^2}{2m_n}c^2.}
+\]
+Die Elektronenenergie ist variabel, weil $m_{p,\bar\nu_e}$ variabel ist.
+\end{answerbox}
+
+\subsection{Teil (c): Maximaler und minimaler Wert von $E_e$}
+
+\begin{calculationbox}
+Aus
+\[
+    E_e=\frac{m_n^2+m_e^2-m_{p,\bar\nu_e}^2}{2m_n}c^2
+\]
+erkennt man: $E_e$ wird maximal, wenn $m_{p,\bar\nu_e}$ minimal ist.
+
+Die minimale invariante Masse des kombinierten Systems tritt auf, wenn Proton und Antineutrino in ihrem gemeinsamen Schwerpunktssystem keine relative kinetische Energie besitzen. Dann gilt
+\[
+    m_{p,\bar\nu_e}^{\min}=m_p+m_\nu.
+\]
+Damit
+\[
+    E_e^{\max}=\frac{m_n^2+m_e^2-(m_p+m_\nu)^2}{2m_n}c^2.
+\]
+
+Der Minimalwert von $E_e$ tritt auf, wenn das Elektron im CMS keine kinetische Energie besitzt, also
+\[
+    E_e^{\min}=m_ec^2.
+\]
+Dann tragen Proton und Neutrino die restliche freiwerdende Energie und den Impuls so, dass die Gesamtimpulsbilanz erfüllt bleibt.
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{E_e^{\max}=\frac{m_n^2+m_e^2-(m_p+m_\nu)^2}{2m_n}c^2,
+    \qquad
+    E_e^{\min}=m_ec^2.}
+\]
+Für die kinetische Elektronenenergie ist entsprechend $T_e^{\min}=0$.
+\end{answerbox}
+
+\subsection{Teil (d): Warum KATRIN den Spektrumsendpunkt misst}
+
+\begin{solutionbox}
+KATRIN untersucht den $\beta$-Zerfall von Tritium:
+\[
+    \nuclide{3}{1}{H}\longrightarrow \nuclide{3}{2}{He}+e^-+\bar\nu_e.
+\]
+Die Neutrinomasse beeinflusst vor allem den Endpunkt des Elektronenspektrums. Ist $m_\nu>0$, dann muss mindestens die Ruheenergie $m_\nu c^2$ im Neutrino stecken. Dadurch sinkt die maximal mögliche Elektronenenergie. Zusätzlich verändert sich die Form des Spektrums nahe dem Endpunkt. Deshalb misst KATRIN gerade die höchstenergetischen Elektronen besonders genau.
+\end{solutionbox}
+
+\begin{calculationbox}[title=Numerischer Endpunkt für Tritium]
+Wir verwenden näherungsweise die atomaren Massendaten
+\[
+    M(\nuclide{3}{1}{H})=\SI{3.01604928199}{u},
+    \qquad
+    M(\nuclide{3}{2}{He})=\SI{3.01602932265}{u},
+\]
+und $1\,\si{u}c^2=\SI{931.49410242}{MeV}$. Für die Endpunktsenergie kann man äquivalent mit Kernmassen rechnen. Näherungsweise:
+\[
+    M_T^{\mathrm{Kern}}\approx M_T^{\mathrm{Atom}}-m_e,
+    \qquad
+    M_{He}^{\mathrm{Kern}}\approx M_{He}^{\mathrm{Atom}}-2m_e.
+\]
+Dann gilt
+\[
+    E_e^{\max}=\frac{(M_T^{\mathrm{Kern}})^2+m_e^2-(M_{He}^{\mathrm{Kern}}+m_\nu)^2}{2M_T^{\mathrm{Kern}}}c^2.
+\]
+Für $m_\nu=\SI{0.05}{eV\per c^2}$ ergibt sich
+\[
+    E_e^{\max}\approx\SI{529587.464}{eV},
+    \qquad
+    T_e^{\max}=E_e^{\max}-m_ec^2\approx\SI{18588.514}{eV}.
+\]
+Für $m_\nu\approx0$ ergibt sich
+\[
+    E_e^{\max}\approx\SI{529587.514}{eV},
+    \qquad
+    T_e^{\max}\approx\SI{18588.564}{eV}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+\boxed{\begin{array}{rclcl}
+ m_\nu=\SI{0.05}{eV\per c^2}:& E_e^{\max}&\approx&\SI{529587.464}{eV},& T_e^{\max}\approx\SI{18588.514}{eV},\\
+ m_\nu\approx0:& E_e^{\max}&\approx&\SI{529587.514}{eV},& T_e^{\max}\approx\SI{18588.564}{eV}.
+\end{array}}
+\]
+Die Differenz im Endpunkt beträgt hier ungefähr $\SI{0.05}{eV}$. Genau deshalb ist der Endpunktbereich experimentell extrem anspruchsvoll.
+\end{answerbox}
+
+\begin{warningbox}
+Bei Tritium muss man sauber unterscheiden, ob man mit \textbf{Atom-} oder \textbf{Kernmassen} rechnet. Für eine schnelle Endpunktrechnung ist der bekannte $Q$-Wert von etwa $\SI{18.6}{keV}$ hilfreich. Die maximale kinetische Elektronenenergie liegt wegen Rückstoßkorrektur geringfügig unter diesem Wert.
+\end{warningbox}
+
+\begin{talkbox}
+Tafelstruktur für Aufgabe 3:
+\begin{enumerate}[label=\arabic*.]
+    \item Zweikörperzerfall über Viererimpulsinvarianz herleiten.
+    \item Dreikörperzerfall als Zweikörperzerfall $n\to e^-+X$ mit $X=(p,\bar\nu_e)$ behandeln.
+    \item $E_e$ ist maximal, wenn $m_X$ minimal ist: $m_X=m_p+m_\nu$.
+    \item KATRIN: Nicht das ganze Spektrum ist gleich sensitiv, sondern vor allem der Endpunkt.
+\end{enumerate}
+\end{talkbox}
+
+\begin{summarybox}
+\textbf{Gesamtzusammenfassung.}
+\begin{itemize}
+    \item Schwerpunktsenergien berechnet man am stabilsten über die Invariante $s=(\sum p_i)^2$.
+    \item Beim Compton-Effekt entsteht die Wellenlängenänderung durch Energie- und Impulserhaltung relativistischer Teilchen. Der Winkelterm kommt aus dem Skalarprodukt.
+    \item Beim $\beta$-Zerfall erzeugt die Dreikörperkinematik ein kontinuierliches Elektronenspektrum. Die Neutrinomasse verschiebt und verformt den Endpunkt.
+\end{itemize}
+\end{summarybox}
+
+\end{document}

@@ -1,756 +1,1002 @@
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Physik 4 - Blatt 11 Abgabe
+% Physik IV - Blatt 11 Lernfassung / Abgabe / Tafelvortrag
+% Standalone university LaTeX template -- one-file version
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[11pt,a4paper]{scrartcl}
 
-% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{COURSE NAME}
+\newcommand{\CourseShortTitle}{COURSE SHORT NAME}
+\newcommand{\DocumentKind}{DOCUMENT KIND}
+\newcommand{\DocumentTitle}{DOCUMENT TITLE}
+\newcommand{\DocumentSubtitle}{}
+\newcommand{\AuthorName}{YOUR NAME}
+\newcommand{\InstitutionName}{INSTITUTION NAME}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document metadata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\CourseTitle}{Physik IV: Kerne und Teilchen}
+\renewcommand{\CourseShortTitle}{Physik IV}
+\renewcommand{\DocumentKind}{Hausaufgabe, Tafelvortrag und Lernfassung}
+\renewcommand{\DocumentTitle}{Aufgabenblatt 11}
+\renewcommand{\DocumentSubtitle}{Z-Resonanz und solare Neutrinos}
+\renewcommand{\AuthorName}{Tobias Laser}
+\renewcommand{\InstitutionName}{Universit\"at Innsbruck}
+\renewcommand{\SubmissionDate}{6. Juni 2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
 
-% General packages
-\usepackage{graphicx}
-\usepackage{enumitem}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
-\usepackage{amsmath,amsthm,amssymb,mathtools}
-\usepackage{icomma}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
-\usepackage{tikz}
-
-% Units / tables / floats / references
-\usepackage[locale = DE,space-before-unit=true,per-mode = symbol]{siunitx}
-\usepackage{booktabs,multirow}
-\usepackage{placeins}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{csquotes}
+
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
-% Optional math shortcuts
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
 \newcommand{\set}[1]{\left\{ #1 \right\}}
 \newcommand{\abs}[1]{\left| #1 \right|}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
 \newcommand{\ol}[1]{\overline{#1}}
-\newcommand{\half}{\frac{1}{2}}
+
 \newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
+
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
 \newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
 
-% Optional units
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\mup}{\mu^+}
+\newcommand{\mum}{\mu^-}
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_\mu}
+\newcommand{\nutau}{\nu_\tau}
+\newcommand{\pionp}{\pi^+}
+\newcommand{\pionm}{\pi^-}
+\newcommand{\pionz}{\pi^0}
+\newcommand{\kaonp}{K^+}
+\newcommand{\kaonm}{K^-}
+\newcommand{\kaonz}{K^0}
+
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\totalxs}{\sigma_{\mathrm{total}}}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\tmand}{t}
+\newcommand{\umand}{u}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
+
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bez\"uglich}
+
 \DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
 \DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
+\DeclareSIUnit{\year}{a}
 
-% Box styles
-\newtcolorbox{calculationbox}[1][]{
-    title=Calculation,
-    breakable,
-    #1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
 }
 
-\newtcolorbox{solutionbox}[1][]{
-    title=Solution,
-    breakable,
-    #1
-}
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=L\"osung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{talkbox}[1][]{unibox,title=Tafelvortrag,colback=teal!3,colframe=teal!50!black,#1}
+\newtcolorbox{learningbox}[1][]{unibox,title=Lernidee,colback=purple!3,colframe=purple!50!black,#1}
 
-\newtcolorbox{answerbox}[1][]{
-    title=Answer,
-    breakable,
-    #1
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
 
-\newtcolorbox{notebox}[1][]{
-    title=Notes,
-    breakable,
-    #1
-}
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
 
-\newtcolorbox{sidecalcbox}[1][]{
-    title=Side Calculation,
-    breakable,
-    #1
-}
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-    \title{Physik 4 - Blatt 11}
-    \author{Tobias Laser}
-    \date{\today}
-    \maketitle
-    \vfill
-    \thispagestyle{empty}
-    \newpage
+\makeuniversitytitle
+\tableofcontents
+\newpage
 
-    \pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Einordnung des Blattes}
+\addcontentsline{toc}{section}{Einordnung des Blattes}
 
-    \paragraph{Aufgabe 1: $Z$-Resonanz}
+\begin{summarybox}[title=Ziel dieses Blattes]
+Dieses Blatt verbindet zwei typische Rechnungen der Teilchen- und Astroteilchenphysik:
+\begin{itemize}
+    \item Bei der \textbf{$Z$-Resonanz} sieht man, wie ein instabiles Austauschteilchen als Resonanz im Wirkungsquerschnitt erscheint.
+    \item Bei den \textbf{solaren Neutrinos} sieht man, warum ein riesiger Teilchenfluss wegen winziger Wirkungsquerschnitte trotzdem kaum Wechselwirkungen im Körper erzeugt.
+\end{itemize}
+Der wichtigste konzeptionelle Punkt ist: Ein Wirkungsquerschnitt ist eine effektive Trefferfläche. Große Flüsse allein bedeuten nicht automatisch große Reaktionsraten; entscheidend ist immer das Produkt $\Phi\sigma N$.
+\end{summarybox}
 
-    Am Large-Electron-Positron Collider (LEP) des CERN wurden von 1989 bis 1995
-    Elektronen und Positronen so weit beschleunigt und zur Kollision gebracht, dass
-    im Schwerpunktsystem die Ruheenergie des $Z$-Bosons zur Verfügung stand:
+\begin{notebox}[title=Benutzte Konstanten und Konventionen]
+\[
+    \hbar c = \SI{197}{MeV.fm}=\SI{0.197}{GeV.fm},
+    \qquad
+    \alpha=\frac{1}{137.036},
+    \qquad
+    \SI{1}{barn}=\SI{e-28}{m^2}.
+\]
+\[
+    \SI{1}{fm^2}=\SI{e-30}{m^2}=10^{-2}\,\si{barn}=10^7\,\si{nb},
+    \qquad
+    \SI{1}{eV}=\SI{1.602e-19}{J}.
+\]
+\end{notebox}
+
+\FloatBarrier
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 1: Z-Resonanz}
+
+\begin{taskbox}
+Am Large-Electron-Positron Collider (LEP) wurden Elektronen und Positronen so beschleunigt, dass im Schwerpunktsystem die Ruheenergie des $Z$-Bosons zur Verfügung stand:
+\[
+    E_{\mathrm{CM}}=m_Zc^2=\SI{91.2}{GeV}.
+\]
+Bei dieser Energie ist der Wirkungsquerschnitt für die Produktion des $Z$-Bosons maximal. Der differentielle Wirkungsquerschnitt sei
+\[
+    \diffxs(E_{\mathrm{CM}},\theta)
+    =(\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}\paren{1+\cos^2\theta},
+\]
+mit
+\[
+    G(s)=1+\frac{s^2g_eg_\mu}{\paren{s-m_Z^2c^4}^2+m_Z^2c^4\Gamma_Z^2},
+    \qquad
+    s=E_{\mathrm{CM}}^2,
+\]
+\[
+    \Gamma_Z=\SI{2.5}{GeV},
+    \qquad
+    g_e=g_\mu=0.355.
+\]
+Der erste Term in $G(s)$ beschreibt den Beitrag über ein virtuelles Photon, der zweite Term den Beitrag über das $Z$-Boson.
+\begin{enumerate}[label=(\alph*)]
+    \item Um welchen Faktor ist der zum $Z$-Boson gehörige Term am Maximum der Resonanz größer als der Beitrag des virtuellen Photons?
+    \item Skizzieren Sie die Winkelabhängigkeit des differentiellen Wirkungsquerschnitts. Vergleichen Sie mit der entsprechenden Abhängigkeit des Rutherfordstreuquerschnitts.
+    \item Berechnen Sie den totalen Wirkungsquerschnitt $\sigma_{\mathrm{total}}$, indem Sie den differentiellen Wirkungsquerschnitt über den gesamten Raumwinkel integrieren.
+    \item Wie groß ist somit der totale Wirkungsquerschnitt bei $E_{\mathrm{CM}}=m_Zc^2$ in Nanobarn? Welchen Radius hätte ein Kreis mit gleicher Fläche?
+    \item Plotten Sie $\sigma_{\mathrm{total}}$ als Funktion von $E_{\mathrm{CM}}$ im Bereich \SIrange{50}{150}{GeV} linear und im Bereich \SIrange{10}{500}{GeV} doppeltlogarithmisch.
+\end{enumerate}
+\end{taskbox}
+
+\subsection{Lernteil: Was bedeutet eine Resonanz im Wirkungsquerschnitt?}
+
+\begin{learningbox}
+Eine Resonanz entsteht, wenn die verfügbare Schwerpunktenergie genau zur Ruheenergie eines instabilen Zwischenzustands passt. Hier ist das der Fall bei
+\[
+    E_{\mathrm{CM}}\approx m_Zc^2.
+\]
+Dann kann in der Reaktion $e^+e^-\to Z\to \mu^+\mu^-$ das $Z$-Boson resonant erzeugt werden. Mathematisch sieht man das am Nenner des $Z$-Terms in $G(s)$: Bei $s=m_Z^2c^4$ verschwindet der Term $(s-m_Z^2c^4)^2$. Übrig bleibt im Nenner nur die Breite $\Gamma_Z$, die den Peak endlich macht.
+\end{learningbox}
+
+\subsection{Abgabe: Ausführliche Lösung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Resonanzfaktor.}
+
+    \begin{calculationbox}
+        Am Maximum der Resonanz gilt
+        \[
+            E_{\mathrm{CM}}=m_Zc^2
+            \quad\Longrightarrow\quad
+            s=E_{\mathrm{CM}}^2=m_Z^2c^4.
+        \]
+        Damit verschwindet im Nenner des $Z$-Terms der Ausdruck
+        \[
+            \paren{s-m_Z^2c^4}^2=0.
+        \]
+        Der Photonbeitrag in $G(s)$ ist
+        \[
+            G_\gamma=1.
+        \]
+        Der $Z$-Beitrag am Resonanzmaximum ist
+        \[
+            G_Z
+            =\frac{s^2g_eg_\mu}{m_Z^2c^4\Gamma_Z^2}.
+        \]
+        Da am Maximum $s=m_Z^2c^4$ gilt, folgt
+        \[
+            G_Z=\frac{s g_eg_\mu}{\Gamma_Z^2}.
+        \]
+        Mit
+        \[
+            s=(\SI{91.2}{GeV})^2
+        \]
+        erhält man
+        \[
+            G_Z=\frac{(91.2)^2\cdot0.355\cdot0.355}{(2.5)^2}=167.7.
+        \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+        Am Resonanzmaximum ist der $Z$-Beitrag ungefähr
+        \[
+            \boxed{\frac{G_Z}{G_\gamma}\approx 1.68\cdot10^2}
+        \]
+        mal größer als der Beitrag des virtuellen Photons.
+    \end{answerbox}
+
+    \item \textbf{Winkelabhängigkeit.}
+
+    \begin{calculationbox}
+        Für festes $E_{\mathrm{CM}}$ sind alle Faktoren bis auf den Winkel konstant. Daher ist
+        \[
+            \diffxs\propto 1+\cos^2\theta.
+        \]
+        Die Funktion ist symmetrisch unter $\theta\mapsto \pi-\theta$. Sie ist maximal bei
+        \[
+            \theta=0,\pi,
+            \qquad
+            1+\cos^2\theta=2,
+        \]
+        und minimal bei
+        \[
+            \theta=\frac{\pi}{2},
+            \qquad
+            1+\cos^2\theta=1.
+        \]
+    \end{calculationbox}
+
+    \begin{calculationbox}[title=Skizze]
+    \begin{center}
+    \begin{tikzpicture}
+    \begin{axis}[
+        width=0.84\textwidth,
+        height=5.8cm,
+        xlabel={$\theta$ in Grad},
+        ylabel={relative Stärke},
+        xmin=0,xmax=180,
+        ymin=0,ymax=2.2,
+        xtick={0,45,90,135,180},
+        ytick={0,1,2},
+        grid=both,
+        legend pos=south east
+    ]
+        \addplot[thick,domain=0:180,samples=200]{1+cos(x)^2};
+        \addlegendentry{$1+\cos^2\theta$}
+    \end{axis}
+    \end{tikzpicture}
+    \end{center}
+    \end{calculationbox}
+
+    \begin{calculationbox}[title=Vergleich mit Rutherfordstreuung]
+        Für die Rutherfordstreuung gilt qualitativ
+        \[
+            \diffxs_R\propto \frac{1}{\sin^4(\theta/2)}.
+        \]
+        Für $\theta\to0$ divergiert dieser Ausdruck. Rutherfordstreuung ist daher stark vorwärtsgerichtet. Die Verteilung $1+\cos^2\theta$ ist dagegen überall endlich und ändert sich nur um einen Faktor $2$ zwischen Minimum und Maximum.
+    \end{calculationbox}
+
+    \begin{answerbox}
+        \[
+            \boxed{\diffxs\propto 1+\cos^2\theta}
+        \]
+        Die Winkelverteilung ist glatt, endlich und vorwärts-rückwärts-symmetrisch. Rutherfordstreuung ist dagegen wegen $1/\sin^4(\theta/2)$ stark vorwärtsdominant und divergiert für kleine Winkel.
+    \end{answerbox}
+
+    \item \textbf{Integration zum totalen Wirkungsquerschnitt.}
+
+    \begin{calculationbox}
+        Der totale Wirkungsquerschnitt ist
+        \[
+            \sigma_{\mathrm{total}}=\int \diffxs\dd\Omega.
+        \]
+        Mit
+        \[
+            \dd\Omega=\sin\theta\dd\theta\dd\varphi,
+            \qquad
+            \theta\in[0,\pi],
+            \quad
+            \varphi\in[0,2\pi],
+        \]
+        folgt
+        \[
+            \sigma_{\mathrm{total}}
+            =(\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}
+            \int_0^{2\pi}\int_0^\pi (1+\cos^2\theta)\sin\theta\dd\theta\dd\varphi.
+        \]
+        Das $\varphi$-Integral ist
+        \[
+            \int_0^{2\pi}\dd\varphi=2\pi.
+        \]
+        Für das $\theta$-Integral setzen wir $u=\cos\theta$, also $\dd u=-\sin\theta\dd\theta$:
+        \[
+        \begin{aligned}
+            \int_0^\pi (1+\cos^2\theta)\sin\theta\dd\theta
+            &=\int_1^{-1}(1+u^2)(-\dd u)\\
+            &=\int_{-1}^{1}(1+u^2)\dd u\\
+            &=\bracket{u+\frac{u^3}{3}}_{-1}^{1}=\frac{8}{3}.
+        \end{aligned}
+        \]
+        Insgesamt ist also
+        \[
+            \int(1+\cos^2\theta)\dd\Omega
+            =2\pi\cdot\frac{8}{3}=\frac{16\pi}{3}.
+        \]
+        Damit folgt
+        \[
+            \sigma_{\mathrm{total}}
+            =(\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}\cdot\frac{16\pi}{3}
+            =(\hbar c)^2\frac{\alpha^2}{s}G(s)\frac{4\pi}{3}.
+        \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+        \[
+            \boxed{\sigma_{\mathrm{total}}(s)=(\hbar c)^2\frac{\alpha^2}{s}G(s)\frac{4\pi}{3}}
+        \]
+    \end{answerbox}
+
+    \item \textbf{Numerischer Wert am Resonanzmaximum und Kreisradius.}
+
+    \begin{calculationbox}
+        Am Maximum verwenden wir
+        \[
+            G(s)=1+167.7=168.7,
+            \qquad
+            s=(\SI{91.2}{GeV})^2=\SI{8317.44}{GeV^2}.
+        \]
+        Mit $\hbar c=\SI{0.197}{GeV.fm}$ und $\alpha=1/137.036$ ergibt sich
+        \[
+        \begin{aligned}
+            \sigma_{\mathrm{total}}
+            &=(0.197)^2\,\si{fm^2}\frac{(1/137.036)^2}{8317.44}\cdot168.7\cdot\frac{4\pi}{3}\\
+            &=1.756\cdot10^{-7}\,\si{fm^2}.
+        \end{aligned}
+        \]
+        Wegen
+        \[
+            \SI{1}{fm^2}=10^7\,\si{nb}
+        \]
+        folgt
+        \[
+            \sigma_{\mathrm{total}}=1.756\cdot10^{-7}\cdot10^7\,\si{nb}=\SI{1.756}{nb}.
+        \]
+        Ein Kreis gleicher Fläche erfüllt
+        \[
+            \sigma_{\mathrm{total}}=\pi r^2.
+        \]
+        Also
+        \[
+            r=\sqrt{\frac{\sigma_{\mathrm{total}}}{\pi}}
+            =\sqrt{\frac{1.756\cdot10^{-7}\,\si{fm^2}}{\pi}}
+            =2.36\cdot10^{-4}\,\si{fm}.
+        \]
+        In Metern ist
+        \[
+            r=2.36\cdot10^{-19}\,\si{m}.
+        \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+        Am Resonanzmaximum ergibt sich
+        \[
+            \boxed{\sigma_{\mathrm{total}}=\SI{1.76}{nb}}.
+        \]
+        Ein Kreis mit gleicher Fläche hätte den Radius
+        \[
+            \boxed{r=2.36\cdot10^{-4}\,\si{fm}=2.36\cdot10^{-19}\,\si{m}}.
+        \]
+    \end{answerbox}
+
+    \item \textbf{Plots von $\sigma_{\mathrm{total}}(E_{\mathrm{CM}})$.}
+
+    \begin{formulabox}
+        Für die Plots setzen wir $E:=E_{\mathrm{CM}}$ in \si{GeV} ein:
+        \[
+            \sigma_{\si{nb}}(E)
+            =10^7(0.197)^2\frac{(1/137.036)^2}{E^2}\frac{4\pi}{3}
+            \bracket{1+\frac{E^4\cdot0.355^2}{\paren{E^2-91.2^2}^2+91.2^2\cdot2.5^2}}.
+        \]
+        Der Faktor $10^7$ wandelt \si{fm^2} in \si{nb} um.
+    \end{formulabox}
+
+    \begin{calculationbox}[title=Lineare Darstellung um die Resonanz]
+    \begin{center}
+    \begin{tikzpicture}
+    \begin{axis}[
+        width=0.88\textwidth,
+        height=6.0cm,
+        xlabel={$E_{\mathrm{CM}}$ in \si{GeV}},
+        ylabel={$\sigma_{\mathrm{total}}$ in \si{nb}},
+        xmin=50,xmax=150,
+        ymin=0,ymax=2.0,
+        grid=both,
+        samples=500,
+        domain=50:150
+    ]
+    \addplot[thick] {1e7*(0.197)^2*(1/137.036)^2/(x^2)*(4*pi/3)*(1+(x^4*0.355^2)/((x^2-91.2^2)^2+91.2^2*2.5^2))};
+    \end{axis}
+    \end{tikzpicture}
+    \end{center}
+    \end{calculationbox}
+
+    \begin{calculationbox}[title=Doppeltlogarithmische Darstellung]
+    \begin{center}
+    \begin{tikzpicture}
+    \begin{axis}[
+        width=0.88\textwidth,
+        height=6.0cm,
+        xlabel={$E_{\mathrm{CM}}$ in \si{GeV}},
+        ylabel={$\sigma_{\mathrm{total}}$ in \si{nb}},
+        xmode=log,
+        ymode=log,
+        xmin=10,xmax=500,
+        ymin=1e-4,ymax=3,
+        grid=both,
+        samples=700,
+        domain=10:500
+    ]
+    \addplot[thick] {1e7*(0.197)^2*(1/137.036)^2/(x^2)*(4*pi/3)*(1+(x^4*0.355^2)/((x^2-91.2^2)^2+91.2^2*2.5^2))};
+    \end{axis}
+    \end{tikzpicture}
+    \end{center}
+    \end{calculationbox}
+
+    \begin{answerbox}
+        Der lineare Plot zeigt einen scharfen Resonanzpeak bei
+        \[
+            \boxed{E_{\mathrm{CM}}\approx\SI{91.2}{GeV}}.
+        \]
+        Die doppeltlogarithmische Darstellung zeigt zusätzlich den Verlauf weit unterhalb und oberhalb der Resonanz.
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tafelvortrag zu Aufgabe 1}
+
+\begin{talkbox}
+\textbf{Tafelstruktur in 6 Schritten:}
+\begin{enumerate}
+    \item Start mit der Resonanzbedingung:
     \[
-        E_{\mathrm{CM}}=m_Zc^2=\SI{91.2}{GeV}.
+        E_{\mathrm{CM}}=m_Zc^2
+        \quad\Rightarrow\quad
+        s=m_Z^2c^4.
     \]
-    Bei dieser Energie ist der Wirkungsquerschnitt für die Produktion des $Z$-Bosons maximal.
-    Der differentielle Wirkungsquerschnitt sei
+    \item Photonterm und $Z$-Term vergleichen:
     \[
-        \frac{\dd\sigma}{\dd\Omega}(E_{\mathrm{CM}},\theta)
-        = (\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}
-        \left(1+\cos^2\theta\right),
+        G_\gamma=1,
+        \qquad
+        G_Z=\frac{s g_eg_\mu}{\Gamma_Z^2}=167.7.
     \]
-    wobei
+    \item Winkelabhängigkeit skizzieren:
     \[
-        G(s)=1+\frac{s^2g_eg_\mu}{(s-m_Z^2c^4)^2+m_Z^2c^4\Gamma_Z^2}.
+        \diffxs\propto1+\cos^2\theta.
     \]
-    Außerdem gilt
+    \item Rutherfordvergleich daneben schreiben:
     \[
-        s=E_{\mathrm{CM}}^2,\qquad
-        \Gamma_Z=\SI{2.5}{GeV},\qquad
-        g_e=g_\mu=0.355.
+        \diffxs_R\propto\frac{1}{\sin^4(\theta/2)}.
     \]
-    Der erste Term in $G(s)$ beschreibt den Beitrag über ein virtuelles Photon,
-    der zweite Term den Beitrag über das $Z$-Boson.
-
-    \begin{enumerate}[label=(\alph*)]
-        \item
-            Um welchen Faktor ist der zum $Z$-Boson gehörige Term am Maximum der Resonanz
-            größer als der Beitrag des virtuellen Photons?
-
-            \begin{calculationbox}
-                Am Maximum der Resonanz gilt
-                \[
-                    E_{\mathrm{CM}}=m_Zc^2
-                    \qquad\Longrightarrow\qquad
-                    s=m_Z^2c^4.
-                \]
-                Damit verschwindet im Nenner des $Z$-Terms der Ausdruck
-                $(s-m_Z^2c^4)^2$.
-
-                \begin{calculationbox}
-                    Der Photon-Beitrag in $G(s)$ ist einfach
-                    \[
-                        G_\gamma=1.
-                    \]
-                    Der $Z$-Beitrag am Resonanzmaximum ist
-                    \begin{align*}
-                        G_Z
-                        &=\frac{s^2g_eg_\mu}{m_Z^2c^4\Gamma_Z^2}.
-                    \end{align*}
-                    Da am Maximum $s=m_Z^2c^4$ gilt, wird daraus
-                    \[
-                        G_Z=\frac{s g_eg_\mu}{\Gamma_Z^2}.
-                    \]
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Mit
-                    \[
-                        s=E_{\mathrm{CM}}^2=(\SI{91.2}{GeV})^2
-                    \]
-                    folgt
-                    \begin{align*}
-                        G_Z
-                        &=\frac{(91.2)^2\cdot 0.355\cdot 0.355}{(2.5)^2}\\
-                        &=167.7.
-                    \end{align*}
-                    Der gesuchte Faktor gegenüber dem virtuellen Photon ist daher
-                    \[
-                        \frac{G_Z}{G_\gamma}=167.7.
-                    \]
-                \end{calculationbox}
-            \end{calculationbox}
-
-            \begin{answerbox}
-                Am Resonanzmaximum ist der $Z$-Beitrag etwa
-                \[
-                    \boxed{1.68\cdot 10^2}
-                \]
-                mal größer als der Beitrag des virtuellen Photons.
-            \end{answerbox}
-
-        \item
-            Skizzieren Sie die Winkelabhängigkeit des differentiellen Wirkungsquerschnitts.
-            Vergleichen Sie mit der entsprechenden Abhängigkeit des Rutherfordstreuquerschnitts.
-
-            \begin{calculationbox}
-                Für festes $E_{\mathrm{CM}}$ sind alle Faktoren bis auf den Winkel konstant.
-                Daher ist die Winkelabhängigkeit
-                \[
-                    \frac{\dd\sigma}{\dd\Omega}\propto 1+\cos^2\theta.
-                \]
-
-                \begin{calculationbox}
-                    Die Funktion ist symmetrisch unter
-                    \[
-                        \theta\mapsto \pi-\theta.
-                    \]
-                    Sie ist maximal bei
-                    \[
-                        \theta=0,\pi,
-                    \]
-                    denn dort ist $\cos^2\theta=1$ und damit
-                    \[
-                        1+\cos^2\theta=2.
-                    \]
-                    Sie ist minimal bei
-                    \[
-                        \theta=\frac{\pi}{2},
-                    \]
-                    denn dort ist $\cos^2\theta=0$ und damit
-                    \[
-                        1+\cos^2\theta=1.
-                    \]
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Eine qualitative Skizze ist:
-                    \begin{center}
-                    \begin{tikzpicture}
-                        \begin{axis}[
-                            width=0.82\textwidth,
-                            height=6cm,
-                            xlabel={$\theta$},
-                            ylabel={relative Stärke},
-                            xmin=0, xmax=180,
-                            ymin=0, ymax=2.25,
-                            xtick={0,45,90,135,180},
-                            ytick={0,1,2},
-                            grid=both,
-                            legend pos=south east
-                        ]
-                            \addplot[thick,domain=0:180,samples=200]{1+cos(x)^2};
-                            \addlegendentry{$1+\cos^2\theta$}
-                        \end{axis}
-                    \end{tikzpicture}
-                    \end{center}
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Beim Rutherfordstreuquerschnitt gilt dagegen qualitativ
-                    \[
-                        \frac{\dd\sigma_R}{\dd\Omega}\propto \frac{1}{\sin^4(\theta/2)}.
-                    \]
-                    Diese Winkelabhängigkeit ist stark nach vorne gerichtet und divergiert
-                    für $\theta\to0$. Im Gegensatz dazu ist $1+\cos^2\theta$ überall endlich
-                    und hat nur einen Faktor $2$ zwischen Minimum und Maximum.
-                \end{calculationbox}
-            \end{calculationbox}
-
-            \begin{answerbox}
-                Die Winkelabhängigkeit der $e^+e^-\to \mu^+\mu^-$-Reaktion ist glatt,
-                endlich und vorwärts-rückwärts-symmetrisch:
-                \[
-                    \boxed{\frac{\dd\sigma}{\dd\Omega}\propto 1+\cos^2\theta.}
-                \]
-                Rutherfordstreuung ist dagegen stark vorwärtsdominant und besitzt eine
-                Divergenz für kleine Streuwinkel.
-            \end{answerbox}
-
-        \item
-            Berechnen Sie den totalen Wirkungsquerschnitt $\sigma_{\mathrm{total}}$,
-            indem Sie den differentiellen Wirkungsquerschnitt über den gesamten Raumwinkel integrieren.
-
-            \begin{calculationbox}
-                Der totale Wirkungsquerschnitt ist
-                \[
-                    \sigma_{\mathrm{total}}
-                    =\int \frac{\dd\sigma}{\dd\Omega}\,\dd\Omega.
-                \]
-                Wegen
-                \[
-                    \dd\Omega=\sin\theta\,\dd\theta\,\dd\varphi
-                \]
-                muss über $\varphi\in[0,2\pi]$ und $\theta\in[0,\pi]$ integriert werden.
-
-                \begin{calculationbox}
-                    Einsetzen liefert
-                    \begin{align*}
-                        \sigma_{\mathrm{total}}
-                        &=(\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}
-                        \int_0^{2\pi}\int_0^\pi
-                        (1+\cos^2\theta)\sin\theta\,\dd\theta\,\dd\varphi.
-                    \end{align*}
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Zuerst integrieren wir über $\varphi$:
-                    \[
-                        \int_0^{2\pi}\dd\varphi=2\pi.
-                    \]
-                    Für das $\theta$-Integral setzen wir
-                    \[
-                        u=\cos\theta,
-                        \qquad
-                        \dd u=-\sin\theta\,\dd\theta.
-                    \]
-                    Dann gilt
-                    \begin{align*}
-                        \int_0^\pi (1+\cos^2\theta)\sin\theta\,\dd\theta
-                        &=\int_{1}^{-1}(1+u^2)(-\dd u)\\
-                        &=\int_{-1}^{1}(1+u^2)\,\dd u\\
-                        &=\left[u+\frac{u^3}{3}\right]_{-1}^{1}\\
-                        &=\frac{8}{3}.
-                    \end{align*}
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Insgesamt ist also
-                    \[
-                        \int (1+\cos^2\theta)\,\dd\Omega
-                        =2\pi\cdot\frac{8}{3}=\frac{16\pi}{3}.
-                    \]
-                    Damit folgt
-                    \begin{align*}
-                        \sigma_{\mathrm{total}}
-                        &=(\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}\cdot\frac{16\pi}{3}\\
-                        &=(\hbar c)^2\frac{\alpha^2}{s}G(s)\frac{4\pi}{3}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
-
-            \begin{answerbox}
-                Der totale Wirkungsquerschnitt ist
-                \[
-                    \boxed{
-                    \sigma_{\mathrm{total}}(s)
-                    =(\hbar c)^2\frac{\alpha^2}{s}G(s)\frac{4\pi}{3}.}
-                \]
-            \end{answerbox}
-
-        \item
-            Wie groß ist somit der totale Wirkungsquerschnitt bei $E_{\mathrm{CM}}=m_Zc^2$
-            in Einheiten von Nanobarn? Welchen Radius hätte ein Kreis mit gleicher Fläche?
-            Nutzen Sie $\hbar c=\SI{197}{MeV.fm}$.
-
-            \begin{calculationbox}
-                Wir verwenden
-                \[
-                    \hbar c=\SI{197}{MeV.fm}=\SI{0.197}{GeV.fm},
-                    \qquad
-                    \alpha=\frac{1}{137.036}.
-                \]
-                Aus Teil (a) haben wir am Maximum
-                \[
-                    G(s)=1+167.7=168.7.
-                \]
-
-                \begin{calculationbox}
-                    Bei $E_{\mathrm{CM}}=\SI{91.2}{GeV}$ ist
-                    \[
-                        s=(\SI{91.2}{GeV})^2=\SI{8317.44}{GeV^2}.
-                    \]
-                    Daher
-                    \begin{align*}
-                        \sigma_{\mathrm{total}}
-                        &=(0.197)^2\,\si{fm^2}\frac{(1/137.036)^2}{8317.44}
-                        \cdot168.7\cdot\frac{4\pi}{3}\\
-                        &=1.756\cdot10^{-7}\,\si{fm^2}.
-                    \end{align*}
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Für die Umrechnung benutzen wir
-                    \[
-                        1\,\si{fm^2}=10^{-30}\,\si{m^2},
-                        \qquad
-                        1\,\si{barn}=10^{-28}\,\si{m^2}=100\,\si{fm^2}.
-                    \]
-                    Außerdem gilt
-                    \[
-                        1\,\si{barn}=10^9\,\si{nanobarn}.
-                    \]
-                    Also ist
-                    \[
-                        1\,\si{fm^2}=10^7\,\si{nanobarn}.
-                    \]
-                    Damit
-                    \[
-                        \sigma_{\mathrm{total}}
-                        =1.756\cdot10^{-7}\,\si{fm^2}\cdot10^7\,\frac{\si{nanobarn}}{\si{fm^2}}
-                        =1.756\,\si{nanobarn}.
-                    \]
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Ein Kreis mit gleicher Fläche erfüllt
-                    \[
-                        \sigma_{\mathrm{total}}=\pi r^2.
-                    \]
-                    Also
-                    \begin{align*}
-                        r&=\sqrt{\frac{\sigma_{\mathrm{total}}}{\pi}}\\
-                        &=\sqrt{\frac{1.756\cdot10^{-7}\,\si{fm^2}}{\pi}}\\
-                        &=2.36\cdot10^{-4}\,\si{fm}\\
-                        &=2.36\cdot10^{-19}\,\si{m}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
-
-            \begin{answerbox}
-                Am Resonanzmaximum ergibt sich
-                \[
-                    \boxed{\sigma_{\mathrm{total}}=1.76\,\si{nanobarn}.}
-                \]
-                Ein Kreis mit gleicher Fläche hätte den Radius
-                \[
-                    \boxed{r=2.36\cdot10^{-4}\,\si{fm}=2.36\cdot10^{-19}\,\si{m}.}
-                \]
-            \end{answerbox}
-
-        \item
-            Plotten Sie $\sigma_{\mathrm{total}}$ als Funktion von $E_{\mathrm{CM}}$ im Bereich
-            $50-150\,\si{GeV}$ in linearer Darstellung und im Bereich $10-500\,\si{GeV}$
-            in doppeltlogarithmischer Darstellung.
-
-            \begin{calculationbox}
-                Für die Plots verwenden wir die Formel
-                \[
-                    \sigma_{\mathrm{total}}(E)
-                    =(\hbar c)^2\frac{\alpha^2}{E^2}G(E^2)\frac{4\pi}{3}.
-                \]
-                Dabei wird das Ergebnis in Nanobarn dargestellt. Die verwendete Funktion ist
-                \[
-                    \sigma_{\mathrm{nb}}(E)
-                    =10^7\,(0.197)^2\frac{(1/137.036)^2}{E^2}\frac{4\pi}{3}
-                    \left[1+\frac{E^4\cdot0.355^2}{(E^2-91.2^2)^2+91.2^2\cdot2.5^2}\right].
-                \]
-
-                \begin{calculationbox}
-                    Lineare Darstellung um die Resonanz:
-                    \begin{center}
-                    \begin{tikzpicture}
-                        \begin{axis}[
-                            width=0.86\textwidth,
-                            height=6.5cm,
-                            xlabel={$E_{\mathrm{CM}}$ [GeV]},
-                            ylabel={$\sigma_{\mathrm{total}}$ [nb]},
-                            xmin=50, xmax=150,
-                            ymin=0, ymax=2.0,
-                            grid=both
-                        ]
-                            \addplot[thick,domain=50:150,samples=400]
-                            {1e7*(0.197^2)*(1/137.036)^2/(x^2)*(4*pi/3)*(1 + (x^4*0.355^2)/(((x^2-91.2^2)^2)+(91.2^2*2.5^2)))};
-                        \end{axis}
-                    \end{tikzpicture}
-                    \end{center}
-                \end{calculationbox}
-
-                \begin{calculationbox}
-                    Doppeltlogarithmische Darstellung im größeren Energiebereich:
-                    \begin{center}
-                    \begin{tikzpicture}
-                        \begin{loglogaxis}[
-                            width=0.86\textwidth,
-                            height=6.5cm,
-                            xlabel={$E_{\mathrm{CM}}$ [GeV]},
-                            ylabel={$\sigma_{\mathrm{total}}$ [nb]},
-                            xmin=10, xmax=500,
-                            ymin=1e-4, ymax=3,
-                            grid=both
-                        ]
-                            \addplot[thick,domain=10:500,samples=500]
-                            {1e7*(0.197^2)*(1/137.036)^2/(x^2)*(4*pi/3)*(1 + (x^4*0.355^2)/(((x^2-91.2^2)^2)+(91.2^2*2.5^2)))};
-                        \end{loglogaxis}
-                    \end{tikzpicture}
-                    \end{center}
-                \end{calculationbox}
-            \end{calculationbox}
-
-            \begin{answerbox}
-                Der lineare Plot zeigt den scharfen Resonanzpeak bei
-                \[
-                    E_{\mathrm{CM}}\approx\SI{91.2}{GeV}.
-                \]
-                In der doppeltlogarithmischen Darstellung sieht man zusätzlich den breiteren
-                Verlauf außerhalb der Resonanz.
-            \end{answerbox}
-    \end{enumerate}
-
-    \newpage
-    \paragraph{Aufgabe 2: Solare Neutrinos}
-
-    Die Netto-Reaktion, mit der die Sonne Energie erzeugt, lautet
+    \item Raumwinkelintegration:
     \[
-        4\,{}^1\mathrm{H}\rightarrow{}^4\mathrm{He}+2e^++2e^-+2\nu_e.
+        \int(1+\cos^2\theta)\dd\Omega=\frac{16\pi}{3}.
     \]
-    Berücksichtigt man, dass die entstehenden Positronen mit Elektronen annihilieren,
-    wird pro Netto-Reaktion eine Energie von
+    \item Endergebnisse:
     \[
-        Q=\SI{26.73}{MeV}
+        \sigma_{\mathrm{total}}=(\hbar c)^2\frac{\alpha^2}{s}G(s)\frac{4\pi}{3},
+        \qquad
+        \sigma_{\mathrm{peak}}\approx\SI{1.76}{nb},
+        \qquad
+        r\approx2.36\cdot10^{-4}\,\si{fm}.
     \]
-    frei. Pro Reaktion entstehen zwei Elektron-Neutrinos.
+\end{enumerate}
+\end{talkbox}
 
-    \begin{enumerate}[label=(\alph*)]
-        \item
-            Die Solarkonstante beträgt
-            \[
-                S_0=\SI{1361}{W/m^2}.
-            \]
-            Berechnen Sie daraus den Fluss der Neutrinos im Abstand der Erde.
+\FloatBarrier
+\newpage
 
-            \begin{calculationbox}
-                Die Solarkonstante ist eine Leistung pro Fläche. Daher gibt
-                \[
-                    \frac{S_0}{Q}
-                \]
-                die Anzahl der Fusionsreaktionen pro Sekunde und Quadratmeter an,
-                deren Energiefluss bei der Erde ankommt. Da pro Reaktion zwei Neutrinos
-                entstehen, ist der Neutrinofluss
-                \[
-                    \Phi_\nu=2\frac{S_0}{Q}.
-                \]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 2: Solare Neutrinos}
 
-                \begin{calculationbox}
-                    Zunächst rechnen wir die freiwerdende Energie in Joule um:
-                    \begin{align*}
-                        Q&=\SI{26.73}{MeV}\\
-                        &=26.73\cdot10^6\,\si{eV}\cdot1.602\cdot10^{-19}\,\frac{\si{J}}{\si{eV}}\\
-                        &=4.283\cdot10^{-12}\,\si{J}.
-                    \end{align*}
-                \end{calculationbox}
+\begin{taskbox}
+Die Netto-Reaktion, mit der die Sonne Energie erzeugt, lautet
+\[
+    4\,{}^1\mathrm{H}\to{}^4\mathrm{He}+2e^+ +2e^-+2\nu_e.
+\]
+Die entstehenden Positronen annihilieren mit Elektronen. Dadurch wird bei dieser Netto-Reaktion insgesamt
+\[
+    Q=\SI{26.73}{MeV}
+\]
+frei. Pro Netto-Reaktion entstehen zwei Elektron-Neutrinos. Die Solarkonstante sei
+\[
+    S_0=\SI{1361}{W/m^2}.
+\]
+Weiter gilt für Neutrinos mit typischer Energie $E_\nu=\SI{100}{keV}$ der Wirkungsquerschnitt
+\[
+    \sigma(\nu_eN)\simeq10^{-21}\,\si{barn}.
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item Berechnen Sie den Fluss der Neutrinos im Abstand der Erde.
+    \item Wie viele Neutrinos gehen pro Sekunde durch einen Daumennagel mit Fläche \SI{1}{cm^2}?
+    \item Berechnen Sie die Rate von Reaktionen zwischen Neutrinos und Nukleonen bei einer Person mit \SI{70}{kg}, pro Sekunde und pro Jahr.
+    \item Berechnen Sie, wie viel Energie durch Elektronen im Körper in einem Jahr frei wird, wenn im Mittel die Hälfte der Neutrinoenergie auf die Elektronen übergeht.
+    \item Berechnen Sie daraus die Äquivalentdosis und vergleichen Sie mit der natürlichen jährlichen Strahlenbelastung von ungefähr \SI{1}{mSv/a}.
+\end{enumerate}
+\end{taskbox}
 
-                \begin{calculationbox}
-                    Damit folgt
-                    \begin{align*}
-                        \Phi_\nu
-                        &=2\frac{1361\,\si{J.s^{-1}.m^{-2}}}{4.283\cdot10^{-12}\,\si{J}}\\
-                        &=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+\subsection{Lernteil: Warum sind solare Neutrinos ungefährlich?}
 
-            \begin{answerbox}
-                Der solare Neutrinofluss an der Erde beträgt näherungsweise
-                \[
-                    \boxed{\Phi_\nu=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}.}
-                \]
-            \end{answerbox}
+\begin{learningbox}
+Die Sonne produziert enorme Mengen Neutrinos. Deshalb ist der Neutrinofluss an der Erde sehr groß. Trotzdem wechselwirken Neutrinos extrem selten, weil ihr Wirkungsquerschnitt winzig ist:
+\[
+    \sigma(\nu_eN)\simeq10^{-21}\,\si{barn}=10^{-49}\,\si{m^2}.
+\]
+Die zentrale Abschätzung ist daher
+\[
+    R=\Phi_\nu\sigma N_N.
+\]
+Dabei ist $\Phi_\nu$ der Fluss, $\sigma$ der Wirkungsquerschnitt und $N_N$ die Zahl der Nukleonen im Körper.
+\end{learningbox}
 
-        \item
-            Wie viele Neutrinos gehen pro Sekunde durch Ihren Daumennagel, wenn dessen Fläche
-            \(\SI{1}{cm^2}\) beträgt?
+\subsection{Abgabe: Ausführliche Lösung}
 
-            \begin{calculationbox}
-                Die Fläche ist
-                \[
-                    A=\SI{1}{cm^2}=10^{-4}\,\si{m^2}.
-                \]
-                Die Anzahl pro Sekunde ist
-                \[
-                    \dot N=\Phi_\nu A.
-                \]
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Neutrinofluss an der Erde.}
 
-                \begin{calculationbox}
-                    Einsetzen liefert
-                    \begin{align*}
-                        \dot N
-                        &=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}\cdot10^{-4}\,\si{m^2}\\
-                        &=6.36\cdot10^{10}\,\si{s^{-1}}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+    \begin{calculationbox}
+        Die Solarkonstante ist
+        \[
+            S_0=\SI{1361}{W/m^2}=\SI{1361}{J.s^{-1}.m^{-2}}.
+        \]
+        Pro Netto-Reaktion wird die Energie $Q=\SI{26.73}{MeV}$ frei und es entstehen zwei Neutrinos. Der Neutrinofluss ist daher
+        \[
+            \Phi_\nu=2\frac{S_0}{Q}.
+        \]
+        Zuerst rechnen wir $Q$ in Joule um:
+        \[
+        \begin{aligned}
+            Q
+            &=26.73\cdot10^6\,\si{eV}\cdot1.602\cdot10^{-19}\,\si{J/eV}\\
+            &=4.283\cdot10^{-12}\,\si{J}.
+        \end{aligned}
+        \]
+        Damit
+        \[
+        \begin{aligned}
+            \Phi_\nu
+            &=2\frac{\SI{1361}{J.s^{-1}.m^{-2}}}{4.283\cdot10^{-12}\,\si{J}}\\
+            &=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}.
+        \end{aligned}
+        \]
+    \end{calculationbox}
 
-            \begin{answerbox}
-                Pro Sekunde gehen durch einen Daumennagel mit Fläche \(\SI{1}{cm^2}\) etwa
-                \[
-                    \boxed{6.36\cdot10^{10}}
-                \]
-                solare Neutrinos.
-            \end{answerbox}
+    \begin{answerbox}
+        Der solare Neutrinofluss an der Erde beträgt
+        \[
+            \boxed{\Phi_\nu=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}}.
+        \]
+    \end{answerbox}
 
-        \item
-            Die solaren Neutrinos haben eine typische Energie von \(\SI{100}{keV}\).
-            In diesem Energiebereich sei der Wirkungsquerschnitt für Reaktionen von
-            Neutrinos und Nukleonen
-            \[
-                \sigma(\nu_eN)\simeq10^{-21}\,\si{barn}.
-            \]
-            Berechnen Sie damit die Reaktionsrate bei einer Person mit einer Masse von
-            \(\SI{70}{kg}\), sowohl pro Sekunde als auch pro Jahr.
+    \item \textbf{Neutrinos durch einen Daumennagel.}
 
-            \begin{calculationbox}
-                Die Reaktionsrate ist näherungsweise
-                \[
-                    R=\Phi_\nu\sigma N_N,
-                \]
-                wobei $N_N$ die Anzahl der Nukleonen im Körper ist.
+    \begin{calculationbox}
+        Die Fläche sei
+        \[
+            A=\SI{1}{cm^2}=10^{-4}\,\si{m^2}.
+        \]
+        Die Zahl der Neutrinos pro Sekunde ist
+        \[
+            \dot N=\Phi_\nu A.
+        \]
+        Einsetzen ergibt
+        \[
+            \dot N
+            =6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}\cdot10^{-4}\,\si{m^2}
+            =6.36\cdot10^{10}\,\si{s^{-1}}.
+        \]
+    \end{calculationbox}
 
-                \begin{calculationbox}
-                    Der Wirkungsquerschnitt in SI-Einheiten ist
-                    \[
-                        \sigma=10^{-21}\,\si{barn}
-                        =10^{-21}\cdot10^{-28}\,\si{m^2}
-                        =10^{-49}\,\si{m^2}.
-                    \]
-                \end{calculationbox}
+    \begin{answerbox}
+        Durch einen Daumennagel mit Fläche \SI{1}{cm^2} gehen pro Sekunde ungefähr
+        \[
+            \boxed{6.36\cdot10^{10}}
+        \]
+        solare Neutrinos.
+    \end{answerbox}
 
-                \begin{calculationbox}
-                    Die Nukleonenzahl einer Person mit Masse $m=\SI{70}{kg}$ schätzen wir über
-                    die Protonenmasse ab:
-                    \[
-                        m_N\approx1.673\cdot10^{-27}\,\si{kg}.
-                    \]
-                    Damit
-                    \begin{align*}
-                        N_N&\approx\frac{70}{1.673\cdot10^{-27}}\\
-                        &=4.19\cdot10^{28}.
-                    \end{align*}
-                \end{calculationbox}
+    \item \textbf{Reaktionsrate im Körper.}
 
-                \begin{calculationbox}
-                    Damit ist die Reaktionsrate
-                    \begin{align*}
-                        R&=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}
-                        \cdot10^{-49}\,\si{m^2}\cdot4.19\cdot10^{28}\\
-                        &=2.66\cdot10^{-6}\,\si{s^{-1}}.
-                    \end{align*}
-                    Pro Jahr mit
-                    \[
-                        1\,\si{a}=365.25\cdot24\cdot3600\,\si{s}=3.156\cdot10^7\,\si{s}
-                    \]
-                    folgt
-                    \begin{align*}
-                        N_{\mathrm{Jahr}}&=R\cdot3.156\cdot10^7\\
-                        &=83.9.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+    \begin{calculationbox}
+        Der Wirkungsquerschnitt ist
+        \[
+            \sigma=10^{-21}\,\si{barn}.
+        \]
+        Mit $\SI{1}{barn}=10^{-28}\,\si{m^2}$ folgt
+        \[
+            \sigma=10^{-21}\cdot10^{-28}\,\si{m^2}=10^{-49}\,\si{m^2}.
+        \]
+        Die Zahl der Nukleonen in einer Person mit Masse $m=\SI{70}{kg}$ schätzen wir durch
+        \[
+            N_N\approx\frac{m}{m_N},
+            \qquad
+            m_N\approx1.673\cdot10^{-27}\,\si{kg}.
+        \]
+        Damit
+        \[
+            N_N\approx\frac{70}{1.673\cdot10^{-27}}=4.19\cdot10^{28}.
+        \]
+        Die Reaktionsrate ist
+        \[
+            R=\Phi_\nu\sigma N_N.
+        \]
+        Einsetzen liefert
+        \[
+        \begin{aligned}
+            R
+            &=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}
+              \cdot10^{-49}\,\si{m^2}
+              \cdot4.19\cdot10^{28}\\
+            &=2.66\cdot10^{-6}\,\si{s^{-1}}.
+        \end{aligned}
+        \]
+        Pro Jahr ergibt sich mit $\SI{1}{a}=3.156\cdot10^7\,\si{s}$:
+        \[
+            N_{\mathrm{Jahr}}
+            =R\cdot\SI{1}{a}
+            =2.66\cdot10^{-6}\cdot3.156\cdot10^7
+            =83.9.
+        \]
+    \end{calculationbox}
 
-            \begin{answerbox}
-                Für eine Person mit \(\SI{70}{kg}\) ergibt sich
-                \[
-                    \boxed{R=2.66\cdot10^{-6}\,\si{s^{-1}}.}
-                \]
-                Das entspricht etwa
-                \[
-                    \boxed{84\text{ Reaktionen pro Jahr}.}
-                \]
-            \end{answerbox}
+    \begin{answerbox}
+        Die Rate beträgt
+        \[
+            \boxed{R=2.66\cdot10^{-6}\,\si{s^{-1}}}.
+        \]
+        Das entspricht ungefähr
+        \[
+            \boxed{84\text{ Reaktionen pro Jahr}}.
+        \]
+    \end{answerbox}
 
-        \item
-            Eine solche Reaktion sehe vereinfacht so aus:
-            \[
-                \nu_e+N\rightarrow e^-+N'.
-            \]
-            Das freiwerdende Elektron verursacht Strahlenschäden im menschlichen Gewebe.
-            Berechnen Sie, wie viel Energie durch Elektronen im Körper einer Person in einem Jahr
-            frei wird, wenn im Mittel die Hälfte der Energie der Neutrinos auf die Elektronen übergeht.
+    \item \textbf{Im Körper abgegebene Energie pro Jahr.}
 
-            \begin{calculationbox}
-                Die typische Neutrinoenergie ist
-                \[
-                    E_\nu=\SI{100}{keV}.
-                \]
-                Im Mittel wird davon die Hälfte auf das Elektron übertragen:
-                \[
-                    E_e=\frac{1}{2}E_\nu=\SI{50}{keV}.
-                \]
+    \begin{calculationbox}
+        Die typische Neutrinoenergie ist
+        \[
+            E_\nu=\SI{100}{keV}.
+        \]
+        Im Mittel werde die Hälfte auf das Elektron übertragen:
+        \[
+            E_e=\half E_\nu=\SI{50}{keV}.
+        \]
+        In Joule ist
+        \[
+        \begin{aligned}
+            E_e
+            &=50\cdot10^3\,\si{eV}\cdot1.602\cdot10^{-19}\,\si{J/eV}\\
+            &=8.01\cdot10^{-15}\,\si{J}.
+        \end{aligned}
+        \]
+        Aus Teil (c) wurden ungefähr $83.9$ Ereignisse pro Jahr gefunden. Also
+        \[
+        \begin{aligned}
+            \Delta E_{\mathrm{Jahr}}
+            &=83.9\cdot8.01\cdot10^{-15}\,\si{J}\\
+            &=6.72\cdot10^{-13}\,\si{J}.
+        \end{aligned}
+        \]
+    \end{calculationbox}
 
-                \begin{calculationbox}
-                    In Joule ist das
-                    \begin{align*}
-                        E_e&=50\cdot10^3\,\si{eV}\cdot1.602\cdot10^{-19}\,\frac{\si{J}}{\si{eV}}\\
-                        &=8.01\cdot10^{-15}\,\si{J}.
-                    \end{align*}
-                \end{calculationbox}
+    \begin{answerbox}
+        Durch die Elektronen wird pro Jahr ungefähr
+        \[
+            \boxed{\Delta E_{\mathrm{Jahr}}=6.72\cdot10^{-13}\,\si{J}}
+        \]
+        im Körper abgegeben.
+    \end{answerbox}
 
-                \begin{calculationbox}
-                    Aus Teil (c) hatten wir ungefähr
-                    \[
-                        N_{\mathrm{Jahr}}=83.9
-                    \]
-                    Reaktionen pro Jahr. Daher ist die pro Jahr im Körper abgegebene Energie
-                    \begin{align*}
-                        \Delta E_{\mathrm{Jahr}}
-                        &=N_{\mathrm{Jahr}}E_e\\
-                        &=83.9\cdot8.01\cdot10^{-15}\,\si{J}\\
-                        &=6.72\cdot10^{-13}\,\si{J}.
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+    \item \textbf{Äquivalentdosis und Vergleich.}
 
-            \begin{answerbox}
-                Durch diese Elektronen wird pro Jahr ungefähr die Energie
-                \[
-                    \boxed{\Delta E_{\mathrm{Jahr}}=6.72\cdot10^{-13}\,\si{J}}
-                \]
-                im Körper abgegeben.
-            \end{answerbox}
+    \begin{calculationbox}
+        Für Elektronen gilt der Strahlungswichtungsfaktor
+        \[
+            w_R=1.
+        \]
+        Damit ist die Äquivalentdosis
+        \[
+            H=\frac{\Delta E}{m}w_R.
+        \]
+        Mit $\Delta E=6.72\cdot10^{-13}\,\si{J}$ und $m=\SI{70}{kg}$ folgt
+        \[
+        \begin{aligned}
+            H
+            &=\frac{6.72\cdot10^{-13}\,\si{J}}{\SI{70}{kg}}\\
+            &=9.61\cdot10^{-15}\,\si{J/kg}.
+        \end{aligned}
+        \]
+        Da $\SI{1}{Sv}=\SI{1}{J/kg}$ ist,
+        \[
+            H=9.61\cdot10^{-15}\,\si{Sv/a}.
+        \]
+        In Millisievert:
+        \[
+            H=9.61\cdot10^{-12}\,\si{mSv/a}.
+        \]
+        Verglichen mit einer natürlichen jährlichen Strahlenbelastung von ungefähr $\SI{1}{mSv/a}$ ist
+        \[
+            \frac{H}{\SI{1}{mSv/a}}=9.61\cdot10^{-12}.
+        \]
+    \end{calculationbox}
 
-        \item
-            Die Äquivalentdosis sei
-            \[
-                H_\nu=\left(\frac{\Delta E}{m}\right)w_R,
-            \]
-            wobei für Elektronen $w_R=1$ gilt. Berechnen Sie die jährliche Äquivalentdosis
-            durch solare Neutrinos und vergleichen Sie diese mit der natürlichen Strahlenbelastung
-            im Bereich von \(\SI{1}{mSv/a}\). Dabei gilt \(\SI{1}{Sv}=\SI{1}{J/kg}\).
+    \begin{answerbox}
+        Die jährliche Äquivalentdosis durch solare Neutrinos beträgt
+        \[
+            \boxed{H=9.61\cdot10^{-15}\,\si{Sv/a}=9.61\cdot10^{-12}\,\si{mSv/a}}.
+        \]
+        Das ist ungefähr
+        \[
+            \boxed{10^{11}\text{-mal kleiner}}
+        \]
+        als eine natürliche jährliche Strahlenbelastung von etwa \SI{1}{mSv/a}.
+    \end{answerbox}
+\end{enumerate}
 
-            \begin{calculationbox}
-                Wir verwenden
-                \[
-                    \Delta E=6.72\cdot10^{-13}\,\si{J},
-                    \qquad
-                    m=\SI{70}{kg},
-                    \qquad
-                    w_R=1.
-                \]
-                Damit ist
-                \[
-                    H_\nu=\frac{\Delta E}{m}.
-                \]
+\subsection{Tafelvortrag zu Aufgabe 2}
 
-                \begin{calculationbox}
-                    Einsetzen ergibt
-                    \begin{align*}
-                        H_\nu
-                        &=\frac{6.72\cdot10^{-13}\,\si{J}}{70\,\si{kg}}\\
-                        &=9.61\cdot10^{-15}\,\si{J/kg}\\
-                        &=9.61\cdot10^{-15}\,\si{Sv/a}.
-                    \end{align*}
-                \end{calculationbox}
+\begin{talkbox}
+\textbf{Tafelstruktur in 6 Schritten:}
+\begin{enumerate}
+    \item Energie pro Netto-Reaktion in Joule umrechnen:
+    \[
+        Q=\SI{26.73}{MeV}=4.283\cdot10^{-12}\,\si{J}.
+    \]
+    \item Neutrinofluss aus der Solarkonstante:
+    \[
+        \Phi_\nu=2\frac{S_0}{Q}=6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}.
+    \]
+    \item Durch einen Daumennagel:
+    \[
+        \dot N=\Phi_\nu\cdot10^{-4}\,\si{m^2}=6.36\cdot10^{10}\,\si{s^{-1}}.
+    \]
+    \item Körper als Target aus Nukleonen:
+    \[
+        N_N\approx\frac{70}{1.673\cdot10^{-27}}=4.19\cdot10^{28}.
+    \]
+    \item Reaktionsrate:
+    \[
+        R=\Phi_\nu\sigma N_N=2.66\cdot10^{-6}\,\si{s^{-1}}\approx84\,\si{a^{-1}}.
+    \]
+    \item Dosis:
+    \[
+        \Delta E\approx84\cdot\SI{50}{keV}=6.72\cdot10^{-13}\,\si{J},
+        \qquad
+        H=9.61\cdot10^{-15}\,\si{Sv/a}.
+    \]
+\end{enumerate}
+\end{talkbox}
 
-                \begin{calculationbox}
-                    In Millisievert ist das
-                    \[
-                        H_\nu=9.61\cdot10^{-12}\,\si{mSv/a}.
-                    \]
-                    Verglichen mit
-                    \[
-                        H_{\mathrm{nat}}\sim\SI{1}{mSv/a}
-                    \]
-                    ist der Anteil
-                    \begin{align*}
-                        \frac{H_\nu}{H_{\mathrm{nat}}}
-                        &=\frac{9.61\cdot10^{-12}\,\si{mSv/a}}{1\,\si{mSv/a}}\\
-                        &=9.61\cdot10^{-12}.
-                    \end{align*}
-                    Die Dosis durch solare Neutrinos ist also etwa
-                    \[
-                        \frac{1}{9.61\cdot10^{-12}}\approx1.0\cdot10^{11}
-                    \]
-                    mal kleiner als die natürliche jährliche Strahlenbelastung.
-                \end{calculationbox}
-            \end{calculationbox}
+\FloatBarrier
+\newpage
 
-            \begin{answerbox}
-                Die jährliche Äquivalentdosis durch solare Neutrinos beträgt
-                \[
-                    \boxed{H_\nu=9.61\cdot10^{-15}\,\si{Sv/a}
-                    =9.61\cdot10^{-12}\,\si{mSv/a}.}
-                \]
-                Das ist ungefähr
-                \[
-                    \boxed{10^{11}\text{-mal kleiner}}
-                \]
-                als eine natürliche Strahlenbelastung von etwa \(\SI{1}{mSv/a}\).
-            \end{answerbox}
-    \end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Gesamtzusammenfassung für die Prüfung}
+
+\begin{summarybox}[title={Formeln, die man können sollte}]
+\[
+    G(s)=1+\frac{s^2g_eg_\mu}{\paren{s-m_Z^2c^4}^2+m_Z^2c^4\Gamma_Z^2},
+    \qquad
+    s=E_{\mathrm{CM}}^2.
+\]
+\[
+    \diffxs=(\hbar c)^2\frac{\alpha^2}{s}\frac{G(s)}{4}\paren{1+\cos^2\theta},
+    \qquad
+    \sigma_{\mathrm{total}}=\int\diffxs\dd\Omega.
+\]
+\[
+    \int(1+\cos^2\theta)\dd\Omega=\frac{16\pi}{3},
+    \qquad
+    \sigma_{\mathrm{total}}=(\hbar c)^2\frac{\alpha^2}{s}G(s)\frac{4\pi}{3}.
+\]
+\[
+    \Phi_\nu=2\frac{S_0}{Q},
+    \qquad
+    R=\Phi_\nu\sigma N_N,
+    \qquad
+    H=\frac{\Delta E}{m}w_R.
+\]
+\end{summarybox}
+
+\begin{summarybox}[title=Endergebnisse]
+\begin{itemize}
+    \item $Z$-Beitrag am Resonanzmaximum:
+    \[
+        \frac{G_Z}{G_\gamma}\approx167.7.
+    \]
+    \item Winkelabhängigkeit:
+    \[
+        \diffxs\propto1+\cos^2\theta.
+    \]
+    \item Totaler Wirkungsquerschnitt am Peak:
+    \[
+        \sigma_{\mathrm{total}}\approx\SI{1.76}{nb}.
+    \]
+    \item Kreisradius gleicher Fläche:
+    \[
+        r\approx2.36\cdot10^{-4}\,\si{fm}=2.36\cdot10^{-19}\,\si{m}.
+    \]
+    \item Solarer Neutrinofluss an der Erde:
+    \[
+        \Phi_\nu\approx6.36\cdot10^{14}\,\si{m^{-2}.s^{-1}}.
+    \]
+    \item Neutrinos pro Sekunde durch \SI{1}{cm^2}:
+    \[
+        \dot N\approx6.36\cdot10^{10}\,\si{s^{-1}}.
+    \]
+    \item Reaktionsrate in einer \SI{70}{kg}-Person:
+    \[
+        R\approx2.66\cdot10^{-6}\,\si{s^{-1}}\approx84\,\si{a^{-1}}.
+    \]
+    \item Äquivalentdosis:
+    \[
+        H\approx9.61\cdot10^{-15}\,\si{Sv/a}=9.61\cdot10^{-12}\,\si{mSv/a}.
+    \]
+\end{itemize}
+\end{summarybox}
+
+\begin{warningbox}[title=Typische Fehler]
+\begin{itemize}
+    \item Beim Resonanzmaximum muss $s=m_Z^2c^4$ gesetzt werden, nicht $s=m_Zc^2$.
+    \item In $G(s)$ ist der Photonbeitrag der konstante Term $1$.
+    \item Beim totalen Wirkungsquerschnitt darf das Raumwinkelelement $\dd\Omega=\sin\theta\dd\theta\dd\varphi$ nicht vergessen werden.
+    \item Für die Umrechnung gilt $\SI{1}{fm^2}=10^7\,\si{nb}$.
+    \item Beim Neutrinofluss muss der Faktor $2$ berücksichtigt werden, weil pro Netto-Reaktion zwei Neutrinos entstehen.
+    \item Bei der Reaktionsrate muss der Wirkungsquerschnitt von Barn in Quadratmeter umgerechnet werden: $10^{-21}\,\si{barn}=10^{-49}\,\si{m^2}$.
+\end{itemize}
+\end{warningbox}
 
 \end{document}

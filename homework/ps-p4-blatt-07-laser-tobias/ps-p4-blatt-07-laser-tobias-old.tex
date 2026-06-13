@@ -1,0 +1,640 @@
+% Header: General study / work / project template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{scrartcl}
+
+% Layout
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+
+% General packages
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{icomma}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+
+% Units / tables / floats / references
+\usepackage[locale = DE,space-before-unit=true,per-mode = symbol]{siunitx}
+\usepackage{booktabs,multirow}
+\usepackage{placeins}
+\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage{csquotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% Optional bibliography
+% \addbibresource{references.bib}
+
+% Graphics paths
+\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+
+% Optional math shortcuts
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\half}{\frac{1}{2}}
+
+% Optional units
+\DeclareSIUnit{\year}{a}
+\DeclareSIUnit{\day}{d}
+
+% Box styles
+\newtcolorbox{calculationbox}[1][]{
+    title=Calculation,
+    breakable,
+    #1
+}
+
+\newtcolorbox{solutionbox}[1][]{
+    title=Solution,
+    breakable,
+    #1
+}
+
+\newtcolorbox{answerbox}[1][]{
+    title=Answer,
+    breakable,
+    #1
+}
+
+\newtcolorbox{notebox}[1][]{
+    title=Notes,
+    breakable,
+    #1
+}
+
+\newtcolorbox{sidecalcbox}[1][]{
+    title=Side Calculation,
+    breakable,
+    #1
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    \title{Physik 4 - Blatt 07}
+    \author{Tobias Laser}
+    \date{\today}
+    \maketitle
+    \vfill
+    \thispagestyle{empty}
+    \newpage
+
+    \pagenumbering{arabic}
+
+    \paragraph{Aufgabe 1: Radioaktivität}
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+            In seiner in der Natur vorkommenden Zusammensetzung besteht Uran zu
+            \SI{99.28}{\percent} aus ${}^{238}\mathrm{U}$ mit
+            $t_{1/2}({}^{238}\mathrm{U})=4{,}468\cdot 10^9\,\mathrm{a}$ und zu
+            \SI{0.72}{\percent} aus ${}^{235}\mathrm{U}$ mit
+            $t_{1/2}({}^{235}\mathrm{U})=7{,}038\cdot 10^8\,\mathrm{a}$.
+            Wie alt musste die Materie des Sonnensystems sein, wenn man annimmt,
+            dass bei seiner Entstehung beide Isotope in gleicher Häufigkeit vorhanden waren?
+            Wie interpretieren Sie das Ergebnis?
+
+            \begin{calculationbox}
+                Wir verwenden das radioaktive Zerfallsgesetz
+                \[
+                    N(t)=N(0)e^{-\lambda t}
+                \]
+                mit der Zerfallskonstante
+                \[
+                    \lambda=\frac{\ln 2}{t_{1/2}}.
+                \]
+                Zur Entstehung seien beide Isotope gleich häufig gewesen:
+                \[
+                    N_{238}(0)=N_{235}(0)=N_0.
+                \]
+                Heute gilt daher
+                \begin{align*}
+                    N_{238}(t)&=N_0 e^{-\lambda_{238}t},\\
+                    N_{235}(t)&=N_0 e^{-\lambda_{235}t}.
+                \end{align*}
+                Wir bilden den Quotienten, damit sich $N_0$ herauskürzt:
+                \begin{align*}
+                    \frac{N_{238}(t)}{N_{235}(t)}
+                    &=\frac{N_0e^{-\lambda_{238}t}}{N_0e^{-\lambda_{235}t}}\\
+                    &=e^{(\lambda_{235}-\lambda_{238})t}.
+                \end{align*}
+                Der heutige Quotient ist durch die natürliche Zusammensetzung gegeben:
+                \[
+                    \frac{N_{238}(t)}{N_{235}(t)}=\frac{99{,}28}{0{,}72}=137{,}89.
+                \]
+                Also folgt
+                \begin{align*}
+                    137{,}89&=e^{(\lambda_{235}-\lambda_{238})t},\\
+                    \ln(137{,}89)&=(\lambda_{235}-\lambda_{238})t,\\
+                    t&=\frac{\ln(137{,}89)}{\lambda_{235}-\lambda_{238}}.
+                \end{align*}
+                Nun berechnen wir die Zerfallskonstanten:
+                \begin{align*}
+                    \lambda_{238}
+                    &=\frac{\ln 2}{4{,}468\cdot 10^9\,\mathrm{a}}
+                    =1{,}551\cdot 10^{-10}\,\mathrm{a}^{-1},\\
+                    \lambda_{235}
+                    &=\frac{\ln 2}{7{,}038\cdot 10^8\,\mathrm{a}}
+                    =9{,}849\cdot 10^{-10}\,\mathrm{a}^{-1}.
+                \end{align*}
+                Einsetzen liefert
+                \begin{align*}
+                    t
+                    &=\frac{\ln(137{,}89)}{9{,}849\cdot10^{-10}-1{,}551\cdot10^{-10}}\,\mathrm{a}\\
+                    &=5{,}94\cdot 10^9\,\mathrm{a}.
+                \end{align*}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Unter der Annahme gleicher Anfangshäufigkeit wäre die Materie des Sonnensystems etwa
+                \[
+                    \boxed{t\approx 5{,}94\cdot 10^9\,\mathrm{Jahre}}
+                \]
+                alt.
+
+                Interpretation: Dieses Ergebnis ist größer als das übliche Alter des Sonnensystems.
+                Die Annahme, dass ${}^{238}\mathrm{U}$ und ${}^{235}\mathrm{U}$ bei der Entstehung exakt gleich häufig vorhanden waren,
+                ist also eine starke Modellannahme. Das Ergebnis zeigt vor allem, dass ${}^{235}\mathrm{U}$ wegen seiner kürzeren Halbwertszeit deutlich schneller zerfällt als ${}^{238}\mathrm{U}$.
+            \end{answerbox}
+
+        \item
+            Am Tatort eines Verbrechens wird ein verschlossener Behälter gefunden,
+            in dem sich ${}^{210}\mathrm{Po}$ und \SI{29.62}{\micro\gram} von dessen Tochterelement befinden.
+            Der Inhalt des Behälters hat die Aktivität $A=1{,}56\cdot 10^8\,\mathrm{Bq}$.
+            Schreiben Sie die Zerfallsgleichung für den Alphastrahler ${}^{210}\mathrm{Po}$ hin und berechnen Sie,
+            vor wie vielen Tagen das Polonium hergestellt wurde. Die Halbwertszeit beträgt \SI{138.38}{d}.
+
+            \begin{calculationbox}
+                Beim Alpha-Zerfall wird ein Heliumkern ${}^{4}_{2}\mathrm{He}$ ausgesendet.
+                Dadurch sinkt die Massenzahl um $4$ und die Ordnungszahl um $2$.
+                Für Polonium gilt $Z=84$, also entsteht Blei mit $Z=82$:
+                \[
+                    \boxed{
+                    {}^{210}_{84}\mathrm{Po}\longrightarrow {}^{206}_{82}\mathrm{Pb}+{}^{4}_{2}\mathrm{He}
+                    }
+                \]
+            \end{calculationbox}
+
+            \begin{calculationbox}
+                Die Aktivität des noch vorhandenen Poloniums ist
+                \[
+                    A(t)=\lambda N_{\mathrm{Po}}(t).
+                \]
+                Damit ist
+                \[
+                    N_{\mathrm{Po}}(t)=\frac{A(t)}{\lambda}.
+                \]
+                Die Zerfallskonstante ist
+                \begin{align*}
+                    \lambda
+                    &=\frac{\ln 2}{t_{1/2}}
+                    =\frac{\ln 2}{138{,}38\cdot 24\cdot 3600\,\mathrm{s}}\\
+                    &=5{,}798\cdot10^{-8}\,\mathrm{s}^{-1}.
+                \end{align*}
+                Also sind aktuell noch
+                \begin{align*}
+                    N_{\mathrm{Po}}(t)
+                    &=\frac{1{,}56\cdot10^8\,\mathrm{s}^{-1}}{5{,}798\cdot10^{-8}\,\mathrm{s}^{-1}}\\
+                    &=2{,}69\cdot10^{15}
+                \end{align*}
+                Poloniumkerne vorhanden.
+            \end{calculationbox}
+
+            \begin{calculationbox}
+                Das Tochterelement ist ${}^{206}\mathrm{Pb}$. Aus der Masse des Bleis berechnen wir die Anzahl der Bleikerne:
+                \[
+                    N_{\mathrm{Pb}}=\frac{m_{\mathrm{Pb}}}{M_{\mathrm{Pb}}}N_A.
+                \]
+                Mit
+                \[
+                    m_{\mathrm{Pb}}=29{,}62\cdot10^{-6}\,\mathrm{g},
+                    \qquad
+                    M_{\mathrm{Pb}}\approx 206\,\mathrm{g/mol}
+                \]
+                folgt
+                \begin{align*}
+                    N_{\mathrm{Pb}}
+                    &=\frac{29{,}62\cdot10^{-6}\,\mathrm{g}}{206\,\mathrm{g/mol}}
+                    \cdot 6{,}022\cdot10^{23}\,\mathrm{mol}^{-1}\\
+                    &=8{,}66\cdot10^{16}.
+                \end{align*}
+            \end{calculationbox}
+
+            \begin{calculationbox}
+                Da der Behälter verschlossen war und wir annehmen, dass am Anfang nur Polonium vorhanden war, gilt:
+                \[
+                    N_0=N_{\mathrm{Po}}(t)+N_{\mathrm{Pb}}(t).
+                \]
+                Außerdem gilt
+                \[
+                    N_{\mathrm{Po}}(t)=N_0e^{-\lambda t}.
+                \]
+                Damit
+                \begin{align*}
+                    \frac{N_{\mathrm{Po}}(t)}{N_0}&=e^{-\lambda t},\\
+                    \frac{N_{\mathrm{Po}}(t)}{N_{\mathrm{Po}}(t)+N_{\mathrm{Pb}}(t)}&=e^{-\lambda t}.
+                \end{align*}
+                Logarithmieren und nach $t$ auflösen:
+                \begin{align*}
+                    t
+                    &=-\frac{1}{\lambda}
+                    \ln\left(
+                    \frac{N_{\mathrm{Po}}(t)}{N_{\mathrm{Po}}(t)+N_{\mathrm{Pb}}(t)}
+                    \right)\\
+                    &=-\frac{1}{5{,}798\cdot10^{-8}\,\mathrm{s}^{-1}}
+                    \ln\left(
+                    \frac{2{,}69\cdot10^{15}}{2{,}69\cdot10^{15}+8{,}66\cdot10^{16}}
+                    \right)\\
+                    &=6{,}04\cdot10^7\,\mathrm{s}\\
+                    &=699\,\mathrm{d}.
+                \end{align*}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Das Polonium wurde vor ungefähr
+                \[
+                    \boxed{699\,\mathrm{Tagen}}
+                \]
+                hergestellt. Das entspricht ungefähr \SI{1.91}{Jahren}.
+            \end{answerbox}
+    \end{enumerate}
+
+    \newpage
+    \paragraph{Aufgabe 2: Kettenzerfälle -- Theorie}
+
+    Ein Radionuklid $X_1$ mit Zerfallskonstante $\lambda_1$ zerfällt in die Tochtersubstanz $X_2$.
+    Diese zerfällt mit Zerfallskonstante $\lambda_2$ weiter in das stabile Nuklid $X_3$.
+
+    \begin{enumerate}[label=(\alph*)]
+        \item
+            Formulieren Sie die Differentialgleichungen für die Anzahl $N_1(t)$ und $N_2(t)$ der Kerne $X_1$ und $X_2$.
+            Lösen Sie beide Differentialgleichungen unter der Annahme, dass zur Zeit $t=0$ nur $N_0$ Kerne $X_1$ vorhanden sind.
+
+            \begin{calculationbox}
+                Die Zerfallskette lautet
+                \[
+                    X_1 \xrightarrow{\lambda_1} X_2 \xrightarrow{\lambda_2} X_3.
+                \]
+                Für $X_1$ gibt es nur Zerfall, aber keine Produktion. Daher gilt
+                \[
+                    \frac{dN_1}{dt}=-\lambda_1N_1.
+                \]
+                Für $X_2$ gibt es zwei Beiträge:
+                \begin{itemize}
+                    \item Produktion durch Zerfall von $X_1$: $+\lambda_1N_1$,
+                    \item Verlust durch Zerfall von $X_2$: $-\lambda_2N_2$.
+                \end{itemize}
+                Also gilt
+                \[
+                    \frac{dN_2}{dt}=\lambda_1N_1-\lambda_2N_2.
+                \]
+                Die Anfangsbedingungen sind
+                \[
+                    N_1(0)=N_0,
+                    \qquad
+                    N_2(0)=0,
+                    \qquad
+                    N_3(0)=0.
+                \]
+            \end{calculationbox}
+
+            \begin{calculationbox}
+                Zuerst lösen wir die Gleichung für $N_1$:
+                \begin{align*}
+                    \frac{dN_1}{dt}&=-\lambda_1N_1,\\
+                    \frac{dN_1}{N_1}&=-\lambda_1dt.
+                \end{align*}
+                Integration liefert
+                \[
+                    \ln N_1=-\lambda_1t+C.
+                \]
+                Exponentieren ergibt
+                \[
+                    N_1(t)=Ce^{-\lambda_1t}.
+                \]
+                Mit $N_1(0)=N_0$ folgt $C=N_0$. Also
+                \[
+                    \boxed{N_1(t)=N_0e^{-\lambda_1t}.}
+                \]
+            \end{calculationbox}
+
+            \begin{calculationbox}
+                Jetzt setzen wir $N_1(t)$ in die Differentialgleichung für $N_2$ ein:
+                \[
+                    \frac{dN_2}{dt}=\lambda_1N_0e^{-\lambda_1t}-\lambda_2N_2.
+                \]
+                Wir bringen die Gleichung in Standardform:
+                \[
+                    \frac{dN_2}{dt}+\lambda_2N_2=\lambda_1N_0e^{-\lambda_1t}.
+                \]
+                Das ist eine lineare Differentialgleichung erster Ordnung.
+                Der integrierende Faktor ist
+                \[
+                    \mu(t)=e^{\lambda_2t}.
+                \]
+                Multiplikation mit $e^{\lambda_2t}$ ergibt
+                \begin{align*}
+                    e^{\lambda_2t}\frac{dN_2}{dt}+\lambda_2e^{\lambda_2t}N_2
+                    &=\lambda_1N_0e^{(\lambda_2-\lambda_1)t},\\
+                    \frac{d}{dt}\left(e^{\lambda_2t}N_2(t)\right)
+                    &=\lambda_1N_0e^{(\lambda_2-\lambda_1)t}.
+                \end{align*}
+                Nun integrieren wir von $0$ bis $t$:
+                \begin{align*}
+                    e^{\lambda_2t}N_2(t)-N_2(0)
+                    &=\lambda_1N_0\int_0^t e^{(\lambda_2-\lambda_1)t'}\,dt'.
+                \end{align*}
+                Wegen $N_2(0)=0$ folgt für $\lambda_1\neq\lambda_2$:
+                \begin{align*}
+                    e^{\lambda_2t}N_2(t)
+                    &=\lambda_1N_0
+                    \left[\frac{e^{(\lambda_2-\lambda_1)t'} }{\lambda_2-\lambda_1}\right]_0^t\\
+                    &=\frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{(\lambda_2-\lambda_1)t}-1\right).
+                \end{align*}
+                Multiplikation mit $e^{-\lambda_2t}$ liefert
+                \begin{align*}
+                    N_2(t)
+                    &=\frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{-\lambda_1t}-e^{-\lambda_2t}\right).
+                \end{align*}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Für $\lambda_1\neq\lambda_2$ gilt
+                \[
+                    \boxed{N_1(t)=N_0e^{-\lambda_1t}}
+                \]
+                und
+                \[
+                    \boxed{
+                    N_2(t)=\frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{-\lambda_1t}-e^{-\lambda_2t}\right).
+                    }
+                \]
+            \end{answerbox}
+
+        \item
+            Bestimmen Sie nun die Anzahl $N_3(t)$.
+
+            \begin{calculationbox}
+                Da $X_3$ stabil ist, verschwinden keine $X_3$-Kerne mehr.
+                Außerdem geht jeder ursprüngliche $X_1$-Kern entweder noch als $X_1$, als $X_2$ oder schon als $X_3$ vor.
+                Daher gilt die Erhaltung der Gesamtzahl der Kerne:
+                \[
+                    N_1(t)+N_2(t)+N_3(t)=N_0.
+                \]
+                Also
+                \[
+                    N_3(t)=N_0-N_1(t)-N_2(t).
+                \]
+                Einsetzen der Ergebnisse aus Teil (a) liefert
+                \begin{align*}
+                    N_3(t)
+                    &=N_0-N_0e^{-\lambda_1t}
+                    -\frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{-\lambda_1t}-e^{-\lambda_2t}\right).
+                \end{align*}
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Für $\lambda_1\neq\lambda_2$ ist
+                \[
+                    \boxed{
+                    N_3(t)=N_0-N_0e^{-\lambda_1t}
+                    -\frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{-\lambda_1t}-e^{-\lambda_2t}\right).
+                    }
+                \]
+                Äquivalent kann man schreiben:
+                \[
+                    \boxed{
+                    N_3(t)=N_0\left[1+
+                    \frac{\lambda_1e^{-\lambda_2t}-\lambda_2e^{-\lambda_1t}}
+                    {\lambda_2-\lambda_1}
+                    \right].
+                    }
+                \]
+            \end{answerbox}
+
+        \item
+            Was folgt für $N_2(t)$ im Sonderfall, dass $\lambda_1=\lambda_2$ ist?
+
+            \begin{calculationbox}
+                Ausgangspunkt ist
+                \[
+                    N_2(t)=\frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{-\lambda_1t}-e^{-\lambda_2t}\right).
+                \]
+                Wir setzen
+                \[
+                    \lambda_1=\lambda,
+                    \qquad
+                    \lambda_2\to\lambda.
+                \]
+                Dann erhalten wir formal den Ausdruck
+                \[
+                    N_2(t)=\lambda N_0
+                    \frac{e^{-\lambda t}-e^{-\lambda_2t}}{\lambda_2-
+                    \lambda}.
+                \]
+                Für $\lambda_2\to\lambda$ entsteht ein Ausdruck vom Typ $0/0$.
+                Daher verwenden wir die Regel von l'Hospital:
+                \begin{align*}
+                    \lim_{\lambda_2\to\lambda}
+                    \frac{e^{-\lambda t}-e^{-\lambda_2t}}{\lambda_2-
+                    \lambda}
+                    &=\lim_{\lambda_2\to\lambda}
+                    \frac{\frac{d}{d\lambda_2}\left(e^{-\lambda t}-e^{-\lambda_2t}\right)}
+                    {\frac{d}{d\lambda_2}\left(\lambda_2-\lambda\right)}\\
+                    &=\lim_{\lambda_2\to\lambda}
+                    \frac{t e^{-\lambda_2t}}{1}\\
+                    &=t e^{-\lambda t}.
+                \end{align*}
+                Damit folgt
+                \[
+                    N_2(t)=\lambda N_0 t e^{-\lambda t}.
+                \]
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Im Sonderfall $\lambda_1=\lambda_2=\lambda$ gilt
+                \[
+                    \boxed{N_2(t)=N_0\lambda t e^{-\lambda t}.}
+                \]
+            \end{answerbox}
+
+        \item
+            Zeichnen Sie Diagramme der Aktivitäten in Einheiten von $\lambda_1N_0$ für die beiden Fälle
+            $\lambda_2=\lambda_1/5$ und $\lambda_2=5\lambda_1$ im Bereich $\lambda_1t=0\ldots5$.
+            Stellen Sie diese Diagramme sowohl mit logarithmischer als auch linearer $y$-Achse dar.
+
+            \begin{calculationbox}
+                Die Aktivität eines Radionuklids ist allgemein
+                \[
+                    A_i(t)=\lambda_iN_i(t).
+                \]
+                Wir führen die dimensionslose Variable
+                \[
+                    x=\lambda_1t
+                \]
+                und das Verhältnis
+                \[
+                    \mu=\frac{\lambda_2}{\lambda_1}
+                \]
+                ein. Dann gilt
+                \[
+                    \frac{A_1}{\lambda_1N_0}=e^{-x}.
+                \]
+                Für $A_2$ gilt
+                \begin{align*}
+                    \frac{A_2}{\lambda_1N_0}
+                    &=\frac{\lambda_2N_2}{\lambda_1N_0}\\
+                    &=\frac{\lambda_2}{\lambda_1N_0}
+                    \frac{\lambda_1N_0}{\lambda_2-\lambda_1}
+                    \left(e^{-\lambda_1t}-e^{-\lambda_2t}\right)\\
+                    &=\frac{\mu}{\mu-1}\left(e^{-x}-e^{-\mu x}\right).
+                \end{align*}
+                Das stabile Nuklid $X_3$ hat keine Aktivität, weil es nicht weiter zerfällt:
+                \[
+                    A_3=0.
+                \]
+            \end{calculationbox}
+
+            \begin{answerbox}
+                Die zu zeichnenden dimensionslosen Funktionen sind
+                \[
+                    \boxed{\frac{A_1}{\lambda_1N_0}=e^{-x}}
+                \]
+                und
+                \[
+                    \boxed{\frac{A_2}{\lambda_1N_0}=\frac{\mu}{\mu-1}\left(e^{-x}-e^{-\mu x}\right),
+                    \qquad x=\lambda_1t,
+                    \qquad \mu=\frac{\lambda_2}{\lambda_1}.}
+                \]
+                Für die zwei Fälle ist also
+                \[
+                    \mu=\frac15
+                    \qquad\text{oder}\qquad
+                    \mu=5.
+                \]
+            \end{answerbox}
+
+            \begin{figure}[h]
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        width=0.88\textwidth,
+                        height=0.48\textwidth,
+                        xmin=0,xmax=5,
+                        ymin=0,ymax=1.05,
+                        xlabel={$x=\lambda_1t$},
+                        ylabel={$A/(\lambda_1N_0)$},
+                        legend pos=north east,
+                        grid=both,
+                        title={Linear: $\lambda_2=\lambda_1/5$}
+                    ]
+                    \addplot[domain=0:5,samples=200,thick] {exp(-x)};
+                    \addlegendentry{$A_1$}
+                    \addplot[domain=0:5,samples=200,thick,dashed] {(0.2/(0.2-1))*(exp(-x)-exp(-0.2*x))};
+                    \addlegendentry{$A_2$}
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{Aktivitäten für $\lambda_2=\lambda_1/5$ mit linearer $y$-Achse.}
+            \end{figure}
+
+            \begin{figure}[h]
+                \centering
+                \begin{tikzpicture}
+                    \begin{semilogyaxis}[
+                        width=0.88\textwidth,
+                        height=0.48\textwidth,
+                        xmin=0,xmax=5,
+                        ymin=1e-3,ymax=1.05,
+                        xlabel={$x=\lambda_1t$},
+                        ylabel={$A/(\lambda_1N_0)$},
+                        legend pos=north east,
+                        grid=both,
+                        title={Logarithmisch: $\lambda_2=\lambda_1/5$}
+                    ]
+                    \addplot[domain=0:5,samples=200,thick] {exp(-x)};
+                    \addlegendentry{$A_1$}
+                    \addplot[domain=0.001:5,samples=200,thick,dashed] {(0.2/(0.2-1))*(exp(-x)-exp(-0.2*x))};
+                    \addlegendentry{$A_2$}
+                    \end{semilogyaxis}
+                \end{tikzpicture}
+                \caption{Aktivitäten für $\lambda_2=\lambda_1/5$ mit logarithmischer $y$-Achse.}
+            \end{figure}
+
+            \begin{figure}[h]
+                \centering
+                \begin{tikzpicture}
+                    \begin{axis}[
+                        width=0.88\textwidth,
+                        height=0.48\textwidth,
+                        xmin=0,xmax=5,
+                        ymin=0,ymax=1.05,
+                        xlabel={$x=\lambda_1t$},
+                        ylabel={$A/(\lambda_1N_0)$},
+                        legend pos=north east,
+                        grid=both,
+                        title={Linear: $\lambda_2=5\lambda_1$}
+                    ]
+                    \addplot[domain=0:5,samples=200,thick] {exp(-x)};
+                    \addlegendentry{$A_1$}
+                    \addplot[domain=0:5,samples=200,thick,dashed] {(5/(5-1))*(exp(-x)-exp(-5*x))};
+                    \addlegendentry{$A_2$}
+                    \end{axis}
+                \end{tikzpicture}
+                \caption{Aktivitäten für $\lambda_2=5\lambda_1$ mit linearer $y$-Achse.}
+            \end{figure}
+
+            \begin{figure}[h]
+                \centering
+                \begin{tikzpicture}
+                    \begin{semilogyaxis}[
+                        width=0.88\textwidth,
+                        height=0.48\textwidth,
+                        xmin=0,xmax=5,
+                        ymin=1e-3,ymax=1.05,
+                        xlabel={$x=\lambda_1t$},
+                        ylabel={$A/(\lambda_1N_0)$},
+                        legend pos=north east,
+                        grid=both,
+                        title={Logarithmisch: $\lambda_2=5\lambda_1$}
+                    ]
+                    \addplot[domain=0:5,samples=200,thick] {exp(-x)};
+                    \addlegendentry{$A_1$}
+                    \addplot[domain=0.001:5,samples=200,thick,dashed] {(5/(5-1))*(exp(-x)-exp(-5*x))};
+                    \addlegendentry{$A_2$}
+                    \end{semilogyaxis}
+                \end{tikzpicture}
+                \caption{Aktivitäten für $\lambda_2=5\lambda_1$ mit logarithmischer $y$-Achse.}
+            \end{figure}
+
+            \begin{notebox}
+                Tafelinterpretation:
+                \begin{itemize}
+                    \item $A_1$ fällt immer exponentiell ab, weil $X_1$ nur zerfällt.
+                    \item $A_2$ startet bei $0$, weil am Anfang kein $X_2$ vorhanden ist.
+                    \item Danach steigt $A_2$ zuerst an, weil $X_2$ aus $X_1$ produziert wird.
+                    \item Später fällt $A_2$ wieder ab, weil die Produktion aus $X_1$ schwächer wird und $X_2$ selbst weiter zerfällt.
+                    \item Für $\lambda_2=5\lambda_1$ zerfällt die Tochter schnell; deshalb erreicht $A_2$ rasch ein Maximum.
+                    \item Für $\lambda_2=\lambda_1/5$ zerfällt die Tochter langsam; deshalb baut sich $A_2$ langsamer auf und bleibt länger relevant.
+                \end{itemize}
+            \end{notebox}
+
+    \end{enumerate}
+
+\end{document}

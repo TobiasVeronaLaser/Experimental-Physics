@@ -1,405 +1,865 @@
-% Header: General study / work / project template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physik IV - Blatt 06 Lernfassung / Abgabe / Tafelvortrag
+% Standalone university LaTeX template -- one-file version
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[11pt,a4paper]{scrartcl}
 
-% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{COURSE NAME}
+\newcommand{\CourseShortTitle}{COURSE SHORT NAME}
+\newcommand{\DocumentKind}{DOCUMENT KIND}
+\newcommand{\DocumentTitle}{DOCUMENT TITLE}
+\newcommand{\DocumentSubtitle}{}
+\newcommand{\AuthorName}{YOUR NAME}
+\newcommand{\InstitutionName}{INSTITUTION NAME}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document metadata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\CourseTitle}{Physik IV: Kerne und Teilchen}
+\renewcommand{\CourseShortTitle}{Physik IV}
+\renewcommand{\DocumentKind}{Hausaufgabe, Tafelvortrag und Lernfassung}
+\renewcommand{\DocumentTitle}{Aufgabenblatt 6}
+\renewcommand{\DocumentSubtitle}{Spin-Bahn-Wechselwirkung und Schalenmodell}
+\renewcommand{\AuthorName}{Tobias Laser}
+\renewcommand{\InstitutionName}{Universit\"at Innsbruck}
+\renewcommand{\SubmissionDate}{28. April 2026}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
 
-% General packages
-\usepackage{graphicx}
-\usepackage{enumitem}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
-\usepackage{amsmath,amsthm,amssymb,mathtools}
-\usepackage{icomma}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-
-% Language: choose one
-% \usepackage[ngerman]{babel}
-\usepackage[english]{babel}
-
-% Units / tables / floats / references
-\usepackage[locale = UK,space-before-unit=true,per-mode = symbol]{siunitx}
-\usepackage{booktabs,multirow}
-\usepackage{placeins}
-\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{csquotes}
 
-% Optional bibliography
-% \addbibresource{references.bib}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
 
-% Graphics paths
-\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
-% Optional math shortcuts
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
 \newcommand{\set}[1]{\left\{ #1 \right\}}
 \newcommand{\abs}[1]{\left| #1 \right|}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
 \newcommand{\ol}[1]{\overline{#1}}
 
-% Optional units
-\DeclareSIUnit{\dBm}{dBm}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
 
-% Box styles
-\newtcolorbox{calculationbox}[1][]{
-    title=Calculation,
-    breakable,
-    #1
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
+
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\mup}{\mu^+}
+\newcommand{\mum}{\mu^-}
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_\mu}
+\newcommand{\nutau}{\nu_\tau}
+\newcommand{\pionp}{\pi^+}
+\newcommand{\pionm}{\pi^-}
+\newcommand{\pionz}{\pi^0}
+\newcommand{\kaonp}{K^+}
+\newcommand{\kaonm}{K^-}
+\newcommand{\kaonz}{K^0}
+
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\totalxs}{\sigma_{\mathrm{total}}}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\tmand}{t}
+\newcommand{\umand}{u}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
+
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bez\"uglich}
+
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
+\DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
+\DeclareSIUnit{\year}{a}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
 }
 
-\newtcolorbox{solutionbox}[1][]{
-    title=Solution,
-    breakable,
-    #1
-}
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=L\"osung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{talkbox}[1][]{unibox,title=Tafelvortrag,colback=teal!3,colframe=teal!50!black,#1}
+\newtcolorbox{learningbox}[1][]{unibox,title=Lernidee,colback=purple!3,colframe=purple!50!black,#1}
 
-\newtcolorbox{answerbox}[1][]{
-    title=Answer,
-    breakable,
-    #1
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
 
-\newtcolorbox{notebox}[1][]{
-    title=Notes,
-    breakable,
-    #1
-}
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
 
-\newtcolorbox{sidecalcbox}[1][]{
-    title=Side Calculation,
-    breakable,
-    #1
-}
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-    \title{Physik 4 - Blatt 06}
-    \author{Tobias Laser}
-    \date{\today}
-    \maketitle
-    \vfill
-    \thispagestyle{empty}
+\makeuniversitytitle
+\tableofcontents
+\newpage
 
-    \pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Einordnung des Blattes}
+\addcontentsline{toc}{section}{Einordnung des Blattes}
 
-    \paragraph{Aufgabe 1: Spin-Bahn-Wechselwirkung}
+\begin{summarybox}[title=Ziel dieses Blattes]
+Dieses Blatt verbindet zwei Kernideen des nuklearen Schalenmodells:
+\begin{itemize}
+    \item Die \textbf{Spin-Bahn-Wechselwirkung} spaltet ein Niveau mit Bahndrehimpuls $l$ in zwei Niveaus mit $j=l\pm \half$ auf.
+    \item Aus \textbf{Bindungsenergien} benachbarter Kerne kann man Einteilchenenergien bzw. Schalenabst\"ande absch\"atzen.
+\end{itemize}
+Der wichtigste konzeptionelle Punkt ist: In der Kernphysik liegt das Niveau mit $j=l+\half$ experimentell tiefer als das Niveau mit $j=l-\half$. Das ist f\"ur die Entstehung der magischen Zahlen entscheidend.
+\end{summarybox}
 
-    Wie in der Vorlesung bereits besprochen wurde, hat die Spin-Bahn-Wechselwirkung in der Kerphysik einen großen Einfluss auf die Aufspaltung von Energieniveaus. Der entsprechende Korrekturterm ist dabei gegeben durch
-    \begin{align*}
-        V_{ls}(r,l,s) = V_{ls}(r) \cdot (l \cdot s)
-    \end{align*}
-    Im Folgenden wollen wir dabei die explizite Form von $V_{sl}(r)$ vernachlässigen. Für die Beeinflussung von Zuständen im Schalenmodell ist vor allem der Term $(l \cdot s)$ entscheidend. Analog zur Atomphysik macht es hier Sinn unter dem Einfluss der Spin-Bahn-Wechselwirkung jedem Zustand einen Gesamtdrehimpuls $j = 1 + s$ zuzuordnen.
-    \begin{enumerate}
-        \item 
-            Zeigen Sie mit Hilfe der Definition von $j$
-            \begin{align*}
-                l \cdot s = \frac{1}{2}(j^2 - l^2 - s^2)
-            \end{align*}
-            \begin{calculationbox}
-                Gegeben ist der Gesamtdrehimpuls
-                \begin{calculationbox}
-                    $\vec{j} = \vec{k} + \vec{s}$.
-                \end{calculationbox}
-                Wir wollen daraus einen Ausdruck für $\vec{l} \cdot \vec{s}$ bekommen. Dafür quadrieren wir beide Seiten:
-                \begin{calculationbox}
-                    $\vec{j}^2 = (\vec{l}^2 + \vec{s}^2)^2$.
-                \end{calculationbox}
-                Jetzt multiplizieren wir die Klammer aus. 
-                \begin{calculationbox}
-                    $(\vec{l} + \vec{s})^2 = \vec{l}^2 + 2\vec{l}\cdot \vec{s} + \vec{s}^2$.
-                \end{calculationbox}
-                Damit gilt:
-                \begin{calculationbox}
-                    $\vec{j}^2 = \vec{l}^2 + 2 \vec{l} \cdot \vec{s} + \vec{s}^2$.
-                \end{calculationbox}
-                Stellen nach $\vec{l} \cdot \vec{s}$ um. 
-                \begin{calculationbox}
-                    $\vec{l} \cdot \vec{s} = \frac{1}{2}(\vec{j}^2 - \vec{l}^2 - \vec{s}^2)$
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{notebox}[title=Benutzte Konstanten und Konventionen]
+\[
+    \alpha \hbar c \approx \SI{1.440}{MeV.fm},
+    \qquad
+    R_0 \approx \SI{1.2}{fm}.
+\]
+Wenn nicht anders angegeben, werden Drehimpulse in Einheiten von $\hbar$ geschrieben. Dann gilt z.\,B. $\avg{\vect{j}^{\,2}}=j(j+1)$ statt $\hbar^2 j(j+1)$.
+\end{notebox}
 
-        \item
-            Betrachten Sie im Folgenden die $1d$-Schale. Welchen Bahndrehimpuls $l$ besitzt diese? In welche Werte von $j$ wird sie durch die Spin-Bahn-Wechselwirkung aufgespalten?
-            \begin{calculationbox}
-                Wir betrachten die $1d$-Schale.
+\FloatBarrier
+\newpage
 
-                Die Bezeichnung besteht aus zwei Teilen:
-                \begin{calculationbox}
-                    $1d$
-                \end{calculationbox}
-                Die Zahl $1$ beschreibt hier die radiale Schale. Für den Bahndrehimpuls ist aber der Buchstabe wichtig. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 1: Spin-Bahn-Wechselwirkung}
 
-                Für die Buchstaben gilt:
-                \begin{calculationbox}
-                    \begin{align*}
-                        s \to l = 0\\
-                        p \to l = 1\\
-                        d \to l = 2\\
-                        f \to l = 3\\
-                    \end{align*}
-                \end{calculationbox}
-                Also hat die $1d$-Schale den Bahndrehimpuls
-                \begin{calculationbox}
-                    $l = 2$
-                \end{calculationbox}
-                Jetzt kommt der Spin des Nukleons dazu. Protonen und Neutronen haben Spin
-                \begin{calculationbox}
-                    $s = \frac{1}{2}$
-                \end{calculationbox}
-                Der Gesamtdrehimpuls insgesamt
-                \begin{calculationbox}
-                    $\vec{j} = \vec{l} + \vec{s}$
-                \end{calculationbox}
-                Für die möglichen Werte von $j$ gilt bei Kopplung von $l$ und $s$:
-                \begin{calculationbox}
-                    $j = l \pm s$
-                \end{calculationbox}
-                Da $s = \frac{1}{2}$, bekommen wir 
-                \begin{calculationbox}
-                    $j = l + \frac{1}{2}$ und $j = l - \frac{1}{2}$
-                \end{calculationbox}
-                Jetzt setzen wir $l = 2$ ein:
-                \begin{calculationbox}
-                    \begin{align*}
-                        j &= 2 + \frac{1}{2} = \frac{5}{2}\\
-                        j &= 2 - \frac{1}{2} = \frac{3}{2}\\
-                    \end{align*}
-                \end{calculationbox}
-                Damit spaltet die $1d$ Schale durch die Spin-Bahn-Wechselwirkung in zei Unterschalen auf:
-                \begin{calculationbox}
-                    $1d_{\frac{5}{2}}$ und $1d_{\frac{3}{2}}$ bzw. $l = 2$, $j = \frac{5}{2}, \frac{3}{2}$ 
-                \end{calculationbox}
-            \end{calculationbox}
+\begin{taskbox}
+Gegeben ist der Korrekturterm der Spin-Bahn-Wechselwirkung
+\[
+    V_{ls}(r,\vect{l},\vect{s}) = V_{ls}(r)\,\paren{\vect{l}\cdot\vect{s}}.
+\]
+Die explizite radiale Form von $V_{ls}(r)$ soll nicht verwendet werden. Entscheidend ist nur der Operator $\vect{l}\cdot\vect{s}$.
+\begin{enumerate}[label=(\alph*)]
+    \item Zeigen Sie mit Hilfe von $\vect{j}=\vect{l}+\vect{s}$:
+    \[
+        \vect{l}\cdot\vect{s}
+        = \half \paren{\vect{j}^{\,2}-\vect{l}^{\,2}-\vect{s}^{\,2}}.
+    \]
+    \item Betrachten Sie die $1d$-Schale. Welchen Bahndrehimpuls $l$ besitzt diese? In welche Werte von $j$ wird sie aufgespalten?
+    \item Berechnen Sie $\avg{\vect{l}\cdot\vect{s}}$ f\"ur beide Unterschalen der $1d$-Schale und geben Sie die Energiedifferenz in Abh\"angigkeit von $V_{ls}(r)$ an.
+\end{enumerate}
+\end{taskbox}
 
-        \item 
-            Berechnen Sie den Erwartungswert $\left< l \cdot s\right>$ für beide Unterschalen der $1d$-Schale. Geben Sie anschließend die Energiedifferenz der beiden in Abhängigkeit von $V_{ls}(r)$ an.
+\subsection{Lernteil: Was bedeutet Spin-Bahn-Wechselwirkung?}
 
-            \textit{Hinweis:} $\left< j^2 \right> = j (j + 1)$
-            \begin{calculationbox}
-                Aus Aufgabe 1a haben wir:
-                \begin{calculationbox}
-                    $\vec{l} \cdot \vec{s} = \frac{1}{2} (\vec{j}^2 - \vec{l}^2 - \vec{s}^2)$
-                \end{calculationbox}
-                Für Erwartungswerte verwenden wir:
-                \begin{calculationbox}
-                    \begin{align*}
-                        \left< \vec{j}^2 \right> &= j (j + 1)//
-                        \left< \vec{l}^2 \right> &= l (l + 1)//
-                        \left< \vec{s}^2 \right> &= s (s + 1)//
-                    \end{align*}
-                \end{calculationbox}
-                Damit
-                \begin{calculationbox}
-                    $\left< \vec{l} \cdot \vec{s} \right> = \frac{1}{2} [j(j + 1) - l (l + 1) - s (s + 1)]$
-                \end{calculationbox}
-                Für die $1d$-Schale
-                \begin{calculationbox}
-                    $l = 2$, $s = \frac{1}{2}$
-                \end{calculationbox}
-                Also:
-                \begin{calculationbox}
-                    \begin{align*}
-                        l (l + 1) &= 2 \cdot 3 = 6\\
-                        s (s + 1) &= \frac{1}{2} \cdot \frac{3}{2} = \frac{3}{4}
-                    \end{align*}
-                \end{calculationbox}
-                \textbf{Erste Unterschale:} $1d_{\frac{5}{2}}$
-                Hier ist $j = \frac{5}{2}$
-                Also 
-                \begin{calculationbox}
-                    $j (j + 1) = \frac{5}{2} \cdot \frac{7}{2} = \frac{35}{4}$
-                \end{calculationbox}
-                und setzen ein
-                \begin{calculationbox}
-                    \begin{align*}
-                        \left< \vec{l} \cdot \vec{s} \right>_{\frac{5}{2}} &= \frac{1}{2} [\frac{35}{4} - 6 - \frac{3}{4}]\\
-                        &= \frac{1}{2} [\frac{35}{5} - \frac{24}{4} - \frac{3}{4}]\\
-                        &= \frac{1}{2} [\frac{8}{4}]
-                        &= 1
-                    \end{align*}
-                \end{calculationbox}
-                \textbf{Zweite Unterschale:} $1d_{\frac{3}{2}}$
-                Hier ist $j = \frac{3}{2}$
-                Also 
-                \begin{calculationbox}
-                    $j (j + 1) = \frac{3}{2} \cdot \frac{5}{2} = \frac{15}{4}$
-                \end{calculationbox}
-                und setzen ein
-                \begin{calculationbox}
-                    \begin{align*}
-                        \left< \vec{l} \cdot \vec{s} \right>_{\frac{3}{2}} &= \frac{1}{2} [\frac{15}{4} - 6 - \frac{3}{4}]\\
-                        &= \frac{1}{2} [\frac{15}{5} - \frac{24}{4} - \frac{3}{4}]\\
-                        &= \frac{1}{2} [-\frac{8}{4}]
-                        &= -\frac{3}{2}
-                    \end{align*}
-                \end{calculationbox}
-                \textbf{Energiedifferenz}
-                Die spin-Bahn-Wechselwirkung ist gegeben durch:
-                \begin{calculationbox}
-                    $V_{ls}(r, \vec{l}, \vec{s}) = V_{ls} \cdot (\vec{l} \cdot \vec{s})$
-                \end{calculationbox}
-                Daher ist die Energieverschiebung proportional zu 
-                \begin{calculationbox}
-                    $V_{ls}(r)(\vec{l} \cdot \vec{s})$
-                \end{calculationbox}
-                Für $1d_{\frac{5}{2}}$
-                \begin{calculationbox}
-                    $E_{\frac{5}{2}} = V_{ls}(r) \cdot 1 = V_{ls}(r)$
-                \end{calculationbox}
-                Für $1d_{\frac{3}{2}}$
-                \begin{calculationbox}
-                    $E_{\frac{3}{2}} = V_{ls}(r) \cdot (-\frac{3}{2}) = -\frac{3}{2} V_{ls}(r)$
-                \end{calculationbox}
-                Die Energiedifferenz ist:
-                \begin{align*}
-                    \Delta E &= E_\frac{5}{2} - E_\frac{3}{2}\\
-                    &= V_{ls}(r) - (-\frac{3}{2}V_{ls}(r))\\
-                    &= \frac{5}{2} v_{ls}(r)
-                \end{align*}
-            \end{calculationbox}
-    \end{enumerate}
+\begin{learningbox}
+Im Schalenmodell bewegen sich Protonen und Neutronen in einem mittleren Kernpotential. Ein Zustand wird nicht nur durch den Bahndrehimpuls $l$, sondern durch Kopplung von Bahndrehimpuls und Spin durch den Gesamtdrehimpuls
+\[
+    \vect{j}=\vect{l}+\vect{s}
+\]
+beschrieben. Da Nukleonen Spin $s=\half$ besitzen, entstehen f\"ur jedes $l>0$ zwei M\"oglichkeiten:
+\[
+    j=l+\half,
+    \qquad
+    j=l-\half.
+\]
+Die Spin-Bahn-Wechselwirkung macht diese beiden M\"oglichkeiten energetisch verschieden. Dadurch wird aus einer $nl$-Schale eine Aufspaltung in $nl_{j=l+1/2}$ und $nl_{j=l-1/2}$.
+\end{learningbox}
 
-    \paragraph{Aufgabe 2: Schalenmodell}
+\subsection{Abgabe: Ausf\"uhrliche L\"osung}
 
-    Wie im Rahmen des Schalenmodells nachvollzogen werden kann, ist ${}^{16}$O ein doppeltmagischer Kern, da er aus sowohl $8$ Protonen und neutronen besteht.
-    \begin{enumerate}
-        \item 
-            Berechnen Sie den Abstand zwischen den Neutronenschalen $1p_\frac{1}{2}$ udn $1d_\frac{5}{2}$ für Kerne im Bereich der Massenzahl $A \approx 16$ aus den totalen Bindungsenergien der Atome ${}^{15}$O ($E_B = 111.96$ MeV), ${}16$O ($E_B = 127.62$ MeV) und ${}^{17}$O ($E_B = 131.76$ MeV).
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Herleitung des Operators $\vect{l}\cdot\vect{s}$.}
 
-            \begin{calculationbox}
-                Gesucht ist der Abstand zwischen den Neutronenschalen
+    \begin{calculationbox}
+        Ausgangspunkt ist die Definition des Gesamtdrehimpulses:
+        \[
+            \vect{j}=\vect{l}+\vect{s}.
+        \]
+        Quadrieren liefert
+        \[
+            \vect{j}^{\,2}
+            =\paren{\vect{l}+\vect{s}}^2.
+        \]
+        Das Skalarprodukt wird ausmultipliziert:
+        \[
+            \paren{\vect{l}+\vect{s}}^2
+            =\vect{l}^{\,2}+2\vect{l}\cdot\vect{s}+\vect{s}^{\,2}.
+        \]
+        Also gilt
+        \[
+            \vect{j}^{\,2}
+            =\vect{l}^{\,2}+2\vect{l}\cdot\vect{s}+\vect{s}^{\,2}.
+        \]
+        Umstellen nach $\vect{l}\cdot\vect{s}$ ergibt
+        \[
+            2\vect{l}\cdot\vect{s}
+            =\vect{j}^{\,2}-\vect{l}^{\,2}-\vect{s}^{\,2}
+        \]
+        und damit
+        \[
+            \boxed{\vect{l}\cdot\vect{s}
+            =\half\paren{\vect{j}^{\,2}-\vect{l}^{\,2}-\vect{s}^{\,2}}}.
+        \]
+    \end{calculationbox}
 
-                ${}^{16}$O hat 8 Protonen und 8 Neutronen. Es ist doppelt magisch, also sind die Schalen bis einschließlich $1p_\frac{1}{2}$ gefüllt.
+    \begin{answerbox}
+        Die gesuchte Identit\"at folgt direkt aus dem Quadrieren von $\vect{j}=\vect{l}+\vect{s}$.
+    \end{answerbox}
 
-                Wenn man von ${}^{16}$O ein Neutron entfernt, bekomtm man ${}^{15}$O.
+    \item \textbf{Aufspaltung der $1d$-Schale.}
 
-                Das entfernte Neutron stammt aus der äußersten besetzten Neutronenschale $1p_{\frac{1}{2}}$.   
-                Die dafür nötige Energie ist die Neutronentrennenergie
-                \begin{calculationbox}
-                    \begin{align*}
-                        S_n({}^{16}\text{O}) &= E_B({}^{16}\text{O} - E_B({}^{15}\text{O}))\\
-                        &= 125.62 \text{ MeV} - 111.92 \text{ MeV}\\
-                        &= 15.66 \text{ MeV}
-                    \end{align*}
-                \end{calculationbox}
+    \begin{calculationbox}
+        In der spektroskopischen Notation steht der Buchstabe f\"ur den Bahndrehimpuls:
+        \[
+            s\to l=0,
+            \qquad
+            p\to l=1,
+            \qquad
+            d\to l=2,
+            \qquad
+            f\to l=3.
+        \]
+        F\"ur die $1d$-Schale gilt daher
+        \[
+            l=2.
+        \]
+        Der Spin eines Nukleons ist
+        \[
+            s=\half.
+        \]
+        Bei der Kopplung von $l$ und $s$ sind allgemein die Werte
+        \[
+            j=\abs{l-s},\abs{l-s}+1,\dots,l+s
+        \]
+        erlaubt. Da $s=\half$ ist, bleiben nur
+        \[
+            j=l-\half
+            \qquad\text{und}\qquad
+            j=l+\half.
+        \]
+        Mit $l=2$ folgt
+        \[
+            j=2-\half=\frac{3}{2},
+            \qquad
+            j=2+\half=\frac{5}{2}.
+        \]
+    \end{calculationbox}
 
-                ${}^{17}$O: Es ist ${}^{16}$O plus ein zusätzliches Neutron. diese zusätzliche Neutron geht in die nächsthöhere freie Neutronenschale $1d_\frac{5}{2}$.
+    \begin{answerbox}
+        Die $1d$-Schale besitzt $l=2$ und spaltet in
+        \[
+            \boxed{1d_{5/2}\quad\text{und}\quad 1d_{3/2}}
+        \]
+        auf.
+    \end{answerbox}
 
-                Die Bindungsenergie dieses zusätzlichen Neutrons ist:
-                \begin{calculationbox}
-                    \begin{align*}
-                        S_n({}^{17}\text{O}) &= E_B({}^{17}\text{O} - E_B({}^{16}\text{O}))\\
-                        &= 131.76 \text{ MeV} - 127.62 \text{ MeV}\\
-                        &= 4.14 \text{ MeV}
-                    \end{align*}                    
-                \end{calculationbox}
+    \item \textbf{Erwartungswerte und Energiedifferenz.}
 
-                Der Abstand zwischen den Schalen ergibt sich aus der differenz dieser beiden Neutronentrennenergien:
-                \begin{calculationbox}
-                    \begin{align*}
-                        \Delta E &= S_n({}^{16}\text{O}) - S_n({}^{17}\text{O})\\
-                        &= 15.66 \text{ MeV} - 4.14 \text{ MeV}\\
-                        &= 11.52 \text{ MeV}
-                    \end{align*}
-                \end{calculationbox}
-            \end{calculationbox}
+    \begin{calculationbox}
+        Aus Teil (a) folgt f\"ur Eigenzust\"ande von $j^2,l^2,s^2$:
+        \[
+            \avg{\vect{l}\cdot\vect{s}}
+            =\half\bracket{j(j+1)-l(l+1)-s(s+1)}.
+        \]
+        F\"ur die $1d$-Schale gilt
+        \[
+            l=2,
+            \qquad
+            s=\half.
+        \]
+        Damit
+        \[
+            l(l+1)=2\cdot 3=6,
+            \qquad
+            s(s+1)=\half\cdot\frac{3}{2}=\frac{3}{4}.
+        \]
+    \end{calculationbox}
 
-        \item
-            Wie interpretieren Sie den Unterschied in der totalen Bindungsenergie von ${}^{17}$O und ${}^{16}$F ($E_B = 128.22$ MeV)?
-            \begin{calculationbox}
-                \begin{calculationbox}
-                    \begin{align*}
-                        \Delta E_B &= E_B({}^{17}\text{O} - E_B({}^{17}\text{F}))\\
-                        &= 131.76 \text{ MeV} - 128.22 \text{ MeV}\\
-                        &= 3.54 \text{ MeV}
-                    \end{align*}
-                \end{calculationbox}
-                Beide Kerne haben dieselbe Massenzahl $A = 17$ Aber 
-                \begin{calculationbox}
-                    \begin{align*}
-                        {}^{17}\text{O}:&&Z = 8, &&N=9\\
-                        {}^{17}\text{F}:&&Z = 9, &&N=8
-                    \end{align*}
-                \end{calculationbox}
-                Dem ${}^{17}$O wurde im Vergleich zum doppelt magischen ${}^{16}$O ein Neutron hinzugefügt. Bei ${}^{17}$F wurde statdessen ein Proton hinzugefügt, welches ebenfalls in der nächsten Schale sitzt, aber die zusätzliche elektrische Abstoßung der anderen Protonen verspürt. 
+    \begin{calculationbox}[title=Unterschale $1d_{5/2}$]
+        F\"ur $j=\frac{5}{2}$ ist
+        \[
+            j(j+1)=\frac{5}{2}\cdot\frac{7}{2}=\frac{35}{4}.
+        \]
+        Daher
+        \[
+            \avg{\vect{l}\cdot\vect{s}}_{5/2}
+            =\half\bracket{\frac{35}{4}-6-\frac{3}{4}}
+            =\half\bracket{\frac{35-24-3}{4}}
+            =\half\cdot\frac{8}{4}
+            =1.
+        \]
+    \end{calculationbox}
 
-                Durch diese Coulomb-Abstroßung ist der Kern weniger stark gebunden.
-            \end{calculationbox}
+    \begin{calculationbox}[title=Unterschale $1d_{3/2}$]
+        F\"ur $j=\frac{3}{2}$ ist
+        \[
+            j(j+1)=\frac{3}{2}\cdot\frac{5}{2}=\frac{15}{4}.
+        \]
+        Daher
+        \[
+            \avg{\vect{l}\cdot\vect{s}}_{3/2}
+            =\half\bracket{\frac{15}{4}-6-\frac{3}{4}}
+            =\half\bracket{\frac{15-24-3}{4}}
+            =\half\cdot\paren{-\frac{12}{4}}
+            =-\frac{3}{2}.
+        \]
+    \end{calculationbox}
 
-        \item
-            Schätzen Sie anhand von $E_B({}^{17}\text{O}) - E_B({}^{17}\text{F})$ den Radius dieser Kerne ab. Nehmen Sie dabei vereinfacht an, dass es sich um homogene Kugeln mit gleichem Radius handelt und benutzen Sie $E_C = \frac{3}{4}\cdot Z \cdot (Z - 1) \alpha \hbar c / R$ (hier wurde im Vergleich zu bisher die Selbstwechselwirkungsenergie der Protonen abgezogen).
-            \begin{calculationbox}
-                Für ${}^{17}$O: $Z=8$
+    \begin{calculationbox}[title=Energieverschiebungen]
+        Die Energieverschiebung ist proportional zu
+        \[
+            \Delta E_j = V_{ls}(r)\,\avg{\vect{l}\cdot\vect{s}}_j.
+        \]
+        Somit
+        \[
+            \Delta E_{5/2}=V_{ls}(r)\cdot 1=V_{ls}(r),
+        \]
+        und
+        \[
+            \Delta E_{3/2}=V_{ls}(r)\cdot\paren{-\frac{3}{2}}
+            =-\frac{3}{2}V_{ls}(r).
+        \]
+        Die Differenz in dieser Reihenfolge ist
+        \[
+            E_{5/2}-E_{3/2}
+            =V_{ls}(r)-\paren{-\frac{3}{2}V_{ls}(r)}
+            =\frac{5}{2}V_{ls}(r).
+        \]
+    \end{calculationbox}
 
-                und ${}^{17}$F: $Z=9$
+    \begin{answerbox}
+        \[
+            \boxed{\avg{\vect{l}\cdot\vect{s}}_{1d_{5/2}}=1},
+            \qquad
+            \boxed{\avg{\vect{l}\cdot\vect{s}}_{1d_{3/2}}=-\frac{3}{2}}.
+        \]
+        Damit gilt
+        \[
+            \boxed{E_{5/2}-E_{3/2}=\frac{5}{2}V_{ls}(r)}.
+        \]
+        Experimentell ist in der Kernphysik $V_{ls}(r)$ effektiv so, dass $j=l+\half$ tiefer liegt als $j=l-\half$.
+    \end{answerbox}
+\end{enumerate}
 
-                \begin{calculationbox}
-                    \begin{align*}
-                        \Delta E_C &= \frac{3}{5}\frac{\alpha\hbar c}{R} [9\cdot 8 - 8 \cdot 7]\\
-                        &= \frac{3}{4} \frac{16 \alpha \hbar c}{R}
-                        &\stackrel{!}{=} 3.54\text{ MeV}
-                    \end{align*}
-                \end{calculationbox}
-                mit
-                \begin{calculationbox}
-                    $\alpha \hbar c \approx 3.54$ MeV fm    
-                \end{calculationbox}
-                und umgeformter Gleichung 
-                \begin{calculationbox}
-                    $R = \frac{\frac{3}{5} \dot 16 \cdot 1.44\text{ MeV fm}}{3.54\text{ MeV}} \approx 3.9$ fm
-                \end{calculationbox}
-            \end{calculationbox}
-        
-        \item
-            Vergleichen Sie das Ergebnis mit der Abschätzung $R \approx R_0 \dot A^{\frac{1}{3}}$ (mit $R_0 = 1.2$ fm) und diskutieren Sie die Abweichung.
-            \begin{calculationbox}
-                \begin{calculationbox}
-                    $R \approx R_0 \cdot A^{\frac{1}{3}} = 1.2\text{ fm} \cdot 17^{\frac{1}{3}} = 3.08$ fm
-                \end{calculationbox}
-                Die über die Coulomb-WW ermittelte $R_{\text{Coulomb}}\approx 3.9$ fm ca. $26\%$ größer.
+\subsection{Tafelvortrag zu Aufgabe 1}
 
-                \[
-                R_{\text{Coulomb}} \approx 3.9\,\mathrm{fm}
-                \quad > \quad
-                R_{0}A^{1/3} \approx 3.1\,\mathrm{fm}
-                \]
+\begin{talkbox}
+\textbf{Tafelstruktur in 4 Schritten:}
+\begin{enumerate}
+    \item Start mit $\vect{j}=\vect{l}+\vect{s}$ und durch Quadrieren direkt
+    \[
+        \vect{l}\cdot\vect{s}=\half\paren{\vect{j}^{\,2}-\vect{l}^{\,2}-\vect{s}^{\,2}}.
+    \]
+    \item F\"ur $1d$: Buchstabe $d$ bedeutet $l=2$; Nukleonenspin $s=\half$.
+    \item Daher $j=l\pm\half=\frac{5}{2},\frac{3}{2}$, also $1d_{5/2}$ und $1d_{3/2}$.
+    \item Erwartungswerte einsetzen:
+    \[
+        \avg{\vect{l}\cdot\vect{s}}
+        =\half\bracket{j(j+1)-l(l+1)-s(s+1)}.
+    \]
+    Ergebnis:
+    \[
+        1d_{5/2}: 1,
+        \qquad
+        1d_{3/2}: -\frac{3}{2},
+        \qquad
+        E_{5/2}-E_{3/2}=\frac{5}{2}V_{ls}(r).
+    \]
+\end{enumerate}
+\end{talkbox}
 
-                \textbf{Warum größer?}
+\FloatBarrier
+\newpage
 
-                \begin{itemize}
-                    \item In 2c wurde angenommen:
-                    \[
-                    \Delta E \text{ stammt nur aus der Coulomb-Energie}
-                    \]
-                    \item Diese Näherung ist zu einfach $\Rightarrow$ andere Effekte fehlen
-                \end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 2: Schalenmodell}
 
-                \textbf{Fehlende Beiträge:}
+\begin{taskbox}
+Der Kern $\isotope{16}{O}$ ist doppeltmagisch, da er aus 8 Protonen und 8 Neutronen besteht. Gegeben sind die totalen Bindungsenergien
+\[
+    E_B(\isotope{15}{O})=\SI{111.96}{MeV},
+    \qquad
+    E_B(\isotope{16}{O})=\SI{127.62}{MeV},
+    \qquad
+    E_B(\isotope{17}{O})=\SI{131.76}{MeV},
+\]
+und
+\[
+    E_B(\isotope{17}{F})=\SI{128.22}{MeV}.
+\]
+\begin{enumerate}[label=(\alph*)]
+    \item Berechnen Sie den Abstand zwischen den Neutronenschalen $1p_{1/2}$ und $1d_{5/2}$ f\"ur Kerne im Bereich $A\approx 16$.
+    \item Interpretieren Sie den Unterschied in der totalen Bindungsenergie von $\isotope{17}{O}$ und $\isotope{17}{F}$.
+    \item Sch\"atzen Sie aus $E_B(\isotope{17}{O})-E_B(\isotope{17}{F})$ den Radius ab. Verwenden Sie
+    \[
+        E_C=\frac{3}{5}\frac{Z(Z-1)\alpha\hbar c}{R}.
+    \]
+    \item Vergleichen Sie mit $R\approx R_0A^{1/3}$ f\"ur $R_0=\SI{1.2}{fm}$ und diskutieren Sie die Abweichung.
+\end{enumerate}
+\end{taskbox}
 
-                \begin{itemize}
-                    \item Kernkräfte / Schalenstruktur
-                    \item Unterschiede zwischen Proton und Neutron
-                    \item Annahme eines homogenen Kugelkerns
-                \end{itemize}
+\subsection{Lernteil: Bindungsenergien als Schalenabst\"ande}
 
-                \textbf{Fazit:}
+\begin{definitionbox}[title=Trennenergie]
+Die Neutronentrennenergie eines Kerns ist n\"aherungsweise die Energie, die man aufbringen muss, um das zuletzt gebundene Neutron zu entfernen:
+\[
+    S_n(A,Z)=E_B(A,Z)-E_B(A-1,Z).
+\]
+F\"ur Protonen analog:
+\[
+    S_p(A,Z)=E_B(A,Z)-E_B(A-1,Z-1).
+\]
+Gro\ss{}e Trennenergie bedeutet: Das letzte Nukleon ist stark gebunden.
+\end{definitionbox}
 
-                \[
-                \boxed{
-                \text{Das Coulomb-Modell überschätzt den Radius,}
-                \quad
-                \text{die Größenordnung stimmt jedoch.}
-                }
-                \]
-            \end{calculationbox}
-    \end{enumerate}
+\begin{learningbox}
+$\isotope{16}{O}$ besitzt $Z=N=8$. Im Schalenmodell ist damit die $1p_{1/2}$-Schale gerade voll. Entfernt man aus $\isotope{16}{O}$ ein Neutron, entfernt man ein Neutron aus $1p_{1/2}$. F\"ugt man zu $\isotope{16}{O}$ ein Neutron hinzu, kommt es in die n\"achste freie Schale $1d_{5/2}$. Deshalb kann man die L\"ucke zwischen $1p_{1/2}$ und $1d_{5/2}$ aus zwei Neutronentrennenergien absch\"atzen.
+\end{learningbox}
+
+\subsection{Abgabe: Ausf\"uhrliche L\"osung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Abstand zwischen $1p_{1/2}$ und $1d_{5/2}$.}
+
+    \begin{calculationbox}
+        Zuerst entfernen wir gedanklich ein Neutron aus $\isotope{16}{O}$. Dann entsteht $\isotope{15}{O}$. Die daf\"ur relevante Neutronentrennenergie ist
+        \[
+            S_n(\isotope{16}{O})
+            =E_B(\isotope{16}{O})-E_B(\isotope{15}{O}).
+        \]
+        Einsetzen ergibt
+        \[
+            S_n(\isotope{16}{O})
+            =\SI{127.62}{MeV}-\SI{111.96}{MeV}
+            =\SI{15.66}{MeV}.
+        \]
+        Dieses Neutron stammt aus der h\"ochsten besetzten Neutronenschale, also aus $1p_{1/2}$.
+    \end{calculationbox}
+
+    \begin{calculationbox}
+        Nun f\"ugen wir gedanklich ein Neutron zu $\isotope{16}{O}$ hinzu. Dann entsteht $\isotope{17}{O}$. Die Bindung dieses zus\"atzlichen Neutrons ist
+        \[
+            S_n(\isotope{17}{O})
+            =E_B(\isotope{17}{O})-E_B(\isotope{16}{O}).
+        \]
+        Einsetzen ergibt
+        \[
+            S_n(\isotope{17}{O})
+            =\SI{131.76}{MeV}-\SI{127.62}{MeV}
+            =\SI{4.14}{MeV}.
+        \]
+        Dieses zus\"atzliche Neutron sitzt in der n\"achsten freien Neutronenschale $1d_{5/2}$.
+    \end{calculationbox}
+
+    \begin{calculationbox}[title=Schalenabstand]
+        Die Einteilchenenergien sind n\"aherungsweise negativ zu den Trennenergien:
+        \[
+            \epsilon(1p_{1/2})\approx -S_n(\isotope{16}{O}),
+            \qquad
+            \epsilon(1d_{5/2})\approx -S_n(\isotope{17}{O}).
+        \]
+        Daher ist der Abstand
+        \[
+            \Delta E
+            =\epsilon(1d_{5/2})-\epsilon(1p_{1/2})
+            \approx S_n(\isotope{16}{O})-S_n(\isotope{17}{O}).
+        \]
+        Also
+        \[
+            \Delta E
+            =\SI{15.66}{MeV}-\SI{4.14}{MeV}
+            =\SI{11.52}{MeV}.
+        \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+        \[
+            \boxed{\Delta E(1p_{1/2}\to 1d_{5/2})\approx \SI{11.52}{MeV}}.
+        \]
+    \end{answerbox}
+
+    \item \textbf{Interpretation von $E_B(\isotope{17}{O})-E_B(\isotope{17}{F})$.}
+
+    \begin{calculationbox}
+        Zuerst bilden wir die Differenz:
+        \[
+            E_B(\isotope{17}{O})-E_B(\isotope{17}{F})
+            =\SI{131.76}{MeV}-\SI{128.22}{MeV}
+            =\SI{3.54}{MeV}.
+        \]
+    \end{calculationbox}
+
+    \begin{solutionbox}
+        Die beiden Kerne sind Spiegelkerne:
+        \[
+            \isotope{17}{O}: Z=8,\;N=9,
+            \qquad
+            \isotope{17}{F}: Z=9,\;N=8.
+        \]
+        Sie entstehen aus dem doppeltmagischen Kern $\isotope{16}{O}$ durch Hinzuf\"ugen eines Nukleons:
+        \[
+            \isotope{16}{O}+n\to\isotope{17}{O},
+            \qquad
+            \isotope{16}{O}+p\to\isotope{17}{F}.
+        \]
+        Bei idealer Ladungssymmetrie der starken Wechselwirkung w\"aren die starken Kernkraftbeitr\"age sehr \"ahnlich. Der Hauptunterschied ist daher die Coulomb-Absto\ss{}ung: In $\isotope{17}{F}$ gibt es ein zus\"atzliches Proton, das von den anderen Protonen elektrisch abgesto\ss{}en wird. Dadurch ist $\isotope{17}{F}$ weniger stark gebunden.
+    \end{solutionbox}
+
+    \begin{answerbox}
+        \[
+            \boxed{E_B(\isotope{17}{O})-E_B(\isotope{17}{F})=\SI{3.54}{MeV}}.
+        \]
+        Der Unterschied wird haupts\"achlich als zus\"atzliche Coulomb-Energie des protonenreicheren Spiegelkerns $\isotope{17}{F}$ interpretiert.
+    \end{answerbox}
+
+    \item \textbf{Radiusabsch\"atzung aus der Coulomb-Energie.}
+
+    \begin{calculationbox}
+        F\"ur eine homogen geladene Kugel mit abgezogener Selbstwechselwirkung der Protonen gilt laut Angabe
+        \[
+            E_C(Z)=\frac{3}{5}\frac{Z(Z-1)\alpha\hbar c}{R}.
+        \]
+        F\"ur $\isotope{17}{F}$ ist $Z=9$, f\"ur $\isotope{17}{O}$ ist $Z=8$. Daher ist die Coulomb-Energiedifferenz
+        \[
+            \Delta E_C
+            =E_C(Z=9)-E_C(Z=8).
+        \]
+        Einsetzen liefert
+        \[
+            \Delta E_C
+            =\frac{3}{5}\frac{\alpha\hbar c}{R}
+            \bracket{9\cdot 8-8\cdot 7}.
+        \]
+        Der Klammerausdruck ist
+        \[
+            9\cdot 8-8\cdot 7=72-56=16.
+        \]
+        Also
+        \[
+            \Delta E_C
+            =\frac{3}{5}\frac{16\alpha\hbar c}{R}
+            =\frac{48}{5}\frac{\alpha\hbar c}{R}.
+        \]
+    \end{calculationbox}
+
+    \begin{calculationbox}[title=Einsetzen der Bindungsenergiedifferenz]
+        Wir identifizieren n\"aherungsweise
+        \[
+            \Delta E_C \approx E_B(\isotope{17}{O})-E_B(\isotope{17}{F})=\SI{3.54}{MeV}.
+        \]
+        Damit
+        \[
+            \SI{3.54}{MeV}
+            =\frac{48}{5}\frac{\alpha\hbar c}{R}.
+        \]
+        Aufl\"osen nach $R$ ergibt
+        \[
+            R=\frac{48}{5}\frac{\alpha\hbar c}{\SI{3.54}{MeV}}.
+        \]
+        Mit $\alpha\hbar c\approx\SI{1.440}{MeV.fm}$ folgt
+        \[
+            R
+            =\frac{48}{5}\frac{\SI{1.440}{MeV.fm}}{\SI{3.54}{MeV}}
+            \approx \SI{3.91}{fm}.
+        \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+        \[
+            \boxed{R_{\mathrm{Coulomb}}\approx\SI{3.9}{fm}}.
+        \]
+    \end{answerbox}
+
+    \item \textbf{Vergleich mit $R=R_0A^{1/3}$.}
+
+    \begin{calculationbox}
+        Mit $A=17$ und $R_0=\SI{1.2}{fm}$ gilt
+        \[
+            R_{0}A^{1/3}
+            =\SI{1.2}{fm}\cdot 17^{1/3}.
+        \]
+        Numerisch ist
+        \[
+            17^{1/3}\approx 2.571.
+        \]
+        Also
+        \[
+            R_{0}A^{1/3}
+            \approx \SI{1.2}{fm}\cdot 2.571
+            \approx \SI{3.09}{fm}.
+        \]
+        Der relative Unterschied ist
+        \[
+            \frac{R_{\mathrm{Coulomb}}-R_0A^{1/3}}{R_0A^{1/3}}
+            \approx
+            \frac{\SI{3.91}{fm}-\SI{3.09}{fm}}{\SI{3.09}{fm}}
+            \approx 0.27.
+        \]
+    \end{calculationbox}
+
+    \begin{solutionbox}
+        Die Coulomb-Absch\"atzung liefert einen gr\"o\ss{}eren Radius:
+        \[
+            R_{\mathrm{Coulomb}}\approx\SI{3.9}{fm}
+            \qquad\text{gegen\"uber}\qquad
+            R_0A^{1/3}\approx\SI{3.1}{fm}.
+        \]
+        Die Abweichung ist nicht \"uberraschend, weil die Rechnung stark idealisiert ist:
+        \begin{itemize}
+            \item Der Kern wurde als homogen geladene Kugel modelliert. Reale Kerne haben eine diffuse Randzone.
+            \item Die Bindungsenergiedifferenz wurde vollst\"andig der Coulomb-Energie zugeschrieben. Kleine Beitr\"age durch Schalenstruktur, Isospinbrechung und unterschiedliche Einteilchenwellenfunktionen werden vernachl\"assigt.
+            \item $R_0A^{1/3}$ ist eine globale Faustformel. Sie ist gut f\"ur Gr\"o\ss{}enordnungen, aber nicht f\"ur genaue Spiegelkern-Differenzen.
+        \end{itemize}
+    \end{solutionbox}
+
+    \begin{answerbox}
+        \[
+            \boxed{R_{\mathrm{Coulomb}}\approx\SI{3.9}{fm}},
+            \qquad
+            \boxed{R_0A^{1/3}\approx\SI{3.1}{fm}}.
+        \]
+        Die Coulomb-Absch\"atzung ist etwa $27\,\%$ gr\"o\ss{}er. Die Gr\"o\ss{}enordnung stimmt, aber das Modell ist zu einfach f\"ur eine pr\"azise Radiusbestimmung.
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tafelvortrag zu Aufgabe 2}
+
+\begin{talkbox}
+\textbf{Tafelstruktur in 5 Schritten:}
+\begin{enumerate}
+    \item $\isotope{16}{O}$ ist doppeltmagisch: $Z=N=8$. Die Schale $1p_{1/2}$ ist voll.
+    \item Neutron entfernen:
+    \[
+        S_n(\isotope{16}{O})=127{,}62-111{,}96=\SI{15.66}{MeV}.
+    \]
+    \item Neutron hinzuf\"ugen:
+    \[
+        S_n(\isotope{17}{O})=131{,}76-127{,}62=\SI{4.14}{MeV}.
+    \]
+    \item Schalenabstand:
+    \[
+        \Delta E=S_n(\isotope{16}{O})-S_n(\isotope{17}{O})=\SI{11.52}{MeV}.
+    \]
+    \item Spiegelkerne:
+    \[
+        E_B(\isotope{17}{O})-E_B(\isotope{17}{F})=\SI{3.54}{MeV}.
+    \]
+    Diese Differenz kommt haupts\"achlich von der Coulomb-Absto\ss{}ung im protonenreicheren $\isotope{17}{F}$.
+    \[
+        \SI{3.54}{MeV}=\frac{3}{5}\frac{\alpha\hbar c}{R}\bracket{9\cdot 8-8\cdot 7}
+    \]
+    und damit
+    \[
+        R\approx\SI{3.9}{fm}.
+    \]
+    Vergleich:
+    \[
+        R_0A^{1/3}=\SI{1.2}{fm}\cdot 17^{1/3}\approx\SI{3.1}{fm}.
+    \]
+\end{enumerate}
+\end{talkbox}
+
+\FloatBarrier
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Gesamtzusammenfassung f\"ur die Pr\"ufung}
+
+\begin{summarybox}[title={Formeln, die man k\"onnen sollte}]
+\begin{align*}
+    \vect{j}&=\vect{l}+\vect{s},\\
+    \vect{l}\cdot\vect{s}&=\half\paren{\vect{j}^{\,2}-\vect{l}^{\,2}-\vect{s}^{\,2}},\\
+    \avg{\vect{l}\cdot\vect{s}}&=\half\bracket{j(j+1)-l(l+1)-s(s+1)},\\
+    S_n(A,Z)&=E_B(A,Z)-E_B(A-1,Z),\\
+    E_C(Z)&=\frac{3}{5}\frac{Z(Z-1)\alpha\hbar c}{R},\\
+    R&\approx R_0A^{1/3}.
+\end{align*}
+\end{summarybox}
+
+\begin{summarybox}[title=Endergebnisse]
+\begin{itemize}
+    \item $1d$ bedeutet $l=2$.
+    \item Aufspaltung: $1d_{5/2}$ und $1d_{3/2}$.
+    \item Erwartungswerte:
+    \[
+        \avg{\vect{l}\cdot\vect{s}}_{1d_{5/2}}=1,
+        \qquad
+        \avg{\vect{l}\cdot\vect{s}}_{1d_{3/2}}=-\frac{3}{2}.
+    \]
+    \item Energiedifferenz:
+    \[
+        E_{5/2}-E_{3/2}=\frac{5}{2}V_{ls}(r).
+    \]
+    \item Schalenabstand in der Umgebung von $\isotope{16}{O}$:
+    \[
+        \Delta E(1p_{1/2}\to 1d_{5/2})\approx\SI{11.52}{MeV}.
+    \]
+    \item Spiegelkern-Bindungsenergiedifferenz:
+    \[
+        E_B(\isotope{17}{O})-E_B(\isotope{17}{F})=\SI{3.54}{MeV}.
+    \]
+    \item Radius aus Coulomb-Absch\"atzung:
+    \[
+        R\approx\SI{3.9}{fm}.
+    \]
+    \item Radius aus Faustformel:
+    \[
+        R\approx\SI{3.1}{fm}.
+    \]
+\end{itemize}
+\end{summarybox}
+
+\begin{warningbox}[title=Typische Fehler]
+\begin{itemize}
+    \item In Aufgabe 1 darf man nicht $\vect{j}=\vect{k}+\vect{s}$ schreiben; korrekt ist $\vect{j}=\vect{l}+\vect{s}$.
+    \item Beim Quadrieren gilt $(\vect{l}+\vect{s})^2=\vect{l}^{\,2}+2\vect{l}\cdot\vect{s}+\vect{s}^{\,2}$, nicht $(\vect{l}^{\,2}+\vect{s}^{\,2})^2$.
+    \item F\"ur $j=3/2$ ergibt sich $\avg{\vect{l}\cdot\vect{s}}=-3/2$, nicht $-1$.
+    \item In Aufgabe 2(a) muss $E_B(\isotope{16}{O})=\SI{127.62}{MeV}$ verwendet werden.
+    \item Bei der Coulomb-Absch\"atzung ist der Faktor $Z(Z-1)$ wichtig, weil die Selbstwechselwirkung der Protonen abgezogen wurde.
+\end{itemize}
+\end{warningbox}
 
 \end{document}

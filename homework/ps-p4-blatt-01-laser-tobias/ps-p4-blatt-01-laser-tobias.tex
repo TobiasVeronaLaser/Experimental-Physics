@@ -1,0 +1,779 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physik IV - Blatt 1: Abgabe, Tafelvortrag und Lernloesung
+% Standalone one-file LaTeX document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{Physik IV: Kerne und Teilchen}
+\newcommand{\CourseShortTitle}{Physik IV}
+\newcommand{\DocumentKind}{Hausaufgabe / Lernloesung}
+\newcommand{\DocumentTitle}{Aufgabenblatt 1}
+\newcommand{\DocumentSubtitle}{Einheiten, relativistische kinetische Energie und Streuung an harter Kugel}
+\newcommand{\AuthorName}{Tobias Laser}
+\newcommand{\InstitutionName}{Universitaet Innsbruck}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{csquotes}
+
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
+\newcommand{\ol}[1]{\overline{#1}}
+
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
+
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
+
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\mup}{\mu^+}
+\newcommand{\mum}{\mu^-}
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_\mu}
+\newcommand{\nutau}{\nu_\tau}
+\newcommand{\pionp}{\pi^+}
+\newcommand{\pionm}{\pi^-}
+\newcommand{\pionz}{\pi^0}
+\newcommand{\kaonp}{K^+}
+\newcommand{\kaonm}{K^-}
+\newcommand{\kaonz}{K^0}
+
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\totalxs}{\sigma_{\mathrm{total}}}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\tmand}{t}
+\newcommand{\umand}{u}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
+
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bezüglich}
+
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
+\DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
+\DeclareSIUnit{\year}{a}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
+}
+
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=Lösung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{talkbox}[1][]{unibox,title=Tafelvortrag,colback=teal!3,colframe=teal!45!black,#1}
+\newtcolorbox{learningbox}[1][]{unibox,title=Lernidee,colback=purple!3,colframe=purple!45!black,#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\makeuniversitytitle
+\tableofcontents
+\newpage
+
+\section*{Vorbemerkung}
+\addcontentsline{toc}{section}{Vorbemerkung}
+Diese Ausarbeitung ist so strukturiert, dass sie gleichzeitig als saubere Abgabe, als Vorbereitung für einen kurzen Tafelvortrag und als ausführliche Lernunterlage verwendet werden kann. Die Boxen \emph{Tafelvortrag} enthalten jeweils eine knappe, gut abschreibbare Version. Die Boxen \emph{Lernidee} erklären, warum die Rechenschritte physikalisch sinnvoll sind.
+
+\begin{summarybox}[title=Zentrale Themen von Blatt 1]
+\begin{itemize}
+    \item Umrechnung zwischen Teilchenphysik-Einheiten und SI-Einheiten.
+    \item Herleitung der relativistischen kinetischen Energie aus Arbeit und Impuls.
+    \item Geometrische Herleitung des Wirkungsquerschnitts für elastische Streuung an einer harten Kugel.
+\end{itemize}
+\end{summarybox}
+
+\newpage
+
+\section{Aufgabe 1: Einheiten der Kern- und Teilchenphysik}
+
+\begin{taskbox}
+\begin{enumerate}[label=(\alph*)]
+    \item Berechnen Sie die einem Elektronenvolt entsprechende Energie in SI-Einheiten.
+    \item Bestimmen Sie die Ruhemassen folgender Teilchen in SI-Einheiten:
+    \begin{enumerate}[label=(\roman*)]
+        \item Myon: $m_\mu = \SI{105.6583755}{\MeV}/c^2$,
+        \item Neutron: $m_n = \SI{939.56542052}{\MeV}/c^2$,
+        \item Tritium: $m_t = \SI{2808.92113668}{\MeV}/c^2$.
+    \end{enumerate}
+\end{enumerate}
+\end{taskbox}
+
+\subsection{Lernidee}
+
+\begin{learningbox}
+Das Elektronenvolt ist keine SI-Einheit, sondern eine praktische Energieeinheit. Es ist definiert als die Energie, die eine Ladung $e$ beim Durchlaufen einer Spannung von $\SI{1}{V}$ gewinnt:
+\[
+    E = qU.
+\]
+Da $\SI{1}{V}=\SI{1}{J/C}$ gilt, folgt sofort $\SI{1}{eV}=e\cdot\SI{1}{V}$ in Joule. Für Massenangaben der Form $\si{eV}/c^2$ nutzt man anschließend Einsteins Beziehung $E=mc^2$, also $m=E/c^2$.
+\end{learningbox}
+
+\subsection{Abgabe-Lösung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Ein Elektronenvolt in SI-Einheiten.}
+
+    \begin{calculationbox}
+    Mit der Elementarladung
+    \[
+        e = \SI{1.602176634e-19}{C}
+    \]
+    und $\SI{1}{V}=\SI{1}{J/C}$ ist
+    \[
+        \SI{1}{eV}
+        = e\cdot \SI{1}{V}
+        = \SI{1.602176634e-19}{C}\,\SI{1}{J/C}
+        = \SI{1.602176634e-19}{J}.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{\SI{1}{eV}=\SI{1.602176634e-19}{J}}.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Umrechnung von $\si{MeV}/c^2$ in Kilogramm.}
+
+    \begin{formulabox}
+    Für eine Masse, die als $M\,\si{MeV}/c^2$ angegeben ist, gilt
+    \[
+        m_{\mathrm{SI} }
+        = M\,\frac{\SI{1}{MeV}}{c^2}
+        = M\,\frac{10^6\,\SI{1.602176634e-19}{J}}{(\SI{299792458}{m/s})^2}.
+    \]
+    \end{formulabox}
+
+    \begin{sidecalcbox}[title=Umrechnungsfaktor]
+    \[
+        \frac{\SI{1}{MeV}}{c^2}
+        = \frac{10^6\cdot \SI{1.602176634e-19}{J}}{(\SI{299792458}{m/s})^2}
+        = \SI{1.7826619216e-30}{kg}.
+    \]
+    \end{sidecalcbox}
+
+    \begin{calculationbox}
+    \begin{align*}
+        m_\mu
+        &= 105.6583755\cdot\SI{1.7826619216e-30}{kg}
+         = \SI{1.883531627e-28}{kg},\\
+        m_n
+        &= 939.56542052\cdot\SI{1.7826619216e-30}{kg}
+         = \SI{1.674927498e-27}{kg},\\
+        m_t
+        &= 2808.92113668\cdot\SI{1.7826619216e-30}{kg}
+         = \SI{5.007356751e-27}{kg}.
+    \end{align*}
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \begin{align*}
+        \boxed{m_\mu = \SI{1.883531627e-28}{kg}},\\
+        \boxed{m_n = \SI{1.674927498e-27}{kg}},\\
+        \boxed{m_t = \SI{5.007356751e-27}{kg}}.
+    \end{align*}
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tafelvortrag zu Aufgabe 1}
+\begin{talkbox}
+\begin{align*}
+    \SI{1}{eV} &= e\cdot \SI{1}{V}
+    = \SI{1.602176634e-19}{C}\,\SI{1}{J/C}
+    = \SI{1.602176634e-19}{J},\\
+    \frac{\SI{1}{MeV}}{c^2}
+    &= \frac{10^6\cdot \SI{1.602176634e-19}{J}}{(\SI{299792458}{m/s})^2}
+    = \SI{1.7826619216e-30}{kg}.
+\end{align*}
+Damit:
+\[
+    m_\mu=\SI{1.8835e-28}{kg},\qquad
+    m_n=\SI{1.6749e-27}{kg},\qquad
+    m_t=\SI{5.0074e-27}{kg}.
+\]
+\end{talkbox}
+
+\FloatBarrier
+\newpage
+
+\section{Aufgabe 2: Relativistische Formel der kinetischen Energie}
+
+\begin{taskbox}
+Ausgehend von der Arbeit
+\[
+    W=\int \vect F\cdot\dd\vect r
+\]
+und in eindimensionaler Betrachtung
+\[
+    E_{\mathrm{kin}}=\int_0^r F\dd r
+\]
+soll mit
+\[
+    p=\gamma mv,\qquad \gamma=\frac{1}{\sqrt{1-v^2/c^2}}
+\]
+die relativistische kinetische Energie hergeleitet werden.
+\end{taskbox}
+
+\subsection{Lernidee}
+
+\begin{learningbox}
+Klassisch gilt $F=ma$, aber relativistisch ist die sauberere Definition
+\[
+    F = \dv{p}{t}.
+\]
+Der Impuls ist nicht mehr $mv$, sondern $p=\gamma mv$. Deshalb darf man nicht einfach $\int ma\dd r$ rechnen. Stattdessen schreibt man
+\[
+    \dd r = v\dd t
+\]
+und erhält dadurch ein Integral über die Geschwindigkeit. Die Energie wächst dann wegen des Lorentzfaktors stärker als klassisch.
+\end{learningbox}
+
+\subsection{Abgabe-Lösung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Einsetzen von Kraft und relativistischem Impuls.}
+
+    \begin{calculationbox}
+    In einer Dimension ist
+    \[
+        F = \dv{p}{t}.
+    \]
+    Mit
+    \[
+        p=\gamma mv=\frac{mv}{\sqrt{1-v^2/c^2}}
+    \]
+    folgt direkt
+    \[
+        F
+        = \dv{}{t}\paren{\frac{mv}{\sqrt{1-v^2/c^2}}}.
+    \]
+    Einsetzen in die Arbeitsdefinition liefert
+    \[
+        E_{\mathrm{kin}}
+        =\int_0^r F\dd r
+        =\int_0^r
+        \dv{}{t}\paren{\frac{mv}{\sqrt{1-v^2/c^2}}}\dd r.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{
+        E_{\mathrm{kin}}
+        =\int_0^r
+        \dv{}{t}\paren{\frac{mv}{\sqrt{1-v^2/c^2}}}\dd r
+        }.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Umformung auf ein Integral über $v$ und Lösung.}
+
+    \begin{calculationbox}
+    Wegen $v=\dv{r}{t}$ gilt $\dd r=v\dd t$. Damit wird
+    \[
+        E_{\mathrm{kin}}
+        = \int_0^t v\,\dv{p}{t'}\dd t'.
+    \]
+    Wenn die Geschwindigkeit monoton von $0$ bis $v$ zunimmt, kann man $p$ als Funktion von $v'$ betrachten:
+    \[
+        E_{\mathrm{kin} }
+        = \int_0^v v'\dv{p}{v'}\dd v'.
+    \]
+    Partielle Integration mit $u=v'$ und $\dd w=\dv{p}{v'}\dd v'=\dd p$ ergibt
+    \[
+        \int_0^v v'\dd p
+        = \evalat{v'p(v')}{0}^{v}-\int_0^v p(v')\dd v'.
+    \]
+    Mit $p(v')=m v'/\sqrt{1-v'^2/c^2}$ folgt
+    \begin{align*}
+        E_{\mathrm{kin}}
+        &= \frac{mv^2}{\sqrt{1-v^2/c^2}}
+           -m\int_0^v \frac{v'}{\sqrt{1-v'^2/c^2}}\dd v'.
+    \end{align*}
+    Das verbleibende Integral ist
+    \begin{align*}
+        \int \frac{v'}{\sqrt{1-v'^2/c^2}}\dd v'
+        &= -c^2\sqrt{1-v'^2/c^2}.
+    \end{align*}
+    Deshalb
+    \begin{align*}
+        E_{\mathrm{kin}}
+        &= \frac{mv^2}{\sqrt{1-v^2/c^2}}
+           +mc^2\sqrt{1-v^2/c^2}-mc^2.
+    \end{align*}
+    Mit $\gamma=1/\sqrt{1-v^2/c^2}$ und $\sqrt{1-v^2/c^2}=1/\gamma$ wird
+    \begin{align*}
+        E_{\mathrm{kin}}
+        &= \gamma mv^2 + \frac{mc^2}{\gamma}-mc^2.
+    \end{align*}
+    Da $v^2=c^2(1-1/\gamma^2)$ gilt,
+    \begin{align*}
+        \gamma mv^2
+        &= mc^2\paren{\gamma-\frac{1}{\gamma}},\\
+        E_{\mathrm{kin}}
+        &= mc^2\paren{\gamma-\frac{1}{\gamma}}+\frac{mc^2}{\gamma}-mc^2
+         = mc^2(\gamma-1).
+    \end{align*}
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{E_{\mathrm{kin}} = mc^2(\gamma-1)
+        = mc^2\paren{\frac{1}{\sqrt{1-v^2/c^2}}-1}}.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Reihenentwicklung und klassischer Grenzfall.}
+
+    \begin{calculationbox}
+    Für $\beta=v/c$ gilt
+    \[
+        \gamma = (1-\beta^2)^{-1/2}.
+    \]
+    Die Binomialreihe liefert für $\abs{\beta}<1$
+    \[
+        (1-\beta^2)^{-1/2}
+        = 1+\frac{1}{2}\beta^2+\frac{3}{8}\beta^4+\mathcal{O}(\beta^6).
+    \]
+    Damit
+    \begin{align*}
+        E_{\mathrm{kin}}
+        &= mc^2(\gamma-1)\\
+        &= mc^2\paren{\frac{1}{2}\beta^2+\frac{3}{8}\beta^4+\mathcal{O}(\beta^6)}\\
+        &= \frac{1}{2}mv^2+\frac{3}{8}\frac{mv^4}{c^2}+\mathcal{O}\paren{\frac{v^6}{c^4}}.
+    \end{align*}
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{E_{\mathrm{kin}}
+        =\frac{1}{2}mv^2+\frac{3}{8}\frac{mv^4}{c^2}+\cdots}
+    \]
+    Für $v\ll c$ ist der zweite Term sehr klein. Daher bleibt als führender Term das klassische Ergebnis
+    \[
+        \boxed{E_{\mathrm{kin,klassisch}}=\frac{1}{2}mv^2}.
+    \]
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tafelvortrag zu Aufgabe 2}
+\begin{talkbox}
+\begin{align*}
+    E_{\mathrm{kin} }
+    &=\int_0^r F\dd r
+      =\int_0^r \dv{p}{t}\dd r,
+      \qquad
+      p=\gamma mv=\frac{mv}{\sqrt{1-v^2/c^2}},\\
+    \dd r&=v\dd t
+    \quad\Rightarrow\quad
+    E_{\mathrm{kin}}=\int_0^v v\dv{p}{v}\dd v.
+\end{align*}
+Partielle Integration:
+\begin{align*}
+    E_{\mathrm{kin} }
+    &= \evalat{vp}{0}^{v}-\int_0^v p\dd v
+     = \frac{mv^2}{\sqrt{1-v^2/c^2}}
+       -m\int_0^v\frac{v'}{\sqrt{1-v'^2/c^2}}\dd v'\\
+    &= \frac{mv^2}{\sqrt{1-v^2/c^2}}
+       +mc^2\sqrt{1-v^2/c^2}-mc^2
+     = mc^2(\gamma-1).
+\end{align*}
+Reihe:
+\[
+    \gamma=1+\frac12\frac{v^2}{c^2}+\frac38\frac{v^4}{c^4}+\cdots
+    \quad\Rightarrow\quad
+    E_{\mathrm{kin}}=\frac12mv^2+\frac38\frac{mv^4}{c^2}+\cdots.
+\]
+\end{talkbox}
+
+\FloatBarrier
+\newpage
+
+\section{Aufgabe 3: Streuung an harter Kugel}
+
+\begin{taskbox}
+Für die elastische Streuung an einer harten Kugel gilt allgemein
+\[
+    \diffxs = \frac{b}{\sin\theta}\abs{\dv{b}{\theta}}.
+\]
+Hierbei ist $b$ der Stoßparameter und $\theta$ der Streuwinkel. Gesucht sind:
+\begin{enumerate}[label=(\alph*)]
+    \item der Zusammenhang zwischen $b$ und $\theta$ sowie $\dd b$,
+    \item der differentielle Wirkungsquerschnitt,
+    \item der totale Wirkungsquerschnitt,
+    \item der Wirkungsquerschnitt für $40^\circ\leq\theta\leq60^\circ$.
+\end{enumerate}
+\end{taskbox}
+
+\subsection{Geometrie und Lernidee}
+
+\begin{learningbox}
+Der Stoßparameter $b$ beschreibt, wie weit die einlaufende Bahn seitlich am Mittelpunkt vorbeigeht. Für eine harte Kugel findet eine spiegelnde Reflexion an der Kugeloberfläche statt. Kleine $b$ entsprechen fast frontaler Streuung und damit großen Ablenkwinkeln; $b\approx R$ entspricht streifender Streuung und damit $\theta\approx0$.
+\end{learningbox}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale=1.05, >=Latex]
+    \coordinate (O) at (0,0);
+    \coordinate (P) at (-1.05,1.7);
+    \draw[thick] (O) circle (2);
+    \draw[->,thick] (-5,1.7) -- (P) node[midway,above] {einlaufend};
+    \draw[->,thick] (P) -- ++(-2.0,1.25) node[midway,above] {gestreut};
+    \draw[dashed] (-5,0) -- (0,0);
+    \draw[dashed] (-5,1.7) -- (-5,0);
+    \draw[<->] (-4.8,0) -- (-4.8,1.7) node[midway,left] {$b$};
+    \draw[thick] (O) -- (P) node[midway,right] {$R$};
+    \draw[->] (-3.9,1.7) arc[start angle=180,end angle=147,radius=1.1];
+    \node at (-3.35,2.15) {$\theta$};
+    \fill (O) circle (1.2pt) node[below right] {Zentrum};
+    \fill (P) circle (1.2pt) node[above] {Kontaktpunkt};
+\end{tikzpicture}
+\caption{Geometrische Idee der elastischen Streuung an einer harten Kugel.}
+\end{figure}
+
+\subsection{Abgabe-Lösung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Zusammenhang zwischen $b$ und $\theta$.}
+
+    \begin{calculationbox}
+    Bei der spiegelnden Reflexion an der Kugeloberfläche ist der Streuwinkel durch die Geometrie des Radiusvektors am Kontaktpunkt bestimmt. Für den Grenzfall $b=0$ muss $\theta=\pi$ gelten, und für $b=R$ muss $\theta=0$ gelten. Der passende Zusammenhang ist
+    \[
+        b=R\cos\paren{\frac{\theta}{2}}.
+    \]
+    Ableiten nach $\theta$ liefert
+    \[
+        \dv{b}{\theta}
+        = -\frac{R}{2}\sin\paren{\frac{\theta}{2}},
+        \qquad
+        \dd b = -\frac{R}{2}\sin\paren{\frac{\theta}{2}}\dd\theta.
+    \]
+    Für den Wirkungsquerschnitt verwendet man den Betrag, weil Flächen positiv sind:
+    \[
+        \abs{\dv{b}{\theta} }
+        =\frac{R}{2}\sin\paren{\frac{\theta}{2}}.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{b=R\cos\paren{\frac{\theta}{2}}},
+        \qquad
+        \boxed{\dd b=-\frac{R}{2}\sin\paren{\frac{\theta}{2}}\dd\theta}.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Differentieller Wirkungsquerschnitt.}
+
+    \begin{calculationbox}
+    Einsetzen in
+    \[
+        \diffxs = \frac{b}{\sin\theta}\abs{\dv{b}{\theta}}
+    \]
+    ergibt
+    \begin{align*}
+        \diffxs
+        &= \frac{R\cos(\theta/2)}{\sin\theta}
+           \cdot \frac{R}{2}\sin(\theta/2)\\
+        &= \frac{R^2}{2}\frac{\sin(\theta/2)\cos(\theta/2)}{\sin\theta}.
+    \end{align*}
+    Mit
+    \[
+        \sin\theta = 2\sin\paren{\frac{\theta}{2}}\cos\paren{\frac{\theta}{2}}
+    \]
+    folgt
+    \[
+        \diffxs = \frac{R^2}{4}.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{\diffxs=\frac{R^2}{4}}.
+    \]
+    Der differentielle Wirkungsquerschnitt ist unabhängig von $\theta$. Die Streuung ist im Raumwinkel isotrop: pro gleichem Raumwinkelelement $\dd\Omega$ werden gleich viele Teilchen erwartet. Pro gleichem Winkelintervall $\dd\theta$ ist die Häufigkeit wegen $\dd\Omega=2\pi\sin\theta\dd\theta$ aber nicht konstant, sondern proportional zu $\sin\theta$.
+    \end{answerbox}
+
+    \item \textbf{Totaler Wirkungsquerschnitt.}
+
+    \begin{calculationbox}
+    Der totale Wirkungsquerschnitt ist das Integral über den ganzen Raumwinkel:
+    \[
+        \sigma_{\mathrm{tot}}
+        = \int \diffxs\dd\Omega.
+    \]
+    Da $\diffxs=R^2/4$ konstant ist und der volle Raumwinkel $4\pi$ beträgt,
+    \[
+        \sigma_{\mathrm{tot}}
+        =\frac{R^2}{4}\cdot4\pi
+        =\pi R^2.
+    \]
+    Alternativ explizit:
+    \begin{align*}
+        \sigma_{\mathrm{tot}}
+        &= \int_0^{2\pi}\int_0^\pi \frac{R^2}{4}\sin\theta\dd\theta\dd\phi\\
+        &= \frac{R^2}{4}\cdot2\pi\cdot\bracket{-\cos\theta}_0^\pi
+         = \pi R^2.
+    \end{align*}
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{\sigma_{\mathrm{tot}}=\pi R^2}.
+    \]
+    Das ist genau die geometrische Schattenfläche der Kugel. Physikalisch bedeutet das: Alle Teilchen mit $b\le R$ treffen die harte Kugel und werden gestreut; alle Teilchen mit $b>R$ gehen vorbei.
+    \end{answerbox}
+
+    \item \textbf{Winkelbereich $40^\circ\leq\theta\leq60^\circ$.}
+
+    \begin{calculationbox}
+    Für einen Winkelbereich $\theta_1\le\theta\le\theta_2$ gilt
+    \begin{align*}
+        \sigma(\theta_1\le\theta\le\theta_2)
+        &= \int_0^{2\pi}\int_{\theta_1}^{\theta_2}\frac{R^2}{4}\sin\theta\dd\theta\dd\phi\\
+        &= \frac{R^2}{4}\cdot2\pi\cdot\bracket{-\cos\theta}_{\theta_1}^{\theta_2}\\
+        &= \frac{\pi R^2}{2}\paren{\cos\theta_1-\cos\theta_2}.
+    \end{align*}
+    Für $\theta_1=40^\circ$ und $\theta_2=60^\circ$ folgt
+    \begin{align*}
+        \sigma(40^\circ\le\theta\le60^\circ)
+        &= \frac{\pi R^2}{2}\paren{\cos 40^\circ-\cos 60^\circ}\\
+        &\approx \frac{\pi R^2}{2}(0{,}7660-0{,}5000)\\
+        &\approx 0{,}4178\,R^2.
+    \end{align*}
+    Bezogen auf den totalen Wirkungsquerschnitt ist der Anteil
+    \[
+        \frac{\sigma(40^\circ\le\theta\le60^\circ)}{\sigma_{\mathrm{tot}}}
+        =\frac{\cos40^\circ-\cos60^\circ}{2}
+        \approx 0{,}1330.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{\sigma(40^\circ\le\theta\le60^\circ)
+        =\frac{\pi R^2}{2}\paren{\cos40^\circ-\cos60^\circ}
+        \approx 0{,}4178\,R^2}.
+    \]
+    Das sind ungefähr $13{,}3\%$ des totalen Wirkungsquerschnitts $\pi R^2$.
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tafelvortrag zu Aufgabe 3}
+\begin{talkbox}
+Geometrie der harten Kugel:
+\[
+    b=R\cos\paren{\frac{\theta}{2}},
+    \qquad
+    \abs{\dv{b}{\theta}}=\frac{R}{2}\sin\paren{\frac{\theta}{2}}.
+\]
+Damit
+\begin{align*}
+    \diffxs
+    &=\frac{b}{\sin\theta}\abs{\dv{b}{\theta}}\\
+    &=\frac{R\cos(\theta/2)}{\sin\theta}\frac{R}{2}\sin(\theta/2)
+     =\frac{R^2}{4},
+\end{align*}
+weil $\sin\theta=2\sin(\theta/2)\cos(\theta/2)$.
+Total:
+\[
+    \sigma_{\mathrm{tot}}
+    =\int\frac{R^2}{4}\dd\Omega
+    =\frac{R^2}{4}\cdot4\pi
+    =\pi R^2.
+\]
+Winkelbereich:
+\[
+    \sigma_{40^\circ\ldots60^\circ}
+    =\frac{R^2}{4}\cdot2\pi\int_{40^\circ}^{60^\circ}\sin\theta\dd\theta
+    =\frac{\pi R^2}{2}\paren{\cos40^\circ-\cos60^\circ}.
+\]
+\end{talkbox}
+
+\FloatBarrier
+\newpage
+
+\section{Gesamtzusammenfassung für die Prüfungsvorbereitung}
+
+\begin{summarybox}[title=Was man sicher können sollte]
+\begin{enumerate}
+    \item \textbf{Einheiten:} $\SI{1}{eV}=\SI{1.602176634e-19}{J}$ und $\SI{1}{MeV}/c^2=\SI{1.7826619216e-30}{kg}$.
+    \item \textbf{Relativistische Energie:} Nicht $F=ma$ verwenden, sondern $F=\dd p/\dd t$ mit $p=\gamma mv$.
+    \item \textbf{Endformel:} $E_{\mathrm{kin}}=mc^2(\gamma-1)$.
+    \item \textbf{Klassischer Grenzfall:} Für $v\ll c$ wird $E_{\mathrm{kin}}\approx \half mv^2$.
+    \item \textbf{Harte Kugel:} Aus $b=R\cos(\theta/2)$ folgt $\diffxs=R^2/4$ und $\sigma_{\mathrm{tot}}=\pi R^2$.
+\end{enumerate}
+\end{summarybox}
+
+\begin{warningbox}[title=Typische Fehler]
+\begin{itemize}
+    \item Bei $\si{MeV}/c^2$ nicht vergessen: zuerst $\si{MeV}$ in Joule umrechnen, dann durch $c^2$ teilen.
+    \item Bei Aufgabe 2 nicht $F=ma$ als Ausgangspunkt benutzen; relativistisch ist $F=\dd p/\dd t$ grundlegend.
+    \item Beim Wirkungsquerschnitt den Betrag $\abs{\dd b/\dd\theta}$ verwenden, weil Querschnitte positiv sind.
+    \item Beim Winkelbereich in Aufgabe 3 über den Raumwinkel integrieren: $\dd\Omega=\sin\theta\dd\theta\dd\phi$.
+\end{itemize}
+\end{warningbox}
+
+\end{document}

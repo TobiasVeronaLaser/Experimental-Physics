@@ -1,623 +1,837 @@
-% Header: General study / work / project template
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physik IV - Aufgabenblatt 4
+% Standalone homework / learning / blackboard-talk version
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[11pt,a4paper]{scrartcl}
 
-% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{Physik IV: Kerne und Teilchen}
+\newcommand{\CourseShortTitle}{Physik IV}
+\newcommand{\DocumentKind}{Hausaufgabe, Tafelvortrag und Lernfassung}
+\newcommand{\DocumentTitle}{Aufgabenblatt 4}
+\newcommand{\DocumentSubtitle}{Bethe-Weizsaecker-Formel, Coulombterm, Volumenterm und Isobarenparabeln}
+\newcommand{\AuthorName}{Tobias Laser}
+\newcommand{\InstitutionName}{Universitaet Innsbruck}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
 
-% General packages
-\usepackage{graphicx}
-\usepackage{enumitem}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
-\usepackage{amsmath,amsthm,amssymb,mathtools}
-\usepackage{icomma}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-
-% Language: choose one
-% \usepackage[ngerman]{babel}
-\usepackage[english]{babel}
-
-% Units / tables / floats / references
-\usepackage[locale = UK,space-before-unit=true,per-mode = symbol]{siunitx}
-\usepackage{booktabs,multirow}
-\usepackage{placeins}
-\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{csquotes}
 
-% Optional bibliography
-% \addbibresource{references.bib}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
 
-% Graphics paths
-\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
-% Optional math shortcuts
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
 \newcommand{\set}[1]{\left\{ #1 \right\}}
 \newcommand{\abs}[1]{\left| #1 \right|}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
 \newcommand{\ol}[1]{\overline{#1}}
 
-% Optional units
-\DeclareSIUnit{\dBm}{dBm}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
 
-% Box styles
-\newtcolorbox{calculationbox}[1][]{
-    title=Calculation,
-    breakable,
-    #1
-}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
 
-\newtcolorbox{solutionbox}[1][]{
-    title=Solution,
-    breakable,
-    #1
-}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
 
-\newtcolorbox{answerbox}[1][]{
-    title=Answer,
-    breakable,
-    #1
-}
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\mup}{\mu^+}
+\newcommand{\mum}{\mu^-}
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_\mu}
+\newcommand{\nutau}{\nu_\tau}
 
-\newtcolorbox{notebox}[1][]{
-    title=Notes,
-    breakable,
-    #1
-}
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\totalxs}{\sigma_{\mathrm{total}}}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\tmand}{t}
+\newcommand{\umand}{u}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
 
-\newtcolorbox{sidecalcbox}[1][]{
-    title=Side Calculation,
-    breakable,
-    #1
-}
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bezüglich}
+
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
+\DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
+\DeclareSIUnit{\year}{a}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
+}
+
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=Loesung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Local macros for this sheet
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Eab}{E_{\mathrm{ab}}}
+\newcommand{\EWW}{E_{\mathrm{WW}}}
+\newcommand{\aV}{a_{\mathrm V}}
+\newcommand{\aS}{a_{\mathrm S}}
+\newcommand{\aC}{a_{\mathrm C}}
+\newcommand{\aA}{a_{\mathrm A}}
+\newcommand{\aP}{a_{\mathrm P}}
+\newcommand{\mpmass}{m_{\mathrm p}}
+\newcommand{\mnmass}{m_{\mathrm n}}
+\newcommand{\memass}{m_{\mathrm e}}
+
 \begin{document}
 
-\title{Physik 4 - Blatt 04}
-\author{Tobias Laser}
-\date{\today}
-\maketitle
-\vfill
-\thispagestyle{empty}
+\makeuniversitytitle
+\tableofcontents
+\newpage
 
-\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Kurzueberblick fuer das Lernen}
+\addcontentsline{toc}{section}{Kurzueberblick fuer das Lernen}
 
-\paragraph{Aufgabe 1: Bethe-Weizsäcker: der Coulombterm}
+\begin{summarybox}[title=Was dieses Blatt prueft]
+Dieses Blatt verbindet die Bethe-Weizsaecker-Massenformel mit einfachen physikalischen Modellen:
+\begin{itemize}
+    \item Der \textbf{Coulombterm} entsteht aus der elektrostatischen Selbstenergie einer homogen geladenen Kugel.
+    \item Der \textbf{Volumenterm} entsteht modellhaft aus der kurzreichweitigen Bindung zwischen naechsten Nachbarn.
+    \item Die \textbf{Isobarenparabel} entsteht, weil die Masse bei festem $A$ als Funktion von $Z$ naeherungsweise quadratisch ist.
+\end{itemize}
+Der wichtigste Lernpunkt ist nicht nur das Einsetzen von Zahlen, sondern die Interpretation: einfache Kernmodelle liefern oft die richtige Groessenordnung, aber nicht alle mikroskopischen Details.
+\end{summarybox}
 
-Für schwere Atomkerne können Sie diese als homogen geladene Kugel betrachten.
-Dieses Modell kann man zur Herleitung des Coulombterms aus der Bethe-Weizsäcker-Formel benutzen.
-
-\begin{enumerate}[label=(\alph*)]
-
-    \item Wie groß ist die elektrostatische Abstoßungsenergie $E_{\mathrm{ab}}$ einer homogen geladenen Kugel mit Gesamtladung $Q$ und Radius $R$? Nehmen Sie dazu Ihre Aufzeichnungen aus der ersten Anwesenheitsübung her.
-
-    \begin{solutionbox}
-        Gesucht ist die elektrostatische Selbstenergie einer homogen geladenen Kugel.
-        Diese erhält man, indem man sich vorstellt, dass die Kugel schrittweise aus unendlich dünnen Kugelschalen aufgebaut wird.
-
-        Wenn die Kugel gerade den Radius $r$ besitzt, dann ist die bis dahin eingebrachte Ladung wegen der homogenen Ladungsverteilung proportional zum Volumen:
-        \[
-            q(r)=Q\frac{r^3}{R^3}.
-        \]
-
-        Das Potential an der Oberfläche einer Kugel mit Radius $r$ und Ladung $q(r)$ ist
-        \[
-            \phi(r)=\frac{1}{4\pi\varepsilon_0}\frac{q(r)}{r}.
-        \]
-
-        Fügt man nun eine infinitesimale zusätzliche Ladung $dq$ auf dieser Oberfläche hinzu, so muss dafür die Arbeit
-        \[
-            dE=\phi(r)\,dq 
-        \]
-        aufgebracht werden.n
-        Wegen
-        \[
-            q(r)=Q\frac{r^3}{R^3}
-        \]
-        folgt durch Differentiation nach $r$:
-        \[
-            dq=\frac{3Q}{R^3}r^2\,dr.
-        \]
-
-        Damit wird
-        \[
-            dE
-            =\frac{1}{4\pi\varepsilon_0}\frac{q(r)}{r}\,dq
-            =\frac{1}{4\pi\varepsilon_0}\frac{Q r^3/R^3}{r}\cdot \frac{3Q}{R^3}r^2\,dr.
-        \]
-
-        Dies vereinfacht sich zu
-        \[
-            dE
-            =\frac{1}{4\pi\varepsilon_0}\frac{3Q^2}{R^6}r^4\,dr.
-        \]
-
-        Nun integrieren wir von $r=0$ bis $r=R$:
-        \[
-            E_{\mathrm{ab}}
-            =\int_0^R dE
-            =\frac{3Q^2}{4\pi\varepsilon_0 R^6}\int_0^R r^4\,dr.
-        \]
-
-        Mit
-        \[
-            \int_0^R r^4\,dr=\frac{R^5}{5}
-        \]
-        erhält man
-        \[
-            E_{\mathrm{ab}}
-            =\frac{3Q^2}{4\pi\varepsilon_0 R^6}\cdot \frac{R^5}{5}
-            =\frac{3}{5}\frac{1}{4\pi\varepsilon_0}\frac{Q^2}{R}.
-        \]
-    \end{solutionbox}
-
-    \item Setzen Sie nun diese Energie $E_{\mathrm{ab}}$ gleich dem Coulombterm und verwenden Sie die Formel für den Rutherford-Radius
-    \[
-        R=R_0A^{1/3},
-    \]
-    um daraus eine Formel für $a_C$ herzuleiten.
-
-    \begin{solutionbox}
-        In einem Atomkern mit Protonenzahl $Z$ ist die Gesamtladung
-        \[
-            Q=Ze.
-        \]
-
-        Setzt man dies in die in Teil (a) gefundene Formel ein, so erhält man
-        \[
-            E_{\mathrm{ab}}
-            =\frac{3}{5}\frac{1}{4\pi\varepsilon_0}\frac{(Ze)^2}{R}
-            =\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0}\frac{Z^2}{R}.
-        \]
-
-        Nun verwenden wir den Rutherford-Radius
-        \[
-            R=R_0A^{1/3}.
-        \]
-        Daraus folgt
-        \[
-            E_{\mathrm{ab}}
-            =\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0}\frac{Z^2}{R_0A^{1/3}}
-            =\left(\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0R_0}\right)\frac{Z^2}{A^{1/3}}.
-        \]
-
-        Der Coulombterm der Bethe-Weizsäcker-Formel hat genau die Struktur
-        \[
-            E_C=a_C\frac{Z^2}{A^{1/3}}.
-        \]
-
-        Durch Koeffizientenvergleich erhält man direkt
-        \[
-            \boxed{
-            a_C=\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0R_0}
-            }.
-        \]
-    \end{solutionbox}
-
-    \item Welcher Wert ergibt sich für $R_0=1.2\,\mathrm{fm}$ und welcher für $R_0=1.3\,\mathrm{fm}$? Für wie gut halten Sie also diese Modellvorstellung?
-
-    \begin{solutionbox}
-        Wir benutzen den bekannten numerischen Wert
-        \[
-            \frac{e^2}{4\pi\varepsilon_0}\approx 1.44\,\mathrm{MeV\,fm}.
-        \]
-
-        Damit wird
-        \[
-            a_C=\frac{3}{5}\frac{1.44\,\mathrm{MeV\,fm}}{R_0}.
-        \]
-
-        \textbf{Fall 1:} $R_0=1.2\,\mathrm{fm}$
-
-        Dann folgt
-        \[
-            a_C=\frac{3}{5}\frac{1.44}{1.2}\,\mathrm{MeV}
-            =\frac{3}{5}\cdot 1.2\,\mathrm{MeV}
-            =0.72\,\mathrm{MeV}.
-        \]
-
-        \textbf{Fall 2:} $R_0=1.3\,\mathrm{fm}$
-
-        Dann folgt
-        \[
-            a_C=\frac{3}{5}\frac{1.44}{1.3}\,\mathrm{MeV}
-            \approx \frac{3}{5}\cdot 1.1077\,\mathrm{MeV}
-            \approx 0.6646\,\mathrm{MeV}.
-        \]
-
-        Also erhält man Werte im Bereich von ungefähr
-        \[
-            a_C\approx 0.66\text{ bis }0.72\,\mathrm{MeV}.
-        \]
-
-        Der in der Bethe-Weizsäcker-Formel üblicherweise verwendete Wert liegt etwa bei
-        \[
-            a_C\approx 0.71\,\mathrm{MeV}.
-        \]
-
-        Das einfache Modell der homogen geladenen Kugel liefert also bereits eine sehr gute Größenordnung und sogar numerisch recht passende Werte.
-    \end{solutionbox}
-
-\end{enumerate}
-
-\paragraph{Aufgabe 2: Bethe-Weizsäcker: der Volumenterm}
-
-Der Volumenterm der Bethe-Weizsäcker-Formel lautet $a_VA$.
-Das soll nun an einem einfachen Modell nachvollzogen werden.
-Gehen Sie dazu davon aus, dass aufgrund der geringen Reichweite der Kernkraft nur die nächsten Nachbarn miteinander wechselwirken.
-Dabei soll bei der Bindung zweier Nukleonen eine Wechselwirkungsenergie $\varepsilon$ frei werden.
-
-\begin{enumerate}[label=(\alph*)]
-
-    \item Nehmen Sie nun an, die Verteilung der Nukleonen im Kern entspricht der dichtesten Kugelpackung. Wieviele nächste Nachbarn $N_{\mathrm{NN}}$ besitzt dann ein Nukleon?
-
-    \begin{solutionbox}
-        In der dichtesten Kugelpackung ist jede Kugel von möglichst vielen anderen Kugeln direkt umgeben.
-        Ein bekanntes Resultat aus der Geometrie der dichtesten Kugelpackung ist, dass jede Kugel genau 12 nächste Nachbarn besitzt.
-
-        Übertragen auf den Kern bedeutet dies:
-        \[
-            N_{\mathrm{NN}}=12.
-        \]
-
-        Da laut Aufgabenstellung Oberflächeneffekte ignoriert werden dürfen, gilt diese Zahl für alle Nukleonen im Modell.
-    \end{solutionbox}
-
-    \item Da ein Kern aus $A$ Nukleonen besteht, würde man erwarten, dass sich die gesamte hier diskutierte Wechselwirkungsenergie über
-    \[
-        E_{\mathrm{WW}}=k\varepsilon A
-    \]
-    berechnet. Wie groß sollte also im Sinne von Teil (a) die Konstante $k$ sein?
-
-    \begin{solutionbox}
-        Nach Teil (a) hat jedes Nukleon 12 nächste Nachbarn.
-        Würde man die Zahl der Bindungen einfach als
-        \[
-            12A
-        \]
-        ansetzen, dann würde jede Bindung doppelt gezählt:
-        einmal vom ersten Nukleon aus und einmal vom zweiten Nukleon aus.
-
-        Deshalb muss man durch 2 teilen. Die tatsächliche Zahl der Nachbarbindungen ist also
-        \[
-            \frac{12A}{2}=6A.
-        \]
-
-        Jede dieser Bindungen liefert die Energie $\varepsilon$.
-        Also ist die gesamte Wechselwirkungsenergie
-        \[
-            E_{\mathrm{WW}}=6A\,\varepsilon.
-        \]
-
-        Vergleicht man dies mit
-        \[
-            E_{\mathrm{WW}}=k\varepsilon A,
-        \]
-        dann folgt unmittelbar
-        \[
-            \boxed{k=6}.
-        \]
-    \end{solutionbox}
-
-    \item Nun soll $\varepsilon$ anhand von Daten bestimmt werden. Um einen möglichst einfachen Kern zu betrachten, nutzen wir hier die Bindungsenergie von ${}^2\mathrm{H}$ (Deuterium), die $2.23\,\mathrm{MeV}$ beträgt. Was ergibt sich in diesem Fall für $\varepsilon$? Welcher Wert folgt somit für $a_V$ und wie vergleicht sich das mit dem bisher benutzten Wert von $a_V=15.85\,\mathrm{MeV}$?
-
-    \begin{solutionbox}
-        Das Deuterium ${}^2\mathrm{H}$ besteht aus genau zwei Nukleonen:
-        einem Proton und einem Neutron.
-        Zwischen diesen beiden Nukleonen gibt es genau eine Bindung.
-
-        In diesem einfachen Modell ist die gesamte Bindungsenergie des Deuteriums daher direkt gleich der Bindungsenergie einer einzelnen Nachbarbindung:
-        \[
-            \varepsilon = 2.23\,\mathrm{MeV}.
-        \]
-
-        Aus Teil (b) wissen wir, dass im Modell für große Kerne
-        \[
-            E_{\mathrm{WW}}=6\varepsilon A
-        \]
-        gilt.
-        Der Volumenterm der Bethe-Weizsäcker-Formel hat die Form
-        \[
-            a_VA.
-        \]
-
-        Daher identifiziert man
-        \[
-            a_V=6\varepsilon.
-        \]
-
-        Mit $\varepsilon=2.23\,\mathrm{MeV}$ folgt
-        \[
-            a_V=6\cdot 2.23\,\mathrm{MeV}=13.38\,\mathrm{MeV}.
-        \]
-
-        Verglichen mit dem üblichen Wert
-        \[
-            a_V=15.85\,\mathrm{MeV}
-        \]
-        ist das Modellresultat kleiner.
-        Die Differenz beträgt
-        \[
-            15.85-13.38=2.47\,\mathrm{MeV}.
-        \]
-
-        Relativ gesehen ergibt sich
-        \[
-            \frac{2.47}{15.85}\approx 0.156 \approx 15.6\%.
-        \]
-
-        Das Modell erklärt also die Größenordnung des Volumenterms recht gut, ist aber nicht exakt.
-        Das ist plausibel, weil das Modell sehr stark vereinfacht:
-        Es berücksichtigt z.\,B. nicht die komplizierte Struktur der Kernkraft und keine feineren quantenmechanischen Effekte.
-    \end{solutionbox}
-
-\end{enumerate}
-
-\paragraph{Aufgabe 3: Stabilstes Nuklid einer Isobare}
-
-Verwenden Sie im Folgenden die Bethe-Weizsäcker-Formel:
+\begin{formulabox}[title=Bethe-Weizsaecker-Massenformel in der verwendeten Form]
 \[
-M(A, Z) = (A - Z)m_N + Zm_P + Zm_e
--
-\left(
-a_VA - a_SA^{2/3} - a_CZ^2A^{-1/3} - a_A\frac{(A - 2Z)^2}{A} + \delta a_P A^{-1/2}
-\right)c^{-2},
+M(A,Z)=(A-Z)m_{\mathrm n}+Z m_{\mathrm p}+Z m_{\mathrm e}
+-\left(
+\aV A-\aS A^{2/3}-\aC Z^2 A^{-1/3}
+-\aA\frac{(A-2Z)^2}{A}+\delta\aP A^{-1/2}
+\right)c^{-2}.
 \]
-mit den Koeffizienten
-\[
-a_V = 15.58\,\mathrm{MeV}, \qquad
-a_S = 16.91\,\mathrm{MeV}, \qquad
-a_C = 0.71\,\mathrm{MeV}, \qquad
-a_A = 23.21\,\mathrm{MeV}, \qquad
-a_P = 11.46\,\mathrm{MeV}.
-\]
+\end{formulabox}
 
-Im Folgenden wird die Massenabhängigkeit $M(A,Z)$ einer Isobarenreihe ($A=\text{const.}$) betrachtet.
+\begin{notebox}[title=Vorzeichenlogik]
+Die Bindungsenergie $B(A,Z)$ wird von den freien Nukleonenmassen abgezogen. Terme, die die Bindung verringern, stehen in $B$ mit Minuszeichen, erscheinen aber in $M c^2$ mit Pluszeichen. Deshalb erhoehen Coulombterm und Asymmetrieterm die Masse.
+\end{notebox}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 1: Bethe-Weizsaecker - der Coulombterm}
+
+\begin{taskbox}
+Fuer schwere Atomkerne modelliert man den Kern als homogen geladene Kugel mit Gesamtladung $Q$ und Radius $R$.
+\begin{enumerate}[label=(\alph*)]
+    \item Bestimme die elektrostatische Abstossungsenergie $\Eab$ einer homogen geladenen Kugel.
+    \item Setze diese Energie gleich dem Coulombterm der Bethe-Weizsaecker-Formel und verwende $R=R_0A^{1/3}$, um $\aC$ herzuleiten.
+    \item Berechne $\aC$ fuer $R_0=\SI{1.2}{\fermi}$ und $R_0=\SI{1.3}{\fermi}$ und bewerte das Modell.
+\end{enumerate}
+\end{taskbox}
+
+\subsection{Abgabe / vollstaendige Loesung}
 
 \begin{enumerate}[label=(\alph*)]
+    \item \textbf{Selbstenergie der homogen geladenen Kugel.}
 
-    \item Berechnen Sie mit Hilfe der Bethe-Weizsäcker-Formel für eine konstante Nukleonenzahl die Kernladungszahl $Z_0$, bei der die Kernmasse minimal wird. Nehmen Sie hierfür $\delta=0$ an.
+    \begin{calculationbox}
+    Wir bauen die Kugel gedanklich aus duennen Kugelschalen auf. Hat die bereits aufgebaute Kugel den Radius $r$, so ist wegen der homogenen Ladungsdichte die eingeschlossene Ladung proportional zum Volumen:
+    \[
+        q(r)=Q\frac{r^3}{R^3}.
+    \]
+    Das Potential an der Oberflaeche dieser Zwischenkugel ist
+    \[
+        \phi(r)=\frac{1}{4\pi\varepsilon_0}\frac{q(r)}{r}.
+    \]
+    Die Ladungszunahme beim Vergroessern von $r$ um $\dd r$ ist
+    \[
+        \dd q = \dv{q}{r}\dd r = \frac{3Q}{R^3}r^2\dd r.
+    \]
+    Daher ist die aufzubringende Arbeit
+    \[
+        \dd E = \phi(r)\dd q
+        =\frac{1}{4\pi\varepsilon_0}\frac{Qr^3/R^3}{r}\frac{3Q}{R^3}r^2\dd r
+        =\frac{1}{4\pi\varepsilon_0}\frac{3Q^2}{R^6}r^4\dd r.
+    \]
+    Integration von $0$ bis $R$ ergibt
+    \[
+        \Eab=\int_0^R \dd E
+        =\frac{3Q^2}{4\pi\varepsilon_0R^6}\int_0^R r^4\dd r
+        =\frac{3Q^2}{4\pi\varepsilon_0R^6}\frac{R^5}{5}.
+    \]
+    \end{calculationbox}
 
-    \begin{solutionbox}
-        Gesucht ist das Minimum der Masse $M(A,Z)$ für festes $A$.
-        Da $A$ konstant ist, sind alle Terme, die nur von $A$ abhängen, für die Minimierung irrelevant.
-        Außerdem setzen wir gemäß Aufgabenstellung
-        \[
-            \delta=0.
-        \]
+    \begin{answerbox}
+    \[
+        \boxed{\Eab=\frac{3}{5}\frac{1}{4\pi\varepsilon_0}\frac{Q^2}{R}}.
+    \]
+    \end{answerbox}
 
-        Wir betrachten also nur die $Z$-abhängigen Terme.
-        Zweckmäßig multiplizieren wir die Massenformel zunächst mit $c^2$, damit wir direkt mit Energien arbeiten können:
-        \[
-            M(A,Z)c^2
-            =(A-Z)m_Nc^2+Z(m_P+m_e)c^2
-            -a_VA+a_SA^{2/3}+a_CZ^2A^{-1/3}+a_A\frac{(A-2Z)^2}{A}.
-        \]
+    \item \textbf{Vergleich mit dem Coulombterm.}
 
-        Für die Ableitung nach $Z$ können wir die konstanten Terme weglassen.
-        Es bleibt
-        \[
-            f(Z)= -Zm_Nc^2 + Z(m_P+m_e)c^2 + a_CZ^2A^{-1/3} + a_A\frac{(A-2Z)^2}{A}.
-        \]
+    \begin{calculationbox}
+    Fuer einen Kern mit Protonenzahl $Z$ gilt $Q=Ze$. Damit folgt
+    \[
+        \Eab=\frac{3}{5}\frac{1}{4\pi\varepsilon_0}\frac{Z^2e^2}{R}.
+    \]
+    Mit dem Rutherford-Radius
+    \[
+        R=R_0A^{1/3}
+    \]
+    wird
+    \[
+        \Eab=\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0R_0}\frac{Z^2}{A^{1/3}}.
+    \]
+    Der Coulombterm der Bethe-Weizsaecker-Formel hat die Form
+    \[
+        E_C=\aC\frac{Z^2}{A^{1/3}}.
+    \]
+    Koeffizientenvergleich liefert direkt
+    \[
+        \aC=\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0R_0}.
+    \]
+    \end{calculationbox}
 
-        Zusammengefasst:
-        \[
-            f(Z)= Z(m_P+m_e-m_N)c^2 + a_CZ^2A^{-1/3} + a_A\frac{(A-2Z)^2}{A}.
-        \]
+    \begin{answerbox}
+    \[
+        \boxed{\aC=\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0R_0}}.
+    \]
+    \end{answerbox}
 
-        Nun leiten wir nach $Z$ ab.
+    \item \textbf{Numerische Werte.}
 
-        Für den linearen Term gilt:
-        \[
-            \frac{d}{dZ}\left[Z(m_P+m_e-m_N)c^2\right]
-            =(m_P+m_e-m_N)c^2.
-        \]
+    \begin{calculationbox}
+    Mit
+    \[
+        \frac{e^2}{4\pi\varepsilon_0}\approx \SI{1.44}{\MeV\fermi}
+    \]
+    folgt
+    \[
+        \aC=\frac{3}{5}\frac{\SI{1.44}{\MeV\fermi}}{R_0}.
+    \]
+    Fuer $R_0=\SI{1.2}{\fermi}$:
+    \[
+        \aC=\frac{3}{5}\frac{1.44}{1.2}\,\si{\MeV}=\SI{0.72}{\MeV}.
+    \]
+    Fuer $R_0=\SI{1.3}{\fermi}$:
+    \[
+        \aC=\frac{3}{5}\frac{1.44}{1.3}\,\si{\MeV}\approx\SI{0.665}{\MeV}.
+    \]
+    \end{calculationbox}
 
-        Für den Coulombterm:
-        \[
-            \frac{d}{dZ}\left[a_CZ^2A^{-1/3}\right]
-            =2a_CZA^{-1/3}.
-        \]
-
-        Für den Asymmetrieterm:
-        \[
-            \frac{d}{dZ}\left[a_A\frac{(A-2Z)^2}{A}\right]
-            =a_A\frac{2(A-2Z)(-2)}{A}
-            =-4a_A\frac{A-2Z}{A}.
-        \]
-
-        Damit ist insgesamt
-        \[
-            \frac{df}{dZ}
-            =(m_P+m_e-m_N)c^2 + 2a_CZA^{-1/3} -4a_A\frac{A-2Z}{A}.
-        \]
-
-        Für ein Extremum setzen wir
-        \[
-            \frac{df}{dZ}=0.
-        \]
-        Also
-        \[
-            (m_P+m_e-m_N)c^2 + 2a_CZA^{-1/3} -4a_A\frac{A-2Z}{A}=0.
-        \]
-
-        Den letzten Term schreiben wir aus:
-        \[
-            -4a_A\frac{A-2Z}{A}
-            =-4a_A+\frac{8a_A}{A}Z.
-        \]
-
-        Somit wird die Gleichung
-        \[
-            (m_P+m_e-m_N)c^2 + 2a_CZA^{-1/3} -4a_A + \frac{8a_A}{A}Z = 0.
-        \]
-
-        Wir sammeln alle $Z$-Terme:
-        \[
-            Z\left(2a_CA^{-1/3}+\frac{8a_A}{A}\right)
-            =4a_A-(m_P+m_e-m_N)c^2.
-        \]
-
-        Damit folgt
-        \[
-            \boxed{
-            Z_0=
-            \frac{4a_A-(m_P+m_e-m_N)c^2}
-            {2a_CA^{-1/3}+\dfrac{8a_A}{A}}
-            }.
-        \]
-
-        Multipliziert man Zähler und Nenner noch mit $A$, so erhält man die äquivalente Form
-        \[
-            \boxed{
-            Z_0=
-            \frac{A\left[4a_A-(m_P+m_e-m_N)c^2\right]}
-            {2a_CA^{2/3}+8a_A}
-            }.
-        \]
-    \end{solutionbox}
-
-    \item Berechnen Sie $Z_0$ für $A=25$ und für $A=67$ und vergleichen Sie Ihr Ergebnis mit der Nuklidkarte. Diskutieren Sie das Ergebnis. Zeichnen Sie in beiden Fällen eine Grafik der Massenparabeln im Bereich $Z_0\pm 3$, wobei Sie sowohl die Masse laut Massenformel als auch die gemessenen Massen eintragen.
-
-    \begin{solutionbox}
-        Zunächst benötigen wir die Massendifferenz
-        \[
-            (m_P+m_e-m_N)c^2.
-        \]
-        Mit den bekannten Ruheenergien gilt näherungsweise
-        \[
-            m_Pc^2\approx 938.272\,\mathrm{MeV},\qquad
-            m_ec^2\approx 0.511\,\mathrm{MeV},\qquad
-            m_Nc^2\approx 939.565\,\mathrm{MeV}.
-        \]
-        Also
-        \[
-            (m_P+m_e-m_N)c^2
-            \approx 938.272+0.511-939.565
-            \approx -0.782\,\mathrm{MeV}.
-        \]
-
-        Damit wird die Formel aus Teil (a)
-        \[
-            Z_0=
-            \frac{4a_A-(m_P+m_e-m_N)c^2}
-            {2a_CA^{-1/3}+\dfrac{8a_A}{A}}
-        \]
-        zu
-        \[
-            Z_0=
-            \frac{4a_A+0.782}{2a_CA^{-1/3}+\dfrac{8a_A}{A}}.
-        \]
-
-        Da
-        \[
-            a_A=23.21\,\mathrm{MeV},
-        \]
-        ist
-        \[
-            4a_A+0.782=4\cdot 23.21+0.782=93.622\,\mathrm{MeV}.
-        \]
-
-        \textbf{Fall 1: $A=25$}
-
-        Zuerst berechnen wir
-        \[
-            A^{-1/3}=25^{-1/3}\approx 0.342.
-        \]
-        Dann
-        \[
-            2a_CA^{-1/3}=2\cdot 0.71\cdot 0.342\approx 0.486.
-        \]
-        Weiter
-        \[
-            \frac{8a_A}{A}=\frac{8\cdot 23.21}{25}=\frac{185.68}{25}\approx 7.427.
-        \]
-        Also ist der Nenner
-        \[
-            0.486+7.427=7.913.
-        \]
-        Damit folgt
-        \[
-            Z_0(25)=\frac{93.622}{7.913}\approx 11.83.
-        \]
-
-        \textbf{Fall 2: $A=67$}
-
-        Nun
-        \[
-            A^{-1/3}=67^{-1/3}\approx 0.2465.
-        \]
-        Daher
-        \[
-            2a_CA^{-1/3}=2\cdot 0.71\cdot 0.2465\approx 0.350.
-        \]
-        Und
-        \[
-            \frac{8a_A}{A}=\frac{8\cdot 23.21}{67}=\frac{185.68}{67}\approx 2.772.
-        \]
-        Also ist der Nenner
-        \[
-            0.350+2.772=3.122.
-        \]
-        Damit ergibt sich
-        \[
-            Z_0(67)=\frac{93.622}{3.122}\approx 29.998 \approx 30.00.
-        \]
-
-        Da die Kernladungszahl ganzzahlig sein muss, erwartet man die stabilsten Isobare also bei
-        \[
-            Z=12 \quad \text{für } A=25,
-        \]
-        und
-        \[
-            Z=30 \quad \text{für } A=67.
-        \]
-
-        Diese Werte entsprechen
-        \[
-            {}^{25}\mathrm{Mg}\quad (Z=12)
-        \]
-        bzw.
-        \[
-            {}^{67}\mathrm{Zn}\quad (Z=30).
-        \]
-
-        Das stimmt gut mit der Nuklidkarte überein:
-        Die Bethe-Weizsäcker-Formel sagt die Lage des Minimums der Isobarenparabel also gut voraus.
-
-        Für die geforderte Zeichnung trägt man für die theoretische Parabel die Werte im Bereich
-        \[
-            Z_0\pm 3
-        \]
-        auf, also ungefähr
-
-        für $A=25$:
-        \[
-            Z=9,10,11,12,13,14,15,
-        \]
-        und für $A=67$:
-        \[
-            Z=27,28,29,30,31,32,33.
-        \]
-
-        Dabei berechnet man jeweils $M(A,Z)$ aus der Bethe-Weizsäcker-Formel und trägt zusätzlich die gemessenen Massen aus der Nuklidkarte als einzelne Punkte ein.
-
-        Qualitativ erwartet man:
-        \begin{itemize}
-            \item eine nach oben geöffnete Parabel als theoretische Kurve,
-            \item ihr Minimum bei etwa $Z=12$ bzw. $Z=30$,
-            \item kleine Abweichungen der realen Massen von der idealen Parabel, da Schaleneffekte und andere mikroskopische Strukturen in der einfachen Massenformel nicht vollständig beschrieben werden.
-        \end{itemize}
-    \end{solutionbox}
-
+    \begin{answerbox}
+    \[
+        \boxed{\aC(R_0=\SI{1.2}{\fermi})\approx\SI{0.72}{\MeV}},\qquad
+        \boxed{\aC(R_0=\SI{1.3}{\fermi})\approx\SI{0.665}{\MeV}}.
+    \]
+    Das Modell ist erstaunlich gut: Der empirische Wert liegt in der Groessenordnung $\aC\approx\SI{0.71}{\MeV}$. Die homogen geladene Kugel beschreibt also den Coulombanteil schwerer Kerne plausibel, obwohl reale Kerne keine scharf begrenzten homogenen Ladungskugeln sind.
+    \end{answerbox}
 \end{enumerate}
+
+\subsection{Tafelvortrag}
+\begin{summarybox}[title=5-Minuten-Struktur]
+\begin{enumerate}
+    \item Skizze: Kugel mit Radius $R$, Zwischenkugel $r$, Gesamtladung $Q$.
+    \item Kernidee: Kugel schalenweise aufbauen, $\dd E=\phi\,\dd q$.
+    \item Homogene Dichte: $q(r)=Q r^3/R^3$, also $\dd q=3Qr^2\dd r/R^3$.
+    \item Integration: $\Eab=\int_0^R \frac{1}{4\pi\varepsilon_0}\frac{q(r)}{r}\dd q$.
+    \item Vergleich mit $E_C=\aC Z^2/A^{1/3}$ und Ergebnis $\aC=\frac{3}{5}e^2/(4\pi\varepsilon_0R_0)$.
+\end{enumerate}
+\end{summarybox}
+
+\begin{notebox}[title=Typische Rueckfrage]
+Warum steht in der Massenformel oft $Z(Z-1)$ statt $Z^2$? Physikalisch wechselwirkt ein Proton nicht mit sich selbst. Fuer grosse $Z$ ist $Z(Z-1)\approx Z^2$. Das Kugelmodell ist ohnehin eine kontinuierliche Naeherung.
+\end{notebox}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 2: Bethe-Weizsaecker - der Volumenterm}
+
+\begin{taskbox}
+Der Volumenterm der Bethe-Weizsaecker-Formel lautet $\aV A$. Er soll mit einem Nachbarbindungsmodell verstanden werden. Wegen der kurzen Reichweite der Kernkraft wechselwirken nur naechste Nachbarn. Jede Bindung zweier Nukleonen setzt eine Energie $\varepsilon$ frei.
+\begin{enumerate}[label=(\alph*)]
+    \item Wie viele naechste Nachbarn besitzt ein Nukleon in dichtester Kugelpackung?
+    \item Bestimme $k$ in $\EWW=k\varepsilon A$.
+    \item Verwende die Bindungsenergie von Deuterium, $\SI{2.23}{\MeV}$, zur Abschaetzung von $\varepsilon$ und $\aV$.
+\end{enumerate}
+\end{taskbox}
+
+\subsection{Abgabe / vollstaendige Loesung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Naechste Nachbarn.}
+
+    \begin{solutionbox}
+    In der dichtesten Kugelpackung beruehrt jede Kugel $12$ andere Kugeln. Uebertragen auf das Nukleonenmodell bedeutet das:
+    \[
+        N_{\mathrm{NN}}=12.
+    \]
+    Oberflaecheneffekte werden in der Aufgabenstellung bewusst ignoriert.
+    \end{solutionbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{N_{\mathrm{NN}}=12}.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Doppelzaehlung der Bindungen.}
+
+    \begin{calculationbox}
+    Ein Kern mit $A$ Nukleonen haette bei naiver Zaehlung $12A$ Nachbarschaften. Jede reale Bindung wird dabei aber zweimal gezaehlt: einmal von Nukleon 1 zu Nukleon 2 und einmal von Nukleon 2 zu Nukleon 1. Deshalb ist die Zahl der Bindungen
+    \[
+        N_{\mathrm{Bindungen}}=\frac{12A}{2}=6A.
+    \]
+    Wenn jede Bindung die Energie $\varepsilon$ freisetzt, gilt
+    \[
+        \EWW=6A\varepsilon.
+    \]
+    Vergleich mit $\EWW=k\varepsilon A$ liefert
+    \[
+        k=6.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{k=6}.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Abschaetzung mit Deuterium.}
+
+    \begin{calculationbox}
+    Das Deuteron $\isotope{2}{H}$ besteht aus einem Proton und einem Neutron. Es besitzt in diesem Minimalmodell genau eine Bindung. Daher setzen wir
+    \[
+        \varepsilon \approx B(\isotope{2}{H})=\SI{2.23}{\MeV}.
+    \]
+    Aus Teil (b) folgt fuer grosse Kerne
+    \[
+        \EWW=6\varepsilon A.
+    \]
+    Der Volumenterm lautet
+    \[
+        E_V=\aV A.
+    \]
+    Also identifiziert man
+    \[
+        \aV=6\varepsilon=6\cdot\SI{2.23}{\MeV}=\SI{13.38}{\MeV}.
+    \]
+    Vergleich mit $\aV=\SI{15.85}{\MeV}$:
+    \[
+        \Delta \aV=\SI{15.85}{\MeV}-\SI{13.38}{\MeV}=\SI{2.47}{\MeV},
+    \]
+    \[
+        \frac{\Delta \aV}{\SI{15.85}{\MeV}}\approx 0.156\approx \SI{15.6}{\percent}.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{\varepsilon\approx\SI{2.23}{\MeV}},\qquad
+        \boxed{\aV\approx\SI{13.38}{\MeV}}.
+    \]
+    Das Ergebnis ist kleiner als der verwendete empirische Wert $\SI{15.85}{\MeV}$, aber die Groessenordnung stimmt gut. Die Abweichung ist erwartbar, weil Deuterium ein sehr spezielles Zwei-Nukleonen-System ist und das Modell Schalenstruktur, Spinabhaengigkeit, Tensoranteile und Oberflaecheneffekte nicht enthaelt.
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tafelvortrag}
+\begin{summarybox}[title=Kernaussage fuer die Tafel]
+\[
+    \text{12 Nachbarn pro Nukleon}\quad\Rightarrow\quad \frac{12A}{2}=6A\text{ Bindungen}\quad\Rightarrow\quad \EWW=6\varepsilon A.
+\]
+Die Division durch $2$ ist der wichtigste Schritt: Ohne sie wuerde jede Nukleon-Nukleon-Bindung doppelt gezaehlt.
+\end{summarybox}
+
+\begin{notebox}[title=Lernintuition]
+Der Volumenterm ist proportional zu $A$, weil jedes Nukleon im Inneren ungefaehr gleich viele Nachbarn hat. Die Kernkraft ist kurzreichweitig; deshalb waechst die Bindung nicht mit der Zahl aller Paare $\sim A^2$, sondern nur mit der Zahl lokaler Nachbarbindungen $\sim A$.
+\end{notebox}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 3: Stabilstes Nuklid einer Isobare}
+
+\begin{taskbox}
+Fuer eine Isobarenreihe wird $A$ konstant gehalten. Mit der Bethe-Weizsaecker-Formel soll die Kernladungszahl $Z_0$ bestimmt werden, bei der die Masse minimal wird. Setze dafuer $\delta=0$.
+\begin{enumerate}[label=(\alph*)]
+    \item Leite $Z_0$ allgemein aus der Massenformel her.
+    \item Berechne $Z_0$ fuer $A=25$ und $A=67$, vergleiche mit der Nuklidkarte und zeichne die Massenparabeln im Bereich $Z_0\pm 3$ mit theoretischen und gemessenen Massen.
+\end{enumerate}
+\end{taskbox}
+
+\subsection{Abgabe / vollstaendige Loesung}
+
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Allgemeine Herleitung von $Z_0$.}
+
+    \begin{calculationbox}
+    Wir minimieren $M(A,Z)$ fuer festes $A$. Es ist uebersichtlicher, mit $M(A,Z)c^2$ zu arbeiten. Mit $\delta=0$ gilt
+    \[
+    M(A,Z)c^2=(A-Z)m_{\mathrm n}c^2+Z m_{\mathrm p}c^2+Z m_{\mathrm e}c^2
+    -\aV A+\aS A^{2/3}+\aC Z^2 A^{-1/3}+\aA\frac{(A-2Z)^2}{A}.
+    \]
+    Fuer die Ableitung nach $Z$ sind nur die $Z$-abhaengigen Terme relevant:
+    \[
+        f(Z)=Z(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2
+        +\aC Z^2A^{-1/3}+\aA\frac{(A-2Z)^2}{A}.
+    \]
+    Ableiten:
+    \[
+        \dv{f}{Z}=(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2
+        +2\aC ZA^{-1/3}-4\aA\frac{A-2Z}{A}.
+    \]
+    Minimumsbedingung:
+    \[
+        \dv{f}{Z}=0.
+    \]
+    Also
+    \[
+        (m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2
+        +2\aC ZA^{-1/3}-4\aA+\frac{8\aA}{A}Z=0.
+    \]
+    Wir sammeln die $Z$-Terme:
+    \[
+        Z\left(2\aC A^{-1/3}+\frac{8\aA}{A}\right)
+        =4\aA-(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2.
+    \]
+    Damit
+    \[
+        Z_0=\frac{4\aA-(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2}
+        {2\aC A^{-1/3}+8\aA/A}.
+    \]
+    Multiplikation von Zaehler und Nenner mit $A$ liefert die aequivalente Form
+    \[
+        Z_0=\frac{A\left[4\aA-(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2\right]}
+        {2\aC A^{2/3}+8\aA}.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{Z_0=\frac{4\aA-(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2}
+        {2\aC A^{-1/3}+8\aA/A}}
+    \]
+    beziehungsweise
+    \[
+        \boxed{Z_0=\frac{A\left[4\aA-(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2\right]}
+        {2\aC A^{2/3}+8\aA}}.
+    \]
+    \end{answerbox}
+
+    \item \textbf{Numerische Auswertung fuer $A=25$ und $A=67$.}
+
+    \begin{calculationbox}
+    Verwendete Ruheenergien:
+    \[
+        m_{\mathrm p}c^2=\SI{938.272}{\MeV},\qquad
+        m_{\mathrm n}c^2=\SI{939.565}{\MeV},\qquad
+        m_{\mathrm e}c^2=\SI{0.511}{\MeV}.
+    \]
+    Daher
+    \[
+        (m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2
+        \approx 938.272+0.511-939.565
+        =\SI{-0.782}{\MeV}.
+    \]
+    Mit $\aA=\SI{23.21}{\MeV}$ und $\aC=\SI{0.71}{\MeV}$ wird
+    \[
+        Z_0=\frac{4\cdot23.21+0.782}{2\cdot0.71 A^{-1/3}+8\cdot23.21/A}.
+    \]
+    Fuer $A=25$:
+    \[
+        A^{-1/3}=25^{-1/3}\approx0.342,
+    \]
+    \[
+        Z_0(25)=\frac{93.622}{2\cdot0.71\cdot0.342+185.68/25}
+        \approx\frac{93.622}{7.913}\approx11.83.
+    \]
+    Fuer $A=67$:
+    \[
+        A^{-1/3}=67^{-1/3}\approx0.2465,
+    \]
+    \[
+        Z_0(67)=\frac{93.622}{2\cdot0.71\cdot0.2465+185.68/67}
+        \approx\frac{93.622}{3.121}\approx30.00.
+    \]
+    \end{calculationbox}
+
+    \begin{answerbox}
+    \[
+        \boxed{Z_0(A=25)\approx11.83\Rightarrow Z=12\Rightarrow \isotope{25}{Mg}},
+    \]
+    \[
+        \boxed{Z_0(A=67)\approx30.00\Rightarrow Z=30\Rightarrow \isotope{67}{Zn}}.
+    \]
+    Beide Ergebnisse passen zur Nuklidkarte: $\isotope{25}{Mg}$ und $\isotope{67}{Zn}$ sind stabile Nuklide. Die Massenformel beschreibt also die Lage des Massental-Minimums gut.
+    \end{answerbox}
+\end{enumerate}
+
+\subsection{Tabellen fuer die Massenparabeln}
+
+\begin{notebox}[title=Darstellung der Plots]
+Die absoluten Atommassen liegen bei vielen zehntausend $\si{\MeV}/c^2$, waehrend sich die Isobaren innerhalb einer Reihe nur um wenige bis einige zehn $\si{\MeV}/c^2$ unterscheiden. Deshalb werden in den Plots relative Massen
+\[
+    \Delta M(Z)=M(A,Z)-M_{\min}(A)
+\]
+gezeigt. Das verschiebt die Kurven nur vertikal und aendert das Minimum nicht.
+\end{notebox}
+
+\begin{table}[h]
+\centering
+\caption{Theoretische und experimentelle relative Massen fuer $A=25$.}
+\begin{tabular}{c c c c c}
+\toprule
+$Z$ & Nuklid & $M_{\mathrm{theo}}$ / $\si{\MeV}/c^2$ & $\Delta M_{\mathrm{theo}}$ / $\si{\MeV}/c^2$ & $\Delta M_{\mathrm{exp}}$ / $\si{\MeV}/c^2$ \\
+\midrule
+9  & $\isotope{25}{F}$  & 23302.333 & 31.613 & 24.530 \\
+10 & $\isotope{25}{Ne}$ & 23283.882 & 13.162 & 11.154 \\
+11 & $\isotope{25}{Na}$ & 23273.345 &  2.625 &  3.836 \\
+12 & $\isotope{25}{Mg}$ & 23270.720 &  0.000 &  0.000 \\
+13 & $\isotope{25}{Al}$ & 23276.008 &  5.288 &  4.277 \\
+14 & $\isotope{25}{Si}$ & 23289.209 & 18.489 & 17.021 \\
+15 & $\isotope{25}{P}$  & 23310.323 & 39.603 & 33.388 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Theoretische und experimentelle relative Massen fuer $A=67$.}
+\begin{tabular}{c c c c c}
+\toprule
+$Z$ & Nuklid & $M_{\mathrm{theo}}$ / $\si{\MeV}/c^2$ & $\Delta M_{\mathrm{theo}}$ / $\si{\MeV}/c^2$ & $\Delta M_{\mathrm{exp}}$ / $\si{\MeV}/c^2$ \\
+\midrule
+27 & $\isotope{67}{Co}$ & 62350.832 & 14.025 & 12.559 \\
+28 & $\isotope{67}{Ni}$ & 62343.036 &  6.229 &  4.137 \\
+29 & $\isotope{67}{Cu}$ & 62338.361 &  1.554 &  0.561 \\
+30 & $\isotope{67}{Zn}$ & 62336.807 &  0.000 &  0.000 \\
+31 & $\isotope{67}{Ga}$ & 62338.374 &  1.567 &  1.001 \\
+32 & $\isotope{67}{Ge}$ & 62343.062 &  6.255 &  5.207 \\
+33 & $\isotope{67}{As}$ & 62350.871 & 14.064 & 11.293 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+
+\subsection{Massenparabeln}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.88\textwidth,
+    height=7cm,
+    xlabel={$Z$},
+    ylabel={$\Delta M$ / $\si{\MeV}/c^2$},
+    title={Isobarenparabel fuer $A=25$},
+    grid=both,
+    xmin=8.5,xmax=15.5,
+    ymin=0,ymax=42,
+    legend pos=north west
+]
+\addplot+[mark=*] table[row sep=\\]{%
+Z y\\
+9 31.613\\
+10 13.162\\
+11 2.625\\
+12 0.000\\
+13 5.288\\
+14 18.489\\
+15 39.603\\
+};
+\addlegendentry{Massenformel}
+\addplot+[only marks,mark=square*] table[row sep=\\]{%
+Z y\\
+9 24.530\\
+10 11.154\\
+11 3.836\\
+12 0.000\\
+13 4.277\\
+14 17.021\\
+15 33.388\\
+};
+\addlegendentry{gemessen}
+\end{axis}
+\end{tikzpicture}
+\caption{Relative Massen der Isobarenreihe $A=25$. Das Minimum liegt bei $Z=12$, also bei $\isotope{25}{Mg}$.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.88\textwidth,
+    height=7cm,
+    xlabel={$Z$},
+    ylabel={$\Delta M$ / $\si{\MeV}/c^2$},
+    title={Isobarenparabel fuer $A=67$},
+    grid=both,
+    xmin=26.5,xmax=33.5,
+    ymin=0,ymax=16,
+    legend pos=north west
+]
+\addplot+[mark=*] table[row sep=\\]{%
+Z y\\
+27 14.025\\
+28 6.229\\
+29 1.554\\
+30 0.000\\
+31 1.567\\
+32 6.255\\
+33 14.064\\
+};
+\addlegendentry{Massenformel}
+\addplot+[only marks,mark=square*] table[row sep=\\]{%
+Z y\\
+27 12.559\\
+28 4.137\\
+29 0.561\\
+30 0.000\\
+31 1.001\\
+32 5.207\\
+33 11.293\\
+};
+\addlegendentry{gemessen}
+\end{axis}
+\end{tikzpicture}
+\caption{Relative Massen der Isobarenreihe $A=67$. Das Minimum liegt bei $Z=30$, also bei $\isotope{67}{Zn}$.}
+\end{figure}
+
+\FloatBarrier
+
+\subsection{Diskussion}
+\begin{solutionbox}[title=Physikalische Interpretation]
+Fuer festes $A$ konkurrieren im Wesentlichen zwei $Z$-abhaengige Effekte:
+\begin{itemize}
+    \item Der \textbf{Coulombterm} wird bei grossem $Z$ groesser und bevorzugt daher kleinere Protonenzahlen.
+    \item Der \textbf{Asymmetrieterm} bestraft grosse Abweichungen von $N=Z$, also von $A-2Z=0$.
+\end{itemize}
+Das Minimum der Isobarenparabel liegt dort, wo diese Effekte zusammen mit der kleinen Massendifferenz zwischen Neutron und Proton ausgeglichen sind. Fuer leichte Kerne liegt das Minimum naeher bei $N\approx Z$. Fuer schwerere Kerne wird wegen der Coulombabstossung ein Neutronenueberschuss energetisch guenstig.
+\end{solutionbox}
+
+\begin{warningbox}[title=Warum die gemessenen Punkte nicht perfekt auf der Parabel liegen]
+Die Bethe-Weizsaecker-Formel ist eine makroskopische Naeherung. Reale Massen enthalten zusaetzlich Schalenkorrekturen, Paarungseffekte, Deformationen und weitere mikroskopische Beitraege. Deshalb sagt die Massenformel den Trend und das ungefaehre Minimum sehr gut voraus, aber nicht jeden einzelnen Massenwert exakt.
+\end{warningbox}
+
+\subsection{Tafelvortrag}
+\begin{summarybox}[title=8-Minuten-Struktur]
+\begin{enumerate}
+    \item Schreibe die Bethe-Weizsaecker-Formel hin und setze $\delta=0$.
+    \item Erklaere: $A$ konstant, deshalb nur $Z$-abhaengige Terme betrachten.
+    \item Definiere
+    \[
+        f(Z)=Z(m_p+m_e-m_n)c^2+\aC Z^2A^{-1/3}+\aA\frac{(A-2Z)^2}{A}.
+    \]
+    \item Ableiten und Null setzen:
+    \[
+        f'(Z)=0.
+    \]
+    \item Ergebnis fuer $Z_0$ boxed anschreiben.
+    \item Zahlen einsetzen: $Z_0(25)\approx11.83$, $Z_0(67)\approx30.00$.
+    \item Nuklidkarte: $\isotope{25}{Mg}$ und $\isotope{67}{Zn}$ sind stabile Minimumskandidaten.
+    \item Plot zeigen: Theorie ist Parabel; gemessene Massen folgen der Parabel naeherungsweise.
+\end{enumerate}
+\end{summarybox}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Pruefungs- und Lernfragen}
+\addcontentsline{toc}{section}{Pruefungs- und Lernfragen}
+
+\begin{enumerate}
+    \item Warum skaliert der Coulombterm wie $Z^2/A^{1/3}$?
+    \item Woher kommt der Faktor $3/5$ in der Selbstenergie der homogen geladenen Kugel?
+    \item Warum ist der Volumenterm proportional zu $A$ und nicht zu $A^2$?
+    \item Warum muss man bei der Zahl der Nachbarbindungen durch $2$ teilen?
+    \item Warum ist Deuterium als Abschaetzung fuer $\varepsilon$ plausibel, aber nicht perfekt?
+    \item Welche Terme der Bethe-Weizsaecker-Formel sind fuer die Minimierung nach $Z$ bei festem $A$ relevant?
+    \item Warum ist die Isobarenmasse als Funktion von $Z$ naeherungsweise eine Parabel?
+    \item Warum verschiebt sich das stabile $Z$ bei schweren Kernen zu kleinerem $Z/A$, also zu Neutronenueberschuss?
+\end{enumerate}
+
+\begin{summarybox}[title=Endergebnisse]
+\[
+    \Eab=\frac{3}{5}\frac{1}{4\pi\varepsilon_0}\frac{Q^2}{R},
+    \qquad
+    \aC=\frac{3}{5}\frac{e^2}{4\pi\varepsilon_0R_0}.
+\]
+\[
+    \aC(\SI{1.2}{\fermi})\approx\SI{0.72}{\MeV},
+    \qquad
+    \aC(\SI{1.3}{\fermi})\approx\SI{0.665}{\MeV}.
+\]
+\[
+    N_{\mathrm{NN}}=12,
+    \qquad
+    k=6,
+    \qquad
+    \varepsilon\approx\SI{2.23}{\MeV},
+    \qquad
+    \aV\approx\SI{13.38}{\MeV}.
+\]
+\[
+    Z_0=\frac{4\aA-(m_{\mathrm p}+m_{\mathrm e}-m_{\mathrm n})c^2}
+    {2\aC A^{-1/3}+8\aA/A}.
+\]
+\[
+    Z_0(25)\approx11.83\Rightarrow \isotope{25}{Mg},
+    \qquad
+    Z_0(67)\approx30.00\Rightarrow \isotope{67}{Zn}.
+\]
+\end{summarybox}
 
 \end{document}

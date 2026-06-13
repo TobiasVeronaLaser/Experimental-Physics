@@ -1,224 +1,680 @@
-% Header: General study / work / project template
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Standalone university LaTeX document -- Physik IV Blatt 03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[11pt,a4paper]{scrartcl}
 
-% Layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_metadata.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{Proseminar zur Physik IV: Kerne und Teilchen}
+\newcommand{\CourseShortTitle}{Physik IV}
+\newcommand{\DocumentKind}{Hausaufgabe, Tafelvortrag und Lernlösung}
+\newcommand{\DocumentTitle}{Aufgabenblatt 3}
+\newcommand{\DocumentSubtitle}{Teilchenbeschleuniger und Luminosität des LHC}
+\newcommand{\AuthorName}{Tobias Laser}
+\newcommand{\InstitutionName}{Universität Innsbruck}
+\newcommand{\SubmissionDate}{24. März 2026}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.4cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+\newcommand{\makechaptertitle}{%
+    \begin{center}
+        {\Large \CourseTitle\par}
+        \vspace{0.5cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \ifx\DocumentSubtitle\empty\else
+            \vspace{0.25cm}
+            {\Large \DocumentSubtitle\par}
+        \fi
+        \vspace{0.5cm}
+        {\large \AuthorName \hfill \SubmissionDate\par}
+    \end{center}
+    \vspace{0.5cm}
+}
+\newcommand{\makephysiktitle}{\makeuniversitytitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_packages.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
+\usepackage{scrlayer-scrpage}
 
-% General packages
-\usepackage{graphicx}
-\usepackage{enumitem}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
-\usepackage{amsmath,amsthm,amssymb,mathtools}
-\usepackage{icomma}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-
-% Language: choose one
-% \usepackage[ngerman]{babel}
-\usepackage[english]{babel}
-
-% Units / tables / floats / references
-\usepackage[locale = UK,space-before-unit=true,per-mode = symbol]{siunitx}
-\usepackage{booktabs,multirow}
-\usepackage{placeins}
-\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage{csquotes}
 
-% Optional bibliography
-% \addbibresource{references.bib}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
 
-% Graphics paths
-\graphicspath{{Bilder/} {images/} {figures/} {chapters/}}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 
-% Optional math shortcuts
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
+\usepackage{enumitem}
+\usepackage{xparse}
+
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
+
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_macros.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+
 \newcommand{\set}[1]{\left\{ #1 \right\}}
 \newcommand{\abs}[1]{\left| #1 \right|}
 \newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
 \newcommand{\ol}[1]{\overline{#1}}
 
-% Optional units
-\DeclareSIUnit{\dBm}{dBm}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\pdv}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pddv}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\evalat}[2]{\left. #1 \right|_{#2}}
 
-% Box styles
-\newtcolorbox{calculationbox}[1][]{
-    title=Calculation,
-    breakable,
-    #1
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\grad}{\vect{\nabla}}
+\newcommand{\divergence}{\grad\!\cdot}
+\newcommand{\curl}{\grad\!\times}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\third}{\frac{1}{3}}
+\newcommand{\twothirds}{\frac{2}{3}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\alphaf}{\alpha}
+\newcommand{\eV}{\si{eV}}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\GeV}{\si{GeV}}
+\newcommand{\TeV}{\si{TeV}}
+
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\newcommand{\isotope}[2]{^{#1}\mathrm{#2}}
+\newcommand{\anti}[1]{\overline{#1}}
+\newcommand{\pbar}{\anti{p}}
+\newcommand{\nbar}{\anti{n}}
+\newcommand{\ee}{e^-}
+\newcommand{\ep}{e^+}
+\newcommand{\mup}{\mu^+}
+\newcommand{\mum}{\mu^-}
+\newcommand{\nue}{\nu_e}
+\newcommand{\numu}{\nu_\mu}
+\newcommand{\nutau}{\nu_\tau}
+\newcommand{\pionp}{\pi^+}
+\newcommand{\pionm}{\pi^-}
+\newcommand{\pionz}{\pi^0}
+\newcommand{\kaonp}{K^+}
+\newcommand{\kaonm}{K^-}
+\newcommand{\kaonz}{K^0}
+
+\newcommand{\diffxs}{\frac{\dd\sigma}{\dd\Omega}}
+\newcommand{\totalxs}{\sigma_{\mathrm{total}}}
+\newcommand{\lum}{\mathcal{L}}
+\newcommand{\smand}{s}
+\newcommand{\tmand}{t}
+\newcommand{\umand}{u}
+\newcommand{\Ecm}{E_{\mathrm{CM}}}
+
+\newcommand{\ie}{d.\,h.}
+\newcommand{\eg}{z.\,B.}
+\newcommand{\wrt}{bezüglich}
+
+\DeclareSIUnit{\barn}{b}
+\DeclareSIUnit{\millibarn}{mb}
+\DeclareSIUnit{\microbarn}{\micro b}
+\DeclareSIUnit{\nanobarn}{nb}
+\DeclareSIUnit{\fermi}{fm}
+\DeclareSIUnit{\year}{a}
+\DeclareSIUnit{\femtobarn}{fb}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_boxes.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
 }
 
-\newtcolorbox{solutionbox}[1][]{
-    title=Solution,
-    breakable,
-    #1
-}
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=Lösung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{presentationbox}[1][]{unibox,title=Tafelvortrag,colback=teal!3,colframe=teal!55!black,#1}
+\newtcolorbox{learningbox}[1][]{unibox,title=Lernen,colback=purple!2,colframe=purple!50!black,#1}
 
-\newtcolorbox{answerbox}[1][]{
-    title=Answer,
-    breakable,
-    #1
-}
-
-\newtcolorbox{notebox}[1][]{
-    title=Notes,
-    breakable,
-    #1
-}
-
-\newtcolorbox{sidecalcbox}[1][]{
-    title=Side Calculation,
-    breakable,
-    #1
-}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Embedded file: includes/university_theorems.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Beispiel}[section]
+\theoremstyle{plain}
+\newtheorem{satz}{Satz}[section]
+\newtheorem{lemma}{Lemma}[section]
+\theoremstyle{remark}
+\newtheorem*{remark}{Bemerkung}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
-\title{Physik 4 - Blatt 03}
-\author{Tobias Laser}
-\date{\today}
-\maketitle
-\vfill
-\thispagestyle{empty}
+\makeuniversitytitle
+\tableofcontents
+\newpage
 
-\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Vorwort zur Verwendung}
+\addcontentsline{toc}{section}{Vorwort zur Verwendung}
 
-\paragraph{Aufgabe 1: Teilchenbeschleuniger}
+Dieses Dokument ist so aufgebaut, dass es gleichzeitig als saubere Abgabe, als Vorbereitung für einen kurzen Tafelvortrag und als ausführliche Lernlösung funktioniert. Die Rechnungen sind bewusst etwas ausführlicher als in einer Minimalabgabe, damit die physikalischen Zusammenhänge sichtbar bleiben.
 
-\begin{enumerate}[label=(\alph*)]
-    \item Der $3.2$ km lange Linearbeschleuniger (ein HF-Linearbeschleuniger) am SLAC arbeitet mit einer Beschleunigungsspannung von $250$ kV. Welche Elektronenenergie konnte er dann ursprünglich mit Hilfe von ca. $100000$ Driftröhren erreichen? 
-    \begin{calculationbox}
-        $E_{kin} = N \cdot q \cdot U = 10^5 \cdot e \cdot 250 \cdot 10^3 \text{V} = 25$ MeV
-    \end{calculationbox}
-    Nach wievielen Driftröhrendurchgängen beträgt die Geschwindigkeit der Elektronen circa die halbe Lichtgeschwindigkeit?
-    \begin{calculationbox}
-        Halbe lichtgeschwindigkeit ($> 0.1 \cdot c$) fordert relativistisches rechnen:
+\begin{warningbox}[title=Wichtige Korrektur gegenüber der ursprünglichen Abgabe]
+Bei Aufgabe 1(a) ist die Energie nach \num{100000} Beschleunigungsschritten nicht \(\SI{25}{\MeV}\), sondern
+\(\SI{25}{\GeV}\), denn
+\[
+    10^5 \cdot \SI{250}{\kilo\electronvolt}=\SI{25e9}{\electronvolt}=\SI{25}{\GeV}.
+\]
+Die Aussage zur halben Lichtgeschwindigkeit bleibt aber inhaltlich gleich: Nach einem einzigen Beschleunigungsschritt ist die notwendige Energie bereits überschritten.
+\end{warningbox}
 
-        $E_{kin}= \left(\gamma - 1\right) \cdot m_0 \cdot c^2$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 1: Teilchenbeschleuniger}
 
-        $\gamma = \frac{1}{\sqrt{1-\frac{v^2}{c^2}}} = \frac{1}{\sqrt{1-(0.5)^2}} = \frac{1}{\sqrt{0.75}} \approx 1.15470$
+\begin{taskbox}
+Ein Linearbeschleuniger am SLAC arbeitet mit einer Beschleunigungsspannung von \(U=\SI{250}{\kilo\volt}\) und etwa \(N=\num{100000}\) Driftröhren. Danach werden Driftlängen für Protonen, die Ablenkung in einem Dipolmagneten und ein hypothetisches Mond-Synchrotron betrachtet.
+\end{taskbox}
 
-        $m_e cdot c^2 \approx 511.998$ keV
+\subsection{Teil (a): Energiegewinn im Linearbeschleuniger}
 
-        $N = (\gamma - 1) \cdot \frac{m_0 \cdot c^2}{q \cdot U} = (\gamma - 1)\frac{m_e \cdot c^2}{e \cdot U} \approx 0.15470 \cdot \frac{511.998 \text{ keV}}{250 \text{ keV}} \approx 0.317$
+\begin{definitionbox}[title=Prinzip]
+Ein Teilchen mit Ladung \(q\), das eine Beschleunigungsspannung \(U\) durchläuft, gewinnt die kinetische Energie
+\[
+    \Delta E_{\mathrm{kin}} = qU.
+\]
+Für Elektronen ist \(q=e\). Wird der Beschleunigungsvorgang \(N\)-mal wiederholt, gilt idealisiert
+\[
+    E_{\mathrm{kin}} = N e U.
+\]
+In Elektronenvolt ist die Rechnung besonders einfach: Ein Elektron gewinnt bei \(\SI{250}{\kilo\volt}\) genau \(\SI{250}{\kilo\electronvolt}\).
+\end{definitionbox}
 
-        Die Elektronen haben im bzw. nach dem ersten Driftröhredurchgang die halbe Lichtgeschwindigkeit schon erreicht.
-
-    \end{calculationbox}
-    \item Ein Linearbeschleuniger für Protonen möge mit der Frequenz f = $222$ MHz arbeiten. Wie lang müssen die Driftröhren an der Stelle sein, an der die Protonen eine Energie von
-    \begin{calculationbox}
-        $l = \frac{v\cdot T}{2} = \frac{v}{2\cdot f} =\frac{\beta \cdot c}{2 \cdot f}$
-
-
-        $\gamma = 1 + \frac{E_{kin}}{m_p\cdot c^2}$, $\beta = \sqrt{1 - \frac{1}{\gamma}}$
-
-        $m_p\cdot c^2 \approx 938.272$ MeV
-    \end{calculationbox}
-    \begin{enumerate}[label=(\roman*)]
-        \item $9$ MeV
-        \begin{calculationbox}
-            $\gamma \approx 1.0096$
-
-            $\beta \approx 0.1375$
-
-            $l = \frac{0.13752\cdot c}{2 \cdot 222 \cdot 10^6\text{ Hz}} \approx 0.0928$ m
-        \end{calculationbox}
-        \item $9$ GeV
-        \begin{calculationbox}
-            $\gamma \approx 10.5949$
-
-            $\beta \approx 0.995536$
-
-            $l = \frac{0.995536\cdot c}{2 \cdot 222 \cdot 10^9\text{ Hz}} \approx 0.672194$ m
-        \end{calculationbox}
-    \end{enumerate}
-    erreicht haben.
-    \item Ein Protonenstrahl mit einer kinetischen Energie von $6.9$ TeV geht durch einen $20$ m langen Dipolmagneten mit einer magnetischen Flussdichte von $7.9$ T. Wie stark wird der Strahl abgelenkt? Wie viele entsprechende Segmente bräuchte man also, um eine Kreisbahn zu erreichen?
-    \begin{calculationbox}
-
-
-        relativistisch $p \approx \frac{E}{c}$
-
-        $r = \frac{p}{qB}$
-
-        $p \approx 6.9\,\text{TeV}/c$
-
-        $r = \frac{6900}{0.3 \cdot 7.9} \approx 2911\,\text{m}$
-
-        $\theta = \frac{L}{r} = \frac{20}{2911} \approx 6.87 \cdot 10^{-3}\,\text{rad}$
-
-        $N = \frac{2\pi}{\theta} \approx \frac{2\pi}{6.87 \cdot 10^{-3}} \approx 914$
-
-    \end{calculationbox}
-    \item Stellen Sie sich nun ein Synchrotron auf dem Mond vor. Für den Durchmesser des Mondes können Sie $d_{\text{Mond}} = 3500$ km verwenden. Die Bahn des Synchrotron soll dabei dem Mondäquator folgen und die Ablenkmagneten aus der vorigen Aufgabe benutzen. Welche Teilchenenergie wäre dann für Protonen möglich?
-    \begin{calculationbox}
-        $r = \frac{d_{\text{Mond}}}{2} = 1750\,\text{km} = 1.75 \cdot 10^6\,\text{m}$
-
-        $B = 7.9\,\text{T}$
-
-        relativistisch $p = qBr$
-
-        $p = 0.3 \cdot 7.9 \cdot 1.75 \cdot 10^6\,\text{GeV}/c$
-
-        $p \approx 4.1475 \cdot 10^6\,\text{GeV}/c$
-
-        $E \approx pc \approx 4.15\,\text{PeV}$
-    \end{calculationbox}
-\end{enumerate}
-
-
-\paragraph{Aufgabe 2: Luminosität des LHC}
-
-Die für die Reaktionsrate in einem Teilchenbeschleuniger relevanten Parameter sind
-\begin{itemize}
-    \item Die Zahl der Targetteilchen $N$.
-    \item Die Rate, mit der Teiclhen aus dem Strahl auf eine Einheitsfläche im Target treffen. Diese bezeichnet man als Fluss $\phi$, der generell zeitabhängig ist.
-\end{itemize}
-Das Produkt aus $N$ und $\phi$ ist proportional zur Reaktionsrate und wird als Luminosität
-\begin{align*}
-    L(t) = N \phi(t)
-\end{align*}
-bezeichnet. Die integrierte Luminosität
-\begin{align*}
-    L_{int} = \int dt\!L(t) = \int dt\! N \phi(t)
-\end{align*}
-ist im Falle eines Teilchenbeschleunigers proportional zur Menge der gemessenen Daten.
-\begin{enumerate}[label=(\alph*)]
-\item Die integrierte Luminosität des Large Hadron Collider (LHC) lag zum Ende des Jahres 2025 bei etwa $L_{int} \approx 500$ fb$^{-1}$ (inverse Femtobarn). Wieviele in elastische Proton-Proton-Reaktionen sind somit im LHC bereits aufgetreten, wenn diese einen Wirkungsquerschnitt von $\sigma = 5 \cdot 10^{-2}$ barn haben? ($1$ barn$ = 10^{-28}$ m$^2$)
-\begin{calculationbox}
-    $\sigma = 5 \cdot 10^{-2}\,\mathrm{barn}
-    = 5 \cdot 10^{-2} \cdot 10^{15}\,\mathrm{fb}
-    = 5 \cdot 10^{13}\,\mathrm{fb}$
-
-    $N = L_{int} \cdot \sigma  = 500\,\mathrm{fb}^{-1} \cdot 5 \cdot 10^{13}\,\mathrm{fb} = 2.5 \cdot 10^{16}$
+\begin{calculationbox}[title=Energie nach \(10^5\) Beschleunigungsschritten]
+\[
+    E_{\mathrm{kin}}
+    = N e U
+    = 10^5 \cdot \SI{250}{\kilo\electronvolt}
+    = \SI{25e6}{\kilo\electronvolt}
+    = \SI{25e9}{\electronvolt}
+    = \SI{25}{\GeV}.
+\]
 \end{calculationbox}
 
-\item Folgende Abbildung zeigt die zeitliche Entwicklung der integrierten Luminosität des LHC separat für jedes Jahr von Inbetriebnahme bis 2024:
-\begin{center}
-    \includegraphics[width=0.75\textwidth]{Grafik.png}
-\end{center}
-Interpretieren Sie die Grafik unter Berücksichtigung folgender Fragen:
-\begin{itemize}
-    \item In welchem Jahr fanden die bisher meisten $pp$-Wechselwirkungen statt?
-    \begin{answerbox}
-        Da die Zahl der Wechselwirkungen proportional zur integrierten Luminosität ist, fanden im Jahr mit der größten erreichten integrierten Luminosität auch die meisten \(pp\)-Wechselwirkungen statt. Aus der Grafik sieht man, dass \(\textbf{2024}\) mit etwa \(90\,\mathrm{fb}^{-1}\) den größten Wert erreicht. Also fanden \textbf{2024} die meisten \(pp\)-Wechselwirkungen statt.
-    \end{answerbox}
-    \item Warum steigen die Verläufe nicht kontinuierlich an?
-    \begin{answerbox}
-        Die Verläufe steigen nur dann an, wenn der LHC tatsächlich Daten aufnimmt, also Protonenstrahlen kollidieren. Dazwischen gibt es Unterbrechungen, zum Beispiel durch technische Wartung, Maschinenstudien, das erneute Befüllen des Beschleunigers oder allgemein Phasen ohne Physikbetrieb. Deshalb entstehen abschnittsweise flache Bereiche und kein gleichmäßiger kontinuierlicher Anstieg.
-    \end{answerbox}
-    \item Könnte so ein Verlauf auch abfallen?
-    \begin{answerbox}
-        Nein. Die integrierte Luminosität ist ein über die Zeit aufsummierter Wert. Sie kann daher entweder konstant bleiben oder weiter ansteigen, aber nicht kleiner werden.
-    \end{answerbox}
-\end{itemize}
+\begin{answerbox}
+Der Linearbeschleuniger konnte idealisiert eine Elektronenenergie von
+\[
+    \boxed{E_{\mathrm{kin}} \approx \SI{25}{\GeV}}
+\]
+erreichen.
+\end{answerbox}
+
+\subsection{Teil (a): Anzahl der Driftröhrendurchgänge bis \(v\approx c/2\)}
+
+\begin{learningbox}
+Für \(v=0{,}5c\) ist eine relativistische Rechnung sinnvoll, weil die klassische Formel \(E_{\mathrm{kin}}=\frac12 mv^2\) bereits merklich abweicht. Relativistisch gilt
+\[
+    E_{\mathrm{kin}}=(\gamma-1)m_ec^2,
+    \qquad
+    \gamma = \frac{1}{\sqrt{1-v^2/c^2}}.
+\]
+Die Ruheenergie des Elektrons ist
+\[
+    m_ec^2 \approx \SI{511}{\kilo\electronvolt}.
+\]
+\end{learningbox}
+
+\begin{calculationbox}
+Für \(v=0{,}5c\) ist
+\[
+    \gamma = \frac{1}{\sqrt{1-(0{,}5)^2}}
+    = \frac{1}{\sqrt{0{,}75}}
+    \approx 1{,}1547.
+\]
+Damit braucht ein Elektron die kinetische Energie
+\[
+    E_{\mathrm{kin}}
+    = (1{,}1547-1)\,\SI{511}{\kilo\electronvolt}
+    \approx \SI{79,1}{\kilo\electronvolt}.
+\]
+Ein Beschleunigungsschritt liefert aber bereits
+\[
+    eU = \SI{250}{\kilo\electronvolt}.
+\]
+Formal wäre die benötigte Schrittzahl
+\[
+    n = \frac{\SI{79,1}{\kilo\electronvolt}}{\SI{250}{\kilo\electronvolt}}
+    \approx 0{,}316.
+\]
+Da es nur ganze Durchgänge gibt, ist nach dem ersten Durchgang die halbe Lichtgeschwindigkeit bereits überschritten.
+\end{calculationbox}
+
+\begin{answerbox}
+Die halbe Lichtgeschwindigkeit wird bereits nach
+\[
+    \boxed{1\text{ Beschleunigungsschritt}}
+\]
+erreicht beziehungsweise überschritten.
+\end{answerbox}
+
+\subsection{Teil (b): Driftröhrenlängen für Protonen}
+
+\begin{definitionbox}[title=Warum Driftröhren länger werden]
+Im HF-Linearbeschleuniger müssen die Teilchen während der falschen Phase des elektrischen Feldes abgeschirmt sein. Eine Driftröhre wird daher so lang gewählt, dass das Teilchen ungefähr eine halbe HF-Periode in ihr verbringt:
+\[
+    l = v\frac{T}{2}=\frac{v}{2f}=\frac{\beta c}{2f}.
+\]
+Mit der kinetischen Energie \(E_{\mathrm{kin}}\) erhält man
+\[
+    \gamma = 1 + \frac{E_{\mathrm{kin}}}{m_pc^2},
+    \qquad
+    \beta = \sqrt{1-\frac{1}{\gamma^2}},
+\]
+wobei
+\[
+    m_pc^2 \approx \SI{938,272}{\MeV}.
+\]
+\end{definitionbox}
+
+\subsubsection*{(i) Protonenenergie \(\SI{9}{\MeV}\)}
+\addcontentsline{toc}{subsubsection}{(i) Protonenenergie 9 MeV}
+
+\begin{calculationbox}
+\[
+    \gamma = 1+\frac{\SI{9}{\MeV}}{\SI{938,272}{\MeV}}
+    \approx 1{,}00959.
+\]
+\[
+    \beta = \sqrt{1-\frac{1}{\gamma^2}}
+    \approx 0{,}1375.
+\]
+Mit \(f=\SI{222}{\mega\hertz}\) folgt
+\[
+    l = \frac{0{,}1375\,c}{2\cdot \SI{222}{\mega\hertz}}
+    \approx \SI{0,0929}{\metre}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+Bei \(\SI{9}{\MeV}\) müssen die Driftröhren ungefähr
+\[
+    \boxed{l\approx \SI{9,3}{\centi\metre}}
+\]
+lang sein.
+\end{answerbox}
+
+\subsubsection*{(ii) Protonenenergie \(\SI{9}{\GeV}\)}
+\addcontentsline{toc}{subsubsection}{(ii) Protonenenergie 9 GeV}
+
+\begin{calculationbox}
+Zuerst wird \(\SI{9}{\GeV}=\SI{9000}{\MeV}\) eingesetzt:
+\[
+    \gamma = 1+\frac{\SI{9000}{\MeV}}{\SI{938,272}{\MeV}}
+    \approx 10{,}592.
+\]
+\[
+    \beta = \sqrt{1-\frac{1}{\gamma^2}}
+    \approx 0{,}9955.
+\]
+Damit ist
+\[
+    l = \frac{0{,}9955\,c}{2\cdot \SI{222}{\mega\hertz}}
+    \approx \SI{0,672}{\metre}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+Bei \(\SI{9}{\GeV}\) müssen die Driftröhren ungefähr
+\[
+    \boxed{l\approx \SI{67,2}{\centi\metre}}
+\]
+lang sein.
+\end{answerbox}
+
+\begin{notebox}[title=Physikalische Interpretation]
+Bei niedriger Energie sind Protonen noch relativ langsam, daher sind die Driftröhren kurz. Bei \(\SI{9}{\GeV}\) bewegen sie sich fast mit Lichtgeschwindigkeit; die Driftröhrenlänge nähert sich deshalb dem Grenzwert \(c/(2f)\approx\SI{67,5}{\centi\metre}\).
+\end{notebox}
+
+\subsection{Teil (c): Ablenkung eines \(\SI{6,9}{\TeV}\)-Protonenstrahls}
+
+\begin{formulabox}
+Für ein relativistisches Teilchen im Dipolmagneten gilt
+\[
+    r = \frac{p}{qB}.
+\]
+Praktisch verwendet man in der Beschleunigerphysik häufig
+\[
+    p\,[\si{\GeV}/c] \approx 0{,}2998\, B\,[\si{\tesla}]\, r\,[\si{\metre}],
+\]
+also näherungsweise
+\[
+    r\,[\si{\metre}] \approx \frac{p\,[\si{\GeV}/c]}{0{,}3\,B\,[\si{\tesla}]}.
+\]
+\end{formulabox}
+
+\begin{calculationbox}
+Für \(\SI{6,9}{\TeV}\)-Protonen ist die kinetische Energie viel größer als die Ruheenergie \(m_pc^2\approx\SI{0,938}{\GeV}\). Daher gilt näherungsweise
+\[
+    pc \approx E \approx \SI{6,9}{\TeV},
+    \qquad
+    p\approx \SI{6900}{\GeV}/c.
+\]
+Mit \(B=\SI{7,9}{\tesla}\) folgt
+\[
+    r \approx \frac{\num{6900}}{0{,}3\cdot 7{,}9}\,\si{\metre}
+    \approx \SI{2911}{\metre}.
+\]
+Ein Magnetsegment der Länge \(L=\SI{20}{\metre}\) lenkt um den Winkel
+\[
+    \theta \approx \frac{L}{r}
+    = \frac{\SI{20}{\metre}}{\SI{2911}{\metre}}
+    \approx \SI{6,87e-3}{\radian}
+    \approx \SI{0,394}{\degree}
+\]
+ab.
+Für eine volle Kreisbahn braucht man insgesamt \(2\pi\) rad Ablenkung:
+\[
+    n = \frac{2\pi}{\theta}
+    \approx \frac{2\pi}{6{,}87\cdot10^{-3}}
+    \approx 914.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+Die Ablenkung pro Segment beträgt
+\[
+    \boxed{\theta\approx \SI{6,9e-3}{\radian}\approx\SI{0,39}{\degree}}.
+\]
+Für eine vollständige Kreisbahn benötigt man ungefähr
+\[
+    \boxed{n\approx 9{,}1\cdot 10^2\text{ Segmente}}.
+\]
+\end{answerbox}
+
+\subsection{Teil (d): Synchrotron am Mondäquator}
+
+\begin{calculationbox}
+Der Monddurchmesser sei
+\[
+    d_{\mathrm{Mond}}=\SI{3500}{\kilo\metre}.
+\]
+Damit ist der Radius der Kreisbahn
+\[
+    r = \frac{d_{\mathrm{Mond}}}{2}
+    = \SI{1750}{\kilo\metre}
+    = \SI{1,75e6}{\metre}.
+\]
+Mit derselben Magnetfeldstärke \(B=\SI{7,9}{\tesla}\) ergibt sich
+\[
+    p\,[\si{\GeV}/c]
+    \approx 0{,}3\,B\,[\si{\tesla}]\,r\,[\si{\metre}]
+    = 0{,}3\cdot 7{,}9\cdot 1{,}75\cdot 10^6.
+\]
+Also
+\[
+    p \approx \SI{4,15e6}{\GeV}/c.
+\]
+Da die Protonen extrem relativistisch wären, gilt wieder \(E\approx pc\):
+\[
+    E \approx \SI{4,15e6}{\GeV}
+    = \SI{4,15e3}{\TeV}
+    = \SI{4,15}{\peta\electronvolt}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+Ein hypothetisches Mond-Synchrotron mit \(\SI{7,9}{\tesla}\)-Dipolmagneten könnte Protonenenergien von ungefähr
+\[
+    \boxed{E\approx \SI{4,15}{\peta\electronvolt}}
+\]
+erreichen.
+\end{answerbox}
+
+\subsection{Tafelvortrag zu Aufgabe 1}
+
+\begin{presentationbox}
+\textbf{Ziel:} Man zeigt, dass Beschleunigerphysik im Wesentlichen aus Energiegewinn, relativistischer Kinematik und magnetischer Kreisbahn besteht.
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Linearbeschleuniger:} Pro Beschleunigungsspalt gewinnt ein Elektron \(eU=\SI{250}{\kilo\electronvolt}\). Bei \(10^5\) Schritten ergibt das \(\SI{25}{\GeV}\).
+    \item \textbf{Halbe Lichtgeschwindigkeit:} Für \(v=c/2\) gilt \(\gamma\approx1{,}1547\), also \(E_{\mathrm{kin}}\approx\SI{79}{\kilo\electronvolt}\). Ein Schritt reicht.
+    \item \textbf{Driftröhren:} Die Länge ist \(l=\beta c/(2f)\). Für \(\SI{9}{\MeV}\) folgt \(l\approx\SI{9,3}{\centi\metre}\), für \(\SI{9}{\GeV}\) folgt \(l\approx\SI{67,2}{\centi\metre}\).
+    \item \textbf{Dipolmagnet:} Aus \(r=p/(qB)\) beziehungsweise \(p\approx0{,}3Br\) folgt bei \(\SI{6,9}{\TeV}\): \(r\approx\SI{2911}{\metre}\), \(\theta\approx\SI{6,9e-3}{\radian}\), also etwa \(914\) Segmente.
+    \item \textbf{Mondring:} Setzt man \(r=\SI{1,75e6}{\metre}\), ergibt sich \(E\approx\SI{4,15}{\peta\electronvolt}\).
 \end{enumerate}
+\end{presentationbox}
+
+\FloatBarrier
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 2: Luminosität des LHC}
+
+\begin{taskbox}
+Die Luminosität beschreibt, wie viele Kollisionen ein Beschleuniger pro Zeit und Wirkungsquerschnitt liefern kann. Gegeben ist eine integrierte Luminosität von etwa \(\lum_{\mathrm{int}}\approx\SI{500}{\per\femtobarn}\) bis Ende 2025 und ein Wirkungsquerschnitt \(\sigma=5\cdot10^{-2}\,\si{\barn}\). Außerdem soll eine Grafik der jährlichen integrierten LHC-Luminosität interpretiert werden.
+\end{taskbox}
+
+\subsection{Grundidee: Luminosität und Ereigniszahl}
+
+\begin{definitionbox}
+Die momentane Luminosität ist
+\[
+    \lum(t)=N\phi(t),
+\]
+wobei \(N\) die Zahl der Targetteilchen und \(\phi(t)\) der Teilchenfluss ist. Die integrierte Luminosität ist
+\[
+    \lum_{\mathrm{int}} = \int \lum(t)\,\dd t.
+\]
+Die erwartete Zahl der Ereignisse mit Wirkungsquerschnitt \(\sigma\) ist
+\[
+    N_{\mathrm{Ereignisse}} = \sigma\,\lum_{\mathrm{int}}.
+\]
+\end{definitionbox}
+
+\subsection{Teil (a): Anzahl der inelastischen Proton-Proton-Reaktionen}
+
+\begin{calculationbox}[title=Einheitenumrechnung]
+Ein Femtobarn ist
+\[
+    \SI{1}{\femtobarn}=10^{-15}\,\si{\barn}.
+\]
+Daher gilt
+\[
+    \SI{1}{\barn}=10^{15}\,\si{\femtobarn}.
+\]
+Der gegebene Wirkungsquerschnitt ist also
+\[
+    \sigma = 5\cdot10^{-2}\,\si{\barn}
+    = 5\cdot10^{-2}\cdot10^{15}\,\si{\femtobarn}
+    = 5\cdot10^{13}\,\si{\femtobarn}.
+\]
+\end{calculationbox}
+
+\begin{calculationbox}[title=Ereigniszahl]
+\[
+    N_{\mathrm{Ereignisse}}
+    = \sigma\,\lum_{\mathrm{int}}
+    = \paren{5\cdot10^{13}\,\si{\femtobarn}}
+      \paren{500\,\si{\per\femtobarn}}.
+\]
+\[
+    N_{\mathrm{Ereignisse}}
+    = 2500\cdot10^{13}
+    = 2{,}5\cdot10^{16}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+Bis Ende 2025 sind nach dieser Abschätzung ungefähr
+\[
+    \boxed{N_{\mathrm{Ereignisse}}\approx 2{,}5\cdot10^{16}}
+\]
+inelastische Proton-Proton-Reaktionen aufgetreten.
+\end{answerbox}
+
+\subsection{Teil (b): Interpretation der Luminositätsgrafik}
+
+\begin{solutionbox}[title=Frage 1: In welchem Jahr fanden die meisten \(pp\)-Wechselwirkungen statt?]
+Die Zahl der \(pp\)-Wechselwirkungen ist proportional zur integrierten Luminosität. Daher muss man in der Grafik nur vergleichen, welche Jahreskurve den höchsten Endwert erreicht. Die Kurve für 2024 erreicht mit ungefähr \(\SI{90}{\per\femtobarn}\) den größten Wert.
+
+Also fanden im Jahr
+\[
+    \boxed{2024}
+\]
+die bisher meisten \(pp\)-Wechselwirkungen statt.
+\end{solutionbox}
+
+\begin{solutionbox}[title=Frage 2: Warum steigen die Verläufe nicht kontinuierlich an?]
+Die integrierte Luminosität wächst nur dann, wenn tatsächlich Kollisionen stattfinden und Daten genommen werden. In Zeiten ohne Physikbetrieb bleibt sie konstant. Ursachen für flache Abschnitte sind zum Beispiel Wartung, technische Unterbrechungen, Maschinenstudien, erneutes Befüllen des Rings oder Phasen ohne stabile Strahlen.
+
+Die Kurven steigen deshalb stückweise an und besitzen dazwischen Plateaus.
+\end{solutionbox}
+
+\begin{solutionbox}[title=Frage 3: Könnte so ein Verlauf abfallen?]
+Nein. Die integrierte Luminosität ist eine aufsummierte Größe:
+\[
+    \lum_{\mathrm{int}}(t)=\int_{t_0}^{t}\lum(t')\,\dd t'.
+\]
+Da die Luminosität \(\lum(t)\) physikalisch nicht negativ ist, kann die integrierte Luminosität nur wachsen oder konstant bleiben. Sie kann nicht abfallen.
+\end{solutionbox}
+
+\subsection{Tafelvortrag zu Aufgabe 2}
+
+\begin{presentationbox}
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Definition:} Luminosität ist der Proportionalitätsfaktor zwischen Wirkungsquerschnitt und Ereignisrate. Für die Gesamtzahl gilt \(N=\sigma\lum_{\mathrm{int}}\).
+    \item \textbf{Einheiten:} \(1\,\si{\barn}=10^{15}\,\si{\femtobarn}\). Deshalb ist \(5\cdot10^{-2}\,\si{\barn}=5\cdot10^{13}\,\si{\femtobarn}\).
+    \item \textbf{Ereigniszahl:} \(500\,\si{\per\femtobarn}\cdot5\cdot10^{13}\,\si{\femtobarn}=2{,}5\cdot10^{16}\).
+    \item \textbf{Grafik:} 2024 hat den höchsten Endwert, also die meisten \(pp\)-Wechselwirkungen.
+    \item \textbf{Plateaus:} Keine Kollisionen bedeutet keine neue integrierte Luminosität.
+    \item \textbf{Kein Abfallen:} Eine integrierte nichtnegative Größe ist monoton wachsend oder konstant.
+\end{enumerate}
+\end{presentationbox}
+
+\FloatBarrier
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lernzusammenfassung}
+
+\begin{summarybox}[title=Zentrale Formeln]
+\begin{align*}
+    \Delta E_{\mathrm{kin}} &= qU,\\
+    E_{\mathrm{kin}} &= (\gamma-1)mc^2,\\
+    \gamma &= \frac{1}{\sqrt{1-v^2/c^2}},\\
+    \beta &= \sqrt{1-\frac{1}{\gamma^2}},\\
+    l_{\mathrm{Drift}} &= \frac{\beta c}{2f},\\
+    r &= \frac{p}{qB},\\
+    p\,[\si{\GeV}/c] &\approx 0{,}3\,B\,[\si{\tesla}]\,r\,[\si{\metre}],\\
+    N_{\mathrm{Ereignisse}} &= \sigma\lum_{\mathrm{int}}.
+\end{align*}
+\end{summarybox}
+
+\begin{learningbox}[title=Typische Denkfehler]
+\begin{itemize}
+    \item \textbf{MeV und GeV verwechseln:} \(10^5\cdot\SI{250}{\kilo\electronvolt}=\SI{25}{\GeV}\), nicht \(\SI{25}{\MeV}\).
+    \item \textbf{Zu lange klassisch rechnen:} Bei \(v\sim0{,}5c\) sollte man relativistisch rechnen.
+    \item \textbf{Driftröhrenlänge ohne halbe Periode:} Für diesen Typ Linac wird hier \(l=vT/2\) verwendet, nicht \(vT\).
+    \item \textbf{Integrierte Luminosität als momentane Rate lesen:} Die integrierte Luminosität ist bereits aufsummiert. Plateaus bedeuten keine neuen Daten, nicht negative Daten.
+    \item \textbf{Barn und Femtobarn falsch herum umrechnen:} \(1\,\si{\barn}=10^{15}\,\si{\femtobarn}\), weil ein Femtobarn kleiner ist.
+\end{itemize}
+\end{learningbox}
+
+\begin{summarybox}[title=Endergebnisse]
+\begin{center}
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+Teilaufgabe & Ergebnis \\
+\midrule
+1(a), Energie & \(E_{\mathrm{kin}}\approx\SI{25}{\GeV}\) \\
+1(a), \(v\approx c/2\) & nach einem Beschleunigungsschritt \\
+1(b)(i) & \(l\approx\SI{0,0929}{\metre}=\SI{9,3}{\centi\metre}\) \\
+1(b)(ii) & \(l\approx\SI{0,672}{\metre}=\SI{67,2}{\centi\metre}\) \\
+1(c), Ablenkung & \(\theta\approx\SI{6,9e-3}{\radian}\approx\SI{0,39}{\degree}\) \\
+1(c), Segmente & \(n\approx914\) \\
+1(d) & \(E\approx\SI{4,15}{\peta\electronvolt}\) \\
+2(a) & \(N\approx2{,}5\cdot10^{16}\) inelastische \(pp\)-Reaktionen \\
+2(b) & 2024; Plateaus durch Pausen; kein Abfallen möglich \\
+\bottomrule
+\end{tabularx}
+\end{center}
+\end{summarybox}
 
 \end{document}

@@ -1,429 +1,712 @@
-% Header: Here are all packages used and some additional definitions
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physik IV - Aufgabenblatt 2: Ausarbeitung, Tafelvortrag, Lernfassung
+% Standalone LaTeX file
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[11pt,a4paper]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Metadata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\CourseTitle}{Proseminar zur Physik IV: Kerne und Teilchen}
+\newcommand{\CourseShortTitle}{Physik IV}
+\newcommand{\DocumentKind}{Hausaufgabe / Tafelvortrag / Lernfassung}
+\newcommand{\DocumentTitle}{Aufgabenblatt 2}
+\newcommand{\DocumentSubtitle}{Formfaktoren und Grenzen der Rutherford-Streuung}
+\newcommand{\AuthorName}{Tobias Laser}
+\newcommand{\InstitutionName}{Universit\"at Innsbruck}
+\newcommand{\SubmissionDate}{\today}
+
+\newcommand{\makeuniversitytitle}{%
+    \begin{titlepage}
+        \centering
+        \vspace*{2cm}
+        {\Large \CourseTitle\par}
+        \vspace{1.2cm}
+        {\huge\bfseries \DocumentTitle\par}
+        \vspace{0.4cm}
+        {\Large \DocumentSubtitle\par}
+        \vspace{1cm}
+        {\Large \DocumentKind\par}
+        \vfill
+        {\large \AuthorName\par}
+        \vspace{0.2cm}
+        {\large \InstitutionName\par}
+        \vspace{0.8cm}
+        {\large \SubmissionDate\par}
+    \end{titlepage}
+    \pagenumbering{arabic}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Packages and setup
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[onehalfspacing]{setspace}
-\usepackage{graphicx} % zum Einbinden von Graphiken
+\usepackage{scrlayer-scrpage}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{csquotes}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+\usepackage{bm}
+\usepackage{icomma}
+\usepackage{cancel}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathmorphing,positioning,patterns,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage[locale=DE,space-before-unit=true,per-mode=symbol,separate-uncertainty=true]{siunitx}
+\usepackage{booktabs,multirow,array,tabularx,longtable}
+\usepackage{caption,subcaption}
+\usepackage{placeins}
 \usepackage{enumitem}
-\usepackage{tcolorbox}
-\tcbuselibrary{breakable}
-\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref} % f. Referenzen
-\usepackage{amsmath,amsthm,amssymb} % Mathematik Umgebung 
-\usepackage{icomma} % Intelligentes Komma, das den richtigen Abstand zwischen Dezimalzahlen als auch in Formeln wählt.
-\usepackage[ngerman]{babel} % Deutsche Bezeichnungen bei Inhaltsangabe etc
-\usepackage[T1]{fontenc}    % andere Schriftsatzkodierung für richtige Silbentrennung bei Umlauten
-\usepackage[locale = DE,space-before-unit=true,per-mode = symbol]{siunitx} % Bessere Einheiten
-\usepackage{booktabs,multirow} % Pakete zur Erstellung von Tabellen
-\usepackage{placeins} % Definiert den Befehl “\FloatBarrier”, der die Ausgabe der davor eingebundenen Bilder erzwingt, befor der Text weiter geht. (Mit vorsicht zu verwenden)
-\usepackage[natbib,abbreviate=true,doi=false,style=numeric-comp,giveninits=true,sorting=none]{biblatex} % Modernes Paket zur Erzeugung von Bibliografien (benötigt biber!)
-\usepackage{csquotes} % Fortgeschrittene Funktionen für Zitate, für die deutsche Form der Anführungszeichen bei Referenzen
-%\addbibresource{MyBibliography.bib} % Ort der .bib Datei, die die Datenbank für Literatur/Referenzen enthält.
+\usepackage{xparse}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+\usepackage[breaklinks=true,colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue]{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
 
-\graphicspath{{Bilder/} {images/} {chapters/}}
+\clearpairofpagestyles
+\ihead{\CourseShortTitle}
+\ohead{\DocumentKind}
+\cfoot{\pagemark}
+\pagestyle{scrheadings}
 
-\DeclareSIUnit{\dBm}{dBm}
-\DeclareSIUnit[per-mode=reciprocal]\WN{\per\centi\meter}
+\setlist[enumerate]{itemsep=0.4em,topsep=0.4em}
+\setlist[itemize]{itemsep=0.25em,topsep=0.35em}
+\captionsetup{font=small,labelfont=bf}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\paren}[1]{\left( #1 \right)}
+\newcommand{\bracket}[1]{\left[ #1 \right]}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\dv}[2]{\frac{\dd #1}{\dd #2}}
+\newcommand{\vect}[1]{\bm{#1}}
+\newcommand{\unitvect}[1]{\hat{\bm{#1}}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\hbarc}{\hbar c}
+\newcommand{\MeV}{\si{MeV}}
+\newcommand{\fm}{\si{fm}}
+\newcommand{\nuclide}[3]{^{#1}_{#2}\mathrm{#3}}
+\DeclareSIUnit{\fermi}{fm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Boxes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcbset{
+    unibox/.style={
+        enhanced,
+        breakable,
+        sharp corners,
+        boxrule=0.6pt,
+        left=1.2mm,
+        right=1.2mm,
+        top=1mm,
+        bottom=1mm,
+        before skip=0.8em,
+        after skip=0.8em,
+        fonttitle=\bfseries
+    }
+}
+
+\newtcolorbox{taskbox}[1][]{unibox,title=Aufgabe,colback=white,colframe=black!75,#1}
+\newtcolorbox{calculationbox}[1][]{unibox,title=Rechnung,colback=black!2,colframe=black!55,#1}
+\newtcolorbox{sidecalcbox}[1][]{unibox,title=Nebenrechnung,colback=black!1,colframe=black!40,#1}
+\newtcolorbox{solutionbox}[1][]{unibox,title=L\"osung,colback=blue!2,colframe=blue!45!black,#1}
+\newtcolorbox{answerbox}[1][]{unibox,title=Antwort,colback=green!3,colframe=green!45!black,#1}
+\newtcolorbox{notebox}[1][]{unibox,title=Notiz,colback=yellow!6,colframe=yellow!45!black,#1}
+\newtcolorbox{definitionbox}[1][]{unibox,title=Definition,colback=cyan!3,colframe=cyan!45!black,#1}
+\newtcolorbox{warningbox}[1][]{unibox,title=Achtung,colback=red!3,colframe=red!55!black,#1}
+\newtcolorbox{summarybox}[1][]{unibox,title=Zusammenfassung,colback=violet!3,colframe=violet!50!black,#1}
+\newtcolorbox{formulabox}[1][]{unibox,title=Formel,colback=orange!4,colframe=orange!65!black,#1}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-%
-\title{Experimental Physics - Musterlösung Übungsblatt 2 Aufgabe 1}
-\author{Tobias Laser}
-\maketitle
-\vfill
-\thispagestyle{empty}
-%
-%
-\thispagestyle{empty}
-\pagenumbering{arabic} 
-%
-%
-\paragraph{Aufgabe 1: Formfaktor - Herleitung}
-In der Vorlesung wurde der Formfaktor für die Ladungsverteilung $f(\vec{x})$ eingeführt, der als 
-\begin{align*}
-    F(\vec{q}) = \int e^{i \, \vec{q} \cdot \vec{x}/\hbar} f(\vec{x})\, d^3x
-\end{align*}
-definiert ist.
-\begin{enumerate}[label=(\alph*)]
-    \item Im Folgenden werden nur kugelsymmetrische Ladungsverteilungen betrachtet. Zeigen Sie, daß in diesem Fall der Formfaktor zu
-    \begin{align*}
-        F(q) = 4\pi\int\limits_0^\infty \frac{\sin{q \, r/\hbar}}{q \, r / \hbar} f(r) \, r^2 dr
-    \end{align*}
-    umgeformt werden kann (F hängt also nur vom Betrag von $\vec{q}$ ab).\\
-    \underline{Hinweis:} Wählen Sie das Koordinatensystem so, daß $q$ in Richtung der z-Achse weist.
-    
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Ausgehend von der Definition des Formfaktors
-        \begin{align*}
-            F(\vec{q}) = \int d^3x \, e^{i \, \vec{q} \cdot \vec{x}/\hbar} f(\vec{x})
-        \end{align*}
-        verwende man Kugelkoordinaten
-        \begin{align*}
-            \vec{x} = \begin{bmatrix}
-                x\\y\\z
-            \end{bmatrix}=\begin{bmatrix}
-                r \sin{\theta} \cos{\phi}\\
-                r \sin{\theta} \sin{\phi}\\
-                r \cos{\theta}
-            \end{bmatrix},              
-        \end{align*}
-        den hingewiesenen Ausdruck
-        \begin{align*}
-            \vec{q} = \begin{bmatrix}
-                0\\0\\q
-            \end{bmatrix} \implies \vec{q} \cdot \vec{x} = q \, r \cos{\theta}
-        \end{align*}
-        und den Volumenselement ($J$ die Jakobi-Matrix; Ermittlung in den Nebenrechnungen am Ende)
-        \begin{align*}
-            d^3x = dx\,dy\,dz = |\det{J}|\,dr\,d\theta\,d\phi = r^2 \sin{\theta}\, dr\, d\theta \, d\phi
-        \end{align*}
 
-        um auf folgenden Ausdruck zu kommen:
-
-        \begin{align*}
-            \int\limits_0^\infty dr \int\limits_0^{\pi}d\theta \int\limits_0^{2\pi} \, d\phi \, e^{i \, q \, r/\hbar\cos{\theta}} f(r) \, r^2 \sin{\theta}.
-        \end{align*}
-        Wegen der Kugelsymmetrie gilt $f(\vec{x}) = f(r)$. Nach Wahl des Koordinatensystems mit $\vec{q} = q \vec{e}_z$ hängt das Integral nur noch vom Betrag $q = |\vec{q}|$ ab, also ist $F(\vec{q}) = F(q)$.
-        Das Integral über $\phi$ gibt $2\pi$ und mit folgender Substitution
-        \begin{align*}
-            u &:= \cos{\theta},\, u(0) = 1, \, u(\pi) = -1\\
-            \frac{du}{d\theta} &= -\sin{\theta},\, du = -\sin{\theta} \, d\theta
-        \end{align*}
-        kann man das Integral über $\theta$ lösen:
-        \begin{align*}
-            - 2 \pi \int\limits_0^\infty dr &\int\limits_{+1}^{-1}du \, e^{i \, q \, r/\hbar u} f(r) \, r^2=\\ 
-            - 2 \pi \int\limits_0^\infty dr &\left[\frac{e^{i \, q \, r/\hbar u}}{i \, q \, r/\hbar}\right]_{+1}^{-1} f(r) \, r^2 =\\
-            2 \pi \int\limits_0^\infty dr &\left(\frac{e^{+i \, q \, r/\hbar} - e^{-i \, q \, r/\hbar}}{i \, q \, r/\hbar}\right) f(r) \, r^2.
-        \end{align*}
-        Mit Verwendung des trigonometrischen Zusammenhangs mit der komplexen Exponentialfunktion (Nebenrechnung) ergibt sich der gesuchte Ausdruck:
-        \begin{align*}
-            F(q) = 4 \pi \int\limits_0^\infty dr &\frac{\sin(q \, r/\hbar)}{q \, r/\hbar} f(r) \, r^2.
-        \end{align*}
-    \end{tcolorbox}
-
-\end{enumerate}
-Nun soll ein Spezialfall betrachtet werden, auf den wir in späteren Aufgaben noch zurückkommen werden.
-\begin{enumerate}[start=2, label=(\alph*)]
-    \item Zeigen Sie, dass für den Formfaktor einer homogen geladenen Kugel:
-    \begin{align*}
-        F(q) = 3\frac{\sin{u} - u \cos{u}}{u^3}
-    \end{align*}
-    gilt und bestimmen Sie die Form von u. Für welche Teilchen gilt eine solche Ladungsverteilung in guter Näherung?\\
-    \underline{Hinweis:} Überlegen Sie dazu zuerst, wie in diesem Fall die Ladungsdichteverteilung aussieht, wenn Sie berücksichtigen, dass diese über
-    \begin{align*}
-        \int f(\vec{x}) d^3x = 1
-    \end{align*}
-    normiert ist.
-
-    
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Zunächst wird versucht $f(r)$ zu finden. Die Ladungsdichte einer homogen geladenen Kugel ist innerhalb der Kugel konstant und außerhalb null. 
-        \begin{align*}
-            f(r) =
-            \begin{cases}
-                C, & 0 \leq r \leq R, \\
-                0, & r > R .
-            \end{cases}
-        \end{align*}
-        Aus der Normierung kann die Konstante $C$ ermittelt werden ($4\pi$ aus Kugelkoordinaten):
-        \begin{align*}
-            1 = \int d^3x\, f(\vec{x}) = 4\pi \int_0^{\infty} dr\, f(r)\, r^2 = 4\pi \int_0^R dr\, C\, r^2 = 4\pi C\left[\frac{r^3}{3}\right]_0^R = 4\pi C\frac{R^3}{3}\\
-            C = \frac{3}{4\pi R^3}
-        \end{align*}
-        Damit hat man die Ladungsdichte
-        \begin{align*}
-            f(r) =
-            \begin{cases}
-                \frac{3}{4\pi R^3}, & 0 \leq r \leq R, \\
-                0, & r > R .
-            \end{cases}
-        \end{align*}
-        Dann setze man die Ladungsdichte in das vorher ermittelte Integral:
-        \begin{align*}
-            F(q) &= 4 \pi \int\limits_0^\infty dr \frac{\sin(q \, r/\hbar)}{q \, r/\hbar} f(r) \, r^2 \\
-            &= 4 \pi \int\limits_0^R dr \frac{\sin(q \, r/\hbar)}{q \, r/\hbar} \frac{3}{4\pi R^3} \, r^2\\
-            &= \frac{3}{R^3} \int\limits_0^R dr \frac{\sin(q \, r/\hbar)}{q \, r/\hbar}  \, r^2\\
-        \end{align*}
-        Wenden hier partielle Integration an
-        \begin{align*}
-            \frac{3}{R^3 q/\hbar} \int\limits_0^R dr \sin(q \, r/\hbar)  \, r &= \frac{3}{R^3 q /\hbar}  \left(\left[\frac{r(-\cos(q\,r/\hbar))}{q/\hbar}\right]_0^R - \int\limits_0^R dr \frac{(-\cos(q\,r/\hbar))}{q/\hbar}\right)\\
-            &= \frac{3}{R^3 q /\hbar}  \left[-\frac{r\cos(q\,r/\hbar)}{q/\hbar} + \frac{\sin(q\,r/\hbar)}{(q/\hbar)^2}\right]_0^R\\
-            &= \frac{3}{R^3 q /\hbar}  \left(-\frac{R\cos(q\,R/\hbar)}{q/\hbar} + \frac{\sin(q\,R/\hbar)}{(q/\hbar)^2}\right)
-        \end{align*}
-        Etwas Umstellen und man bekommt die gesuchte Form mit $u = q\,R/\hbar$
-        \begin{align*}
-            &= 3 \left(\frac{\sin(q\,R/\hbar)}{R^3(q/\hbar)^3} -\frac{R\cos(q\,R/\hbar)}{R^3 (q/\hbar)^2}\right)\\
-            &= 3 \frac{\sin(q\,R/\hbar) - q\,R/\hbar\cos(q\,R/\hbar)}{(q\,R/\hbar)^3} \\
-            F(q) &= 3 \frac{\sin{u} - u \cos{u}}{u^3}
-        \end{align*}
-    \end{tcolorbox}
-
-    \begin{tcolorbox}[title=Antwort auf Frage, breakable]
-        Die homogene geladene Kugel ist in guter Näherung ein Modell für mittlere und große Atomkerne, da deren Ladungsverteilung näherungsweise als über ein endliches rundes Volumen verteilt beschrieben werden kann.
-
-        Für kleine Atomkerne wie z.B. Li, Be ist das Model schlechter.
-    \end{tcolorbox}
-
-    \item Welcher Wert ergibt sich für den Formfaktor aus (a) für $q=0$?
-
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Setzt man $q=0$ in den Formfaktor aus (a) ein, dann erhält man die Normierung der Ladungsverteilung.
-        \begin{align*}
-            F(0) = \int d^3x \, e^0 f(\vec{x}) = \int d^3x \, f(\vec{x}) = 1
-        \end{align*}
-    \end{tcolorbox}
-\end{enumerate}
-
-\textbf{Nebenrechnungen}
-\begin{tcolorbox}[title=Nebenrechnung Volumenselement, breakable]
-    Für Kugelkoordinaten
-    \begin{align*}
-        \vec{x} = \begin{bmatrix}
-            x\\y\\z
-        \end{bmatrix}=\begin{bmatrix}
-            r \sin{\theta} \cos{\phi}\\
-            r \sin{\theta} \sin{\phi}\\
-            r \cos{\theta}
-        \end{bmatrix},              
-    \end{align*}
-    Determinante der Jakobi-matrix:
-    \begin{align*}
-        J(\vec{x}(r,\theta, \phi)) 
-        = \begin{bmatrix}
-            \frac{\partial x}{\partial r} & \frac{\partial x}{\partial \theta} & \frac{\partial x}{\partial \phi}\\
-            \frac{\partial y}{\partial r} & \frac{\partial y}{\partial \theta} & \frac{\partial y}{\partial \phi}\\
-            \frac{\partial z}{\partial r} & \frac{\partial z}{\partial \theta} & \frac{\partial z}{\partial \phi}
-        \end{bmatrix}
-        = \begin{bmatrix}
-            \sin{\theta} \cos{\phi} & r \cos{\theta} \cos{\phi} & -r \sin{\theta} \sin{\phi}\\
-            \sin{\theta} \sin{\phi} & r \cos{\theta} \sin{\phi} & r \sin{\theta} \cos{\phi}\\
-            \cos{\theta} & - r \sin{\theta} & 0
-        \end{bmatrix}
-    \end{align*}
-    Determinante der Jakobi-matrix:
-    \begin{align*}
-        \det{J(\vec{x}(r,\theta, \phi))} 
-        &= \sin{\theta} \cos{\phi} \begin{vmatrix}
-            r \cos{\theta} \sin{\phi} & r \sin{\theta} \cos{\phi}\\
-            -r \sin{\theta} & 0
-        \end{vmatrix} \\
-        &- r \cos{\theta} \cos{\phi} \begin{vmatrix}
-            \sin{\theta} \sin{\phi} &r \sin{\theta} \cos{\phi}\\
-            \cos{\theta} & 0
-        \end{vmatrix} \\
-        &+ (-r \sin{\theta} \sin{\phi}) \begin{vmatrix}
-            \sin{\theta} \sin{\phi} & r \cos{\theta} \sin{\phi}\\
-            \cos{\theta} & - r \sin{\theta}
-        \end{vmatrix}\\
-        &=\sin{\theta} \cos{\phi} (0 - (-r^2 \sin^2{\theta} \cos{\phi}))\\
-        &- r \cos{\theta} \cos{\phi} (0 - r \sin{\theta} \cos{\phi} \cos{\theta}) \\
-        &- r \sin{\theta} \sin{\phi} ((-r \sin^2{\theta} \sin{\phi}) - r \cos^2{\theta} \sin{\phi})\\
-        &= r^2 \sin{\theta}(
-            \sin^2{\theta} \cos^2{\phi}
-            + \cos^2{\theta} \cos^2{\phi}
-            + (\sin^2{\theta} + \cos^2{\theta}) \sin^2{\phi}
-        )\\
-        &= r^2\sin{\theta}((\sin^2{\theta} + \cos^2{\theta}) (\cos^2{\phi} + \sin^2{\phi}))\\
-        \det{J(\vec{x}(r,\theta, \phi))} &= r^2\sin{\theta}
-    \end{align*}
-\end{tcolorbox}
-\begin{tcolorbox}[title=Trigonometrischer Zusammenhang mit der komplexen Exponentialfunktion, breakable]
-    Aus der Eulerschen Formel der komplexen Exponentialfunktion
-    \begin{align*}
-         \frac{e^{ia}-e^{-ia}}{2i} &= \sin{a}  \\
-        \left(\frac{e^{+i \, q \, r/\hbar} - e^{-i \, q \, r/\hbar}}{i \, q \, r/\hbar}\right) &= 2 \sin{q\,r / \hbar}
-    \end{align*}
-\end{tcolorbox}
+\makeuniversitytitle
+\tableofcontents
 \newpage
-\paragraph{Aufgabe 2: Grenzen der Rutherford-Streuung}
-Der Rutherford-Streuquerschnitt beschreibt eine Streuung so lange korrekt, wie sich die Stoßpartner in einem Abstand befinden, bei dem die Kernkräfte noch keinen signifikanten Einfluss ausüben. Es lassen sich die Zusammenhänge zwischen Streuwinkel $\theta$ und kleinstem Abstand zwischen Kern und Projektil $\delta$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Arbeitsnotiz}
+\addcontentsline{toc}{section}{Arbeitsnotiz}
+
+Diese Ausarbeitung ist bewusst nicht nur eine knappe Abgabe, sondern auch eine Lernfassung. Die Musterl\"osungen wurden nur dort verwendet, wo die Schritte nachvollziehbar und sinnvoll waren; die Herleitungen sind hier sauber und geschlossen neu formuliert. Die beiden Kernthemen sind:
+\begin{itemize}
+    \item der Formfaktor als Fourier-Transformierte einer Ladungsverteilung,
+    \item die Grenze der Rutherford-Streuung durch endliche Kerngr\"o\ss{}e und Kernkr\"afte.
+\end{itemize}
+
+\begin{summarybox}[title=Endergebnisse auf einen Blick]
 \begin{align*}
-    \delta = \frac{\delta_0}{2}\left(1+\frac{1}{\sin(\theta/2)}\right)
+    F(q) &= 4\pi\int_0^\infty \frac{\sin(qr/\hbar)}{qr/\hbar} f(r)r^2\dd r,\\
+    F_{\text{hom. Kugel}}(q) &= 3\frac{\sin u-u\cos u}{u^3}, \qquad u=\frac{qR}{\hbar},\\
+    F(0)&=1,\\[0.4em]
+    \delta_0(E=\SI{10}{MeV})&=\SI{47.2}{fm},\qquad
+    \delta_0(E=\SI{80}{MeV})=\SI{5.90}{fm},\\
+    R_{\mathrm{Pb}}&=\SI{7.70}{fm},\\
+    \delta(\theta=\SI{40}{\degree},\SI{10}{MeV})&=\SI{92.7}{fm},\\
+    \delta(\theta=\SI{40}{\degree},\SI{80}{MeV})&=\SI{11.6}{fm},\\
+    \theta_{\mathrm{krit}}(\SI{80}{MeV})&\approx \SI{76.8}{\degree}.
 \end{align*}
-als auch Stoßparameter $b$ finden. Dies soll jetzt am konkreten Beispiel der Streuung von Beryllium an Bleikernen untersucht werden.
-\begin{enumerate}[label=(\alph*)]
-    \item Bestimmen Sie zuerst den Parameter $\delta_0$, indem sie obige Gleichung für den zentralen Stoß ableiten. Bestimmen Sie für eine ${}^{7}_{4}\mathrm{Be}$-Kern mit Energien von $E_{\mathrm{kin}}=10\,\mathrm{MeV}$ bzw.\ $E_{\mathrm{kin}}=80\,\mathrm{MeV}$ die Größe für $\delta_0$.\\
-    \underline{Hinweis:} Beachten Sie, dass beim zentralen Stoß bei der größten Annäherung die gesamte kinetische Energie in potentielle Energie umgewandelt wurde.
+\end{summarybox}
 
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Für den zentralen Stoß gilt $\theta=\pi$. Setzt man dies in
-        \begin{align*}
-            \delta = \frac{\delta_0}{2}\left(1+\frac{1}{\sin(\theta/2)}\right)
-        \end{align*}
-        ein, so folgt wegen $\sin(\pi/2)=1$:
-        \begin{align*}
-            \delta = \delta_0.
-        \end{align*}
-        Der Parameter $\delta_0$ ist also gerade der kleinste Abstand beim zentralen Stoß.
+\newpage
 
-        Beim zentralen Stoß wird im Punkt der größten Annäherung die gesamte kinetische Energie in Coulomb-Potentialenergie umgewandelt:
-        \begin{align*}
-            E_{\mathrm{kin}} = \frac{1}{4\pi\varepsilon_0}\frac{Z_1 Z_2 e^2}{\delta_0}.
-        \end{align*}
-        Daraus ergibt sich
-        \begin{align*}
-            \delta_0 = \frac{1}{4\pi\varepsilon_0}\frac{Z_1 Z_2 e^2}{E_{\mathrm{kin}}}.
-        \end{align*}
-        Für ${}^{7}_{4}\mathrm{Be}$ an ${}^{208}_{82}\mathrm{Pb}$ gilt
-        \begin{align*}
-            Z_1 = 4, \qquad Z_2 = 82,
-        \end{align*}
-        also
-        \begin{align*}
-            Z_1 Z_2 = 328.
-        \end{align*}
-        Mit $e=1.602176634(0)\cdot 10^{-19}\text{C}$, $\varepsilon_0 = 8.8541878128(13)\cdot 10^{-12} \text{Fm}^{-1}$
-        \begin{align*}
-            \frac{e^2}{4\pi\varepsilon_0} = 1.44\,\mathrm{MeV\,fm}
-        \end{align*}
-        erhält man
-        \begin{align*}
-            \delta_0 = \frac{328 \cdot 1.44\,\mathrm{MeV\,fm}}{E_{\mathrm{kin}}}
-            = \frac{472.32\,\mathrm{MeV\,fm}}{E_{\mathrm{kin}}}.
-        \end{align*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 1: Formfaktoren -- Herleitung}
 
-        Für $E_{\mathrm{kin}} = 10\,\mathrm{MeV}$:
-        \begin{align*}
-            \delta_0(10\,\mathrm{MeV}) = \frac{472.32}{10}\,\mathrm{fm} = 47.2\,\mathrm{fm}.
-        \end{align*}
+\begin{taskbox}
+In der Vorlesung wurde der Formfaktor einer Ladungsverteilung $f(\vect{x})$ definiert als
+\[
+    F(\vect{q})=\int e^{i\vect{q}\cdot\vect{x}/\hbar}f(\vect{x})\dd^3x.
+\]
+F\"ur kugelsymmetrische Ladungsverteilungen soll gezeigt werden, dass $F$ nur vom Betrag $q=\abs{\vect{q}}$ abh\"angt und sich auf ein eindimensionales Integral reduzieren l\"asst. Danach soll der Spezialfall einer homogen geladenen Kugel berechnet werden.
+\end{taskbox}
 
-        Für $E_{\mathrm{kin}} = 80\,\mathrm{MeV}$:
-        \begin{align*}
-            \delta_0(80\,\mathrm{MeV}) = \frac{472.32}{80}\,\mathrm{fm} = 5.90\,\mathrm{fm}.
-        \end{align*}
-    \end{tcolorbox}
+\subsection{Teil (a): Reduktion auf ein radiales Integral}
 
-    \item Wie vergleichen sich die Abstände aus (a) mit dem Radius eines Bleikerns ${}^{208}_{82}\mathrm{Pb}$? Inwiefern kann man hier also Informationen über den Kerndurchmesser gewinnen?\\
-    \underline{Hinweis:} Benutzen Sie hier $r_0 = 1.3\,\mathrm{fm}$.
+\begin{definitionbox}[title=Physikalische Idee]
+Der Formfaktor beschreibt, wie stark eine ausgedehnte Ladungsverteilung bei einem Impuls\"ubertrag $\vect{q}$ streut. Mathematisch ist er im Wesentlichen die Fourier-Transformierte der Ladungsverteilung. Bei Kugelsymmetrie kann es keine bevorzugte Raumrichtung geben; deshalb darf $F$ nur von $q=\abs{\vect{q}}$ abh\"angen.
+\end{definitionbox}
 
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Der Kernradius wird näherungsweise beschrieben durch
-        \begin{align*}
-            R = r_0 A^{1/3}.
-        \end{align*}
-        Für Blei mit $A=208$ und $r_0 = 1.3\,\mathrm{fm}$ ergibt sich
-        \begin{align*}
-            R_{\mathrm{Pb}} = 1.3\,\mathrm{fm}\cdot 208^{1/3}.
-        \end{align*}
-        Mit
-        \begin{align*}
-            208^{1/3} = 5.92
-        \end{align*}
-        folgt
-        \begin{align*}
-            R_{\mathrm{Pb}} = 1.3 \cdot 5.92\,\mathrm{fm} = 7.7\,\mathrm{fm}.
-        \end{align*}
-        Damit ist der Kerndurchmesser
-        \begin{align*}
-            D_{\mathrm{Pb}} = 2R_{\mathrm{Pb}} = 15.4\,\mathrm{fm}.
-        \end{align*}
+\begin{calculationbox}[title=Koordinatenwahl und Skalarprodukt]
+Da $f(\vect{x})=f(r)$ kugelsymmetrisch ist, darf man die $z$-Achse in Richtung von $\vect{q}$ legen:
+\[
+    \vect{q}=q\unitvect{e}_z=\begin{pmatrix}0\\0\\q\end{pmatrix}.
+\]
+In Kugelkoordinaten gilt
+\[
+    \vect{x}=\begin{pmatrix}
+        r\sin\theta\cos\varphi\\
+        r\sin\theta\sin\varphi\\
+        r\cos\theta
+    \end{pmatrix},
+    \qquad
+    \vect{q}\cdot\vect{x}=qr\cos\theta.
+\]
+Das Volumenelement ist
+\[
+    \dd^3x=r^2\sin\theta\dd r\dd\theta\dd\varphi.
+\]
+Damit wird
+\[
+    F(q)=\int_0^\infty\int_0^\pi\int_0^{2\pi}
+    e^{iqr\cos\theta/\hbar}f(r)r^2\sin\theta
+    \dd\varphi\dd\theta\dd r.
+\]
+\end{calculationbox}
 
-        Vergleich mit den Ergebnissen aus (a):
-        \begin{align*}
-            \delta_0(10\,\mathrm{MeV}) = 47.2\,\mathrm{fm} \gg R_{\mathrm{Pb}},
-        \end{align*}
-        also bleibt das Projektil weit außerhalb des Kerns.
+\begin{calculationbox}[title=Winkelintegrale]
+Das Integral \"uber $\varphi$ gibt direkt den Faktor $2\pi$:
+\[
+    F(q)=2\pi\int_0^\infty f(r)r^2
+    \bracket{\int_0^\pi e^{iqr\cos\theta/\hbar}\sin\theta\dd\theta}\dd r.
+\]
+F\"ur das $\theta$-Integral setzen wir
+\[
+    u=\cos\theta,\qquad \dd u=-\sin\theta\dd\theta.
+\]
+Die Grenzen werden $\theta=0\mapsto u=1$ und $\theta=\pi\mapsto u=-1$. Also
+\begin{align*}
+    \int_0^\pi e^{iqr\cos\theta/\hbar}\sin\theta\dd\theta
+    &=\int_{1}^{-1}e^{iqru/\hbar}(-\dd u)\\
+    &=\int_{-1}^{1}e^{iqru/\hbar}\dd u\\
+    &=\left.\frac{e^{iqru/\hbar}}{iqr/\hbar}\right|_{-1}^{1}\\
+    &=\frac{e^{iqr/\hbar}-e^{-iqr/\hbar}}{iqr/\hbar}\\
+    &=2\frac{\sin(qr/\hbar)}{qr/\hbar}.
+\end{align*}
+\end{calculationbox}
 
-        Dagegen ist
-        \begin{align*}
-            \delta_0(80\,\mathrm{MeV}) = 5.90\,\mathrm{fm} < R_{\mathrm{Pb}},
-        \end{align*}
-        also wäre die größte Annäherung bereits kleiner als der Kernradius. In diesem Bereich ist die reine Coulomb-Beschreibung durch Rutherford nicht mehr zuverlässig, weil Kernkräfte wichtig werden.
-    \end{tcolorbox}
+\begin{answerbox}
+Damit folgt
+\[
+    \boxed{F(q)=4\pi\int_0^\infty \frac{\sin(qr/\hbar)}{qr/\hbar}f(r)r^2\dd r.}
+\]
+Der Formfaktor h\"angt nur von $q=\abs{\vect{q}}$ ab, weil alle Richtungsinformationen durch die Kugelsymmetrie herausintegriert werden.
+\end{answerbox}
 
-    \begin{tcolorbox}[title=Antwort auf Frage, breakable]
-        Aus dem Vergleich erkennt man, dass bei genügend großer Energie das Projektil bis in die Größenordnung des Kernradius vordringen kann. Ab dem Punkt, an dem die experimentellen Streudaten vom Rutherford-Gesetz abweichen, kann man daher auf die Größe des Kerns schließen. So lässt sich insbesondere der Kernradius und damit auch der Kerndurchmesser näherungsweise bestimmen.
-    \end{tcolorbox}
+\subsection{Teil (b): Homogen geladene Kugel}
 
-    \item Betrachten Sie nun beide Fälle bei einem Streuwinkel $\theta$ von $40^\circ$. Wie nahe kommen sich Projektil und Kern?
+\begin{definitionbox}[title=Ladungsverteilung einer homogen geladenen Kugel]
+Eine homogen geladene Kugel mit Radius $R$ hat konstante Ladungsdichte im Inneren und keine Ladung au\ss{}erhalb:
+\[
+    f(r)=\begin{cases}
+        C, & 0\le r\le R,\\
+        0, & r>R.
+    \end{cases}
+\]
+Die Aufgabenstellung verwendet die Normierung
+\[
+    \int f(\vect{x})\dd^3x=1.
+\]
+\end{definitionbox}
 
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Für den kleinsten Abstand gilt
-        \begin{align*}
-            \delta = \frac{\delta_0}{2}\left(1+\frac{1}{\sin(\theta/2)}\right).
-        \end{align*}
-        Für $\theta=40^\circ$ ist
-        \begin{align*}
-            \sin(\theta/2)=\sin(20^\circ)= 0.342.
-        \end{align*}
-        Somit ergibt sich der Faktor
-        \begin{align*}
-            \frac{1}{2}\left(1+\frac{1}{\sin(20^\circ)}\right)
-            = \frac{1}{2}(1+2.92)
-            = 1.96.
-        \end{align*}
-        Also ist näherungsweise
-        \begin{align*}
-            \delta = 1.96\,\delta_0.
-        \end{align*}
+\begin{calculationbox}[title=Normierung der Ladungsdichte]
+Aus der Normierung folgt
+\begin{align*}
+    1&=\int f(\vect{x})\dd^3x
+      =4\pi\int_0^\infty f(r)r^2\dd r
+      =4\pi\int_0^R Cr^2\dd r\\
+     &=4\pi C\left.\frac{r^3}{3}\right|_0^R
+      =\frac{4\pi CR^3}{3}.
+\end{align*}
+Damit ist
+\[
+    C=\frac{3}{4\pi R^3}.
+\]
+Also
+\[
+    f(r)=\begin{cases}
+        \dfrac{3}{4\pi R^3}, & 0\le r\le R,\\[0.4em]
+        0, & r>R.
+    \end{cases}
+\]
+\end{calculationbox}
 
-        Für $E_{\mathrm{kin}}=10\,\mathrm{MeV}$:
-        \begin{align*}
-            \delta(10\,\mathrm{MeV},40^\circ)
-            &= 1.96 \cdot 47.2\,\mathrm{fm}\\
-            &= 92.6\,\mathrm{fm}.
-        \end{align*}
+\begin{calculationbox}[title=Einsetzen in den Formfaktor]
+Wir setzen die Dichte in das Ergebnis aus Teil (a) ein:
+\begin{align*}
+    F(q)&=4\pi\int_0^R \frac{\sin(qr/\hbar)}{qr/\hbar}\frac{3}{4\pi R^3}r^2\dd r\\
+        &=\frac{3}{R^3}\int_0^R \frac{\sin(qr/\hbar)}{qr/\hbar}r^2\dd r.
+\end{align*}
+Mit $a=q/\hbar$ wird
+\[
+    F(q)=\frac{3}{R^3a}\int_0^R r\sin(ar)\dd r.
+\]
+Das verbleibende Integral ist
+\begin{align*}
+    \int r\sin(ar)\dd r
+    &=-\frac{r\cos(ar)}{a}+\frac{\sin(ar)}{a^2}.
+\end{align*}
+Somit
+\begin{align*}
+    F(q)&=\frac{3}{R^3a}\left[-\frac{r\cos(ar)}{a}+\frac{\sin(ar)}{a^2}\right]_0^R\\
+        &=\frac{3}{R^3a}\left[-\frac{R\cos(aR)}{a}+\frac{\sin(aR)}{a^2}\right]\\
+        &=3\frac{\sin(aR)-aR\cos(aR)}{(aR)^3}.
+\end{align*}
+\end{calculationbox}
 
-        Für $E_{\mathrm{kin}}=80\,\mathrm{MeV}$:
-        \begin{align*}
-            \delta(80\,\mathrm{MeV},40^\circ)
-            &= 1.96 \cdot 5.90\,\mathrm{fm}\\
-            &= 11.6\,\mathrm{fm}.
-        \end{align*}
-    \end{tcolorbox}
+\begin{answerbox}
+Mit
+\[
+    \boxed{u=\frac{qR}{\hbar}}
+\]
+erh\"alt man
+\[
+    \boxed{F(q)=3\frac{\sin u-u\cos u}{u^3}.}
+\]
+Eine homogen geladene Kugel ist eine brauchbare erste N\"aherung f\"ur mittlere und schwere Atomkerne. Realistischer ist f\"ur Kerne jedoch eine ann\"ahernd konstante Innendichte mit diffuser Randzone.
+\end{answerbox}
 
-    \begin{tcolorbox}[title=Antwort auf Frage, breakable]
-        Beim Streuwinkel $40^\circ$ beträgt der kleinste Abstand also ungefähr
-        \begin{align*}
-            92.6\,\mathrm{fm} \quad \text{für } 10\,\mathrm{MeV}
-        \end{align*}
-        beziehungsweise
-        \begin{align*}
-            11.6\,\mathrm{fm} \quad \text{für } 80\,\mathrm{MeV}.
-        \end{align*}
-        Im ersten Fall bleibt das Projektil sehr weit vom Kern entfernt, im zweiten Fall kommt es in die Nähe des Kernrandes.
-    \end{tcolorbox}
+\subsection{Teil (c): Formfaktor bei $q=0$}
 
-    \item Berechnen Sie schließlich für $E_{\mathrm{kin}}=80\,\mathrm{MeV}$ den Ablenkwinkel, ab dem der Wirkungsquerschnitt vom Rutherford-Wirkungsquerschnitt abweichen wird.\\
-    \underline{Hinweis:} Verwenden Sie hier den in (b) berechneten Radius eines Bleikerns.
+\begin{solutionbox}
+Man kann entweder direkt in die urspr\"ungliche Definition einsetzen oder den Grenzwert des radialen Integrals nehmen. Direkt aus der Definition folgt
+\[
+    F(0)=\int e^{i\cdot 0}f(\vect{x})\dd^3x
+    =\int f(\vect{x})\dd^3x.
+\]
+Da $f$ normiert ist, gilt
+\[
+    \int f(\vect{x})\dd^3x=1.
+\]
+\end{solutionbox}
 
-    \begin{tcolorbox}[title=Berechnung, breakable]
-        Eine Abweichung vom Rutherford-Wirkungsquerschnitt ist zu erwarten, sobald der kleinste Abstand in die Größenordnung des Kernradius kommt. Daher setzt man
-        \begin{align*}
-            \delta = R_{\mathrm{Pb}}.
-        \end{align*}
-        Mit
-        \begin{align*}
-            \delta = \frac{\delta_0}{2}\left(1+\frac{1}{\sin(\theta/2)}\right)
-        \end{align*}
-        folgt für $E_{\mathrm{kin}}=80\,\mathrm{MeV}$ und damit $\delta_0 = 5.90\,\mathrm{fm}$:
-        \begin{align*}
-            7.7 = \frac{5.90}{2}\left(1+\frac{1}{\sin(\theta/2)}\right).
-        \end{align*}
-        Also
-        \begin{align*}
-            \frac{2\cdot 7.7}{5.90} &= 1+\frac{1}{\sin(\theta/2)}\\
-            2.61 &= 1+\frac{1}{\sin(\theta/2)}\\
-            \frac{1}{\sin(\theta/2)} &= 1.61\\
-            \sin(\theta/2) &= 0.622.
-        \end{align*}
-        Daraus ergibt sich
-        \begin{align*}
-            \theta/2 = 38.5^\circ
-        \end{align*}
-        und somit
-        \begin{align*}
-            \theta = 77^\circ.
-        \end{align*}
-    \end{tcolorbox}
+\begin{answerbox}
+\[
+    \boxed{F(0)=1.}
+\]
+Physikalisch bedeutet das: Bei verschwindendem Impuls\"ubertrag wird die Struktur nicht aufgel\"ost; man sieht nur die gesamte normierte Ladung.
+\end{answerbox}
 
-    \begin{tcolorbox}[title=Antwort auf Frage, breakable]
-        Ab einem Streuwinkel von ungefähr
-        \begin{align*}
-            \theta = 77^\circ
-        \end{align*}
-        ist zu erwarten, dass der reale Wirkungsquerschnitt merklich vom Rutherford-Wirkungsquerschnitt abweicht, da das Projektil dann bis an den Kernradius herankommt und die Kernkräfte nicht mehr vernachlässigt werden können.
-    \end{tcolorbox}
+\begin{warningbox}[title=Typische Fehler bei Aufgabe 1]
+\begin{itemize}
+    \item Nicht $q=0$ direkt in $\sin(qr/\hbar)/(qr/\hbar)$ als $0/0$ behandeln. Der Grenzwert ist $1$.
+    \item Beim Winkelintegral das Minuszeichen der Substitution $u=\cos\theta$ korrekt mit den Integrationsgrenzen verrechnen.
+    \item Bei der homogenen Kugel nicht vergessen, die Dichte zuerst zu normieren.
+    \item $F(q)$ ist dimensionslos; deshalb muss $u=qR/\hbar$ dimensionslos sein.
+\end{itemize}
+\end{warningbox}
+
+\FloatBarrier
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Aufgabe 2: Grenzen der Rutherford-Streuung}
+
+\begin{taskbox}
+Der Rutherford-Streuquerschnitt beschreibt eine Streuung korrekt, solange die Teilchen einander nicht so nahe kommen, dass Kernkr\"afte signifikant werden. Gegeben ist der Zusammenhang zwischen Streuwinkel $\theta$ und kleinstem Abstand $\delta$:
+\[
+    \delta=\frac{\delta_0}{2}\paren{1+\frac{1}{\sin(\theta/2)}}.
+\]
+Untersucht wird die Streuung eines $\nuclide{7}{4}{Be}$-Kerns an einem $\nuclide{208}{82}{Pb}$-Kern f\"ur $E_{\mathrm{kin}}=\SI{10}{MeV}$ und $\SI{80}{MeV}$.
+\end{taskbox}
+
+\subsection{Vorbereitung: Coulomb-Konstante in Kernphysik-Einheiten}
+
+\begin{formulabox}
+F\"ur zwei Kerne mit Kernladungszahlen $Z_1$ und $Z_2$ gilt f\"ur die Coulomb-Energie im Abstand $r$:
+\[
+    E_{\mathrm{pot}}(r)=\frac{1}{4\pi\varepsilon_0}\frac{Z_1Z_2e^2}{r}.
+\]
+In Kernphysik-Einheiten verwendet man praktisch
+\[
+    \frac{e^2}{4\pi\varepsilon_0}=\SI{1.44}{MeV.fm}.
+\]
+\end{formulabox}
+
+\subsection{Teil (a): Bestimmung von $\delta_0$}
+
+\begin{calculationbox}[title=Zentraler Sto\ss{}]
+Beim zentralen Sto\ss{} ist
+\[
+    \theta=\SI{180}{\degree}=\pi.
+\]
+Damit ist
+\[
+    \sin\paren{\frac{\theta}{2}}=\sin\paren{\frac{\pi}{2}}=1.
+\]
+Einsetzen in die gegebene Abstandsgleichung liefert
+\[
+    \delta=\frac{\delta_0}{2}(1+1)=\delta_0.
+\]
+Also ist $\delta_0$ genau der kleinste Abstand beim zentralen Sto\ss{}.
+\end{calculationbox}
+
+\begin{calculationbox}[title=Energieumwandlung bei gr\"o\ss{}ter Ann\"aherung]
+Beim zentralen Sto\ss{} wird am Umkehrpunkt die gesamte kinetische Energie in Coulomb-Potentialenergie umgewandelt:
+\[
+    E_{\mathrm{kin}}=\frac{1}{4\pi\varepsilon_0}\frac{Z_1Z_2e^2}{\delta_0}.
+\]
+Daraus folgt
+\[
+    \delta_0=\frac{1}{4\pi\varepsilon_0}\frac{Z_1Z_2e^2}{E_{\mathrm{kin}}}.
+\]
+F\"ur $\nuclide{7}{4}{Be}$ an $\nuclide{208}{82}{Pb}$ gilt
+\[
+    Z_1=4,\qquad Z_2=82,
+\]
+also
+\[
+    Z_1Z_2=328.
+\]
+Damit
+\[
+    \delta_0=\frac{328\cdot\SI{1.44}{MeV.fm}}{E_{\mathrm{kin}}}
+    =\frac{\SI{472.32}{MeV.fm}}{E_{\mathrm{kin}}}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{\delta_0(\SI{10}{MeV})=\frac{\SI{472.32}{MeV.fm}}{\SI{10}{MeV}}=\SI{47.2}{fm}}
+\]
+\[
+    \boxed{\delta_0(\SI{80}{MeV})=\frac{\SI{472.32}{MeV.fm}}{\SI{80}{MeV}}=\SI{5.90}{fm}}
+\]
+Je h\"oher die kinetische Energie ist, desto kleiner wird der kleinste Abstand beim zentralen Sto\ss{}.
+\end{answerbox}
+
+\subsection{Teil (b): Vergleich mit dem Radius eines Bleikerns}
+
+\begin{calculationbox}
+Mit der Kernradius-Formel
+\[
+    R=r_0A^{1/3}
+\]
+und
+\[
+    r_0=\SI{1.3}{fm},\qquad A=208
+\]
+erh\"alt man
+\[
+    R_{\mathrm{Pb}}=\SI{1.3}{fm}\cdot 208^{1/3}=\SI{7.70}{fm}.
+\]
+Der Durchmesser ist
+\[
+    D_{\mathrm{Pb}}=2R_{\mathrm{Pb}}=\SI{15.4}{fm}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\begin{center}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Fall & Abstand $\delta_0$ & Vergleich mit $R_{\mathrm{Pb}}=\SI{7.70}{fm}$ \\
+\midrule
+$E_{\mathrm{kin}}=\SI{10}{MeV}$ & $\SI{47.2}{fm}$ & deutlich au\ss{}erhalb des Pb-Kerns \\
+$E_{\mathrm{kin}}=\SI{80}{MeV}$ & $\SI{5.90}{fm}$ & kleiner als $R_{\mathrm{Pb}}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Bei $\SI{10}{MeV}$ kommt das Projektil selbst beim zentralen Sto\ss{} nicht nahe genug an den Kern, um den Kerndurchmesser gut zu untersuchen. Bei $\SI{80}{MeV}$ kann das Projektil bei gro\ss{}en Ablenkwinkeln in den Bereich des Bleikerns kommen; dort sind Abweichungen von der reinen Rutherford-Streuung zu erwarten. Genau solche Abweichungen liefern Informationen \"uber Kerngr\"o\ss{}e und Kerndurchmesser.
+\end{answerbox}
+
+\subsection{Teil (c): Abstand bei $\theta=\SI{40}{\degree}$}
+
+\begin{calculationbox}
+Die Abstandsgleichung lautet
+\[
+    \delta(\theta)=\frac{\delta_0}{2}\paren{1+\frac{1}{\sin(\theta/2)}}.
+\]
+F\"ur $\theta=\SI{40}{\degree}$ ist
+\[
+    \sin\paren{\frac{\theta}{2}}=\sin(\SI{20}{\degree})\approx 0{,}342.
+\]
+Damit
+\[
+    \frac{1}{2}\paren{1+\frac{1}{\sin(\SI{20}{\degree})}}
+    \approx 1{,}962.
+\]
+Also gilt
+\[
+    \delta(\SI{40}{\degree})\approx 1{,}962\,\delta_0.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{\delta(\SI{40}{\degree},\SI{10}{MeV})
+    \approx 1{,}962\cdot\SI{47.2}{fm}=\SI{92.7}{fm}}
+\]
+\[
+    \boxed{\delta(\SI{40}{\degree},\SI{80}{MeV})
+    \approx 1{,}962\cdot\SI{5.90}{fm}=\SI{11.6}{fm}}
+\]
+Beide Abst\"ande liegen bei $\theta=\SI{40}{\degree}$ noch oberhalb von $R_{\mathrm{Pb}}=\SI{7.70}{fm}$. Bei diesem Winkel ist daher noch keine starke Abweichung von Rutherford zu erwarten.
+\end{answerbox}
+
+\subsection{Teil (d): Kritischer Ablenkwinkel bei $E_{\mathrm{kin}}=\SI{80}{MeV}$}
+
+\begin{calculationbox}[title=Bedingung f\"ur Abweichung]
+Die Rutherford-Beschreibung beginnt zu versagen, wenn der kleinste Abstand in die Gr\"o\ss{}enordnung des Bleikernradius kommt. Gem\"a\ss{} Hinweis setzen wir
+\[
+    \delta(\theta_{\mathrm{krit}})=R_{\mathrm{Pb}}.
+\]
+F\"ur $E_{\mathrm{kin}}=\SI{80}{MeV}$ ist
+\[
+    \delta_0=\SI{5.904}{fm}.
+\]
+Damit
+\begin{align*}
+    R_{\mathrm{Pb}}&=\frac{\delta_0}{2}\paren{1+\frac{1}{\sin(\theta/2)}}\\
+    \frac{2R_{\mathrm{Pb}}}{\delta_0}&=1+\frac{1}{\sin(\theta/2)}\\
+    \frac{1}{\sin(\theta/2)}&=\frac{2R_{\mathrm{Pb}}}{\delta_0}-1\\
+    \sin(\theta/2)&=\frac{1}{\frac{2R_{\mathrm{Pb}}}{\delta_0}-1}.
+\end{align*}
+Einsetzen ergibt
+\[
+    \sin(\theta/2)=\frac{1}{\frac{2\cdot\SI{7.70}{fm}}{\SI{5.904}{fm}}-1}
+    \approx 0{,}621.
+\]
+Also
+\[
+    \theta=2\arcsin(0{,}621)\approx \SI{76.8}{\degree}.
+\]
+\end{calculationbox}
+
+\begin{answerbox}
+\[
+    \boxed{\theta_{\mathrm{krit}}\approx \SI{76.8}{\degree}.}
+\]
+F\"ur $E_{\mathrm{kin}}=\SI{80}{MeV}$ sind ab Ablenkwinkeln von etwa $\SI{77}{\degree}$ Abweichungen vom Rutherford-Wirkungsquerschnitt zu erwarten. F\"ur gr\"o\ss{}ere Winkel wird der kleinste Abstand noch kleiner und die Kernkr\"afte k\"onnen st\"arker beitragen.
+\end{answerbox}
+
+\begin{calculationbox}[title=Skizze: kleinster Abstand als Funktion des Streuwinkels]
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.92\textwidth,
+    height=7cm,
+    xlabel={Streuwinkel $\theta$ in Grad},
+    ylabel={kleinster Abstand $\delta$ in fm},
+    xmin=10, xmax=180,
+    ymin=0, ymax=120,
+    grid=both,
+    legend pos=north east,
+    samples=220
+]
+\addplot[thick,domain=10:180]{47.232/2*(1+1/sin(x/2))};
+\addlegendentry{$E=\SI{10}{MeV}$}
+\addplot[thick,dashed,domain=10:180]{5.904/2*(1+1/sin(x/2))};
+\addlegendentry{$E=\SI{80}{MeV}$}
+\addplot[thick,dotted,domain=10:180]{7.70249};
+\addlegendentry{$R_{\mathrm{Pb}}$}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{calculationbox}
+
+\begin{warningbox}[title=Typische Fehler bei Aufgabe 2]
+\begin{itemize}
+    \item Beim zentralen Sto\ss{} gilt $\theta=\SI{180}{\degree}$, nicht $\SI{0}{\degree}$.
+    \item In der Gleichung steht $\sin(\theta/2)$, nicht $\sin\theta/2$ im Sinne von $(\sin\theta)/2$.
+    \item Die Coulomb-Konstante in Kernphysik-Einheiten ist $e^2/(4\pi\varepsilon_0)=\SI{1.44}{MeV.fm}$.
+    \item Der Radius $R=r_0A^{1/3}$ ist ein Radius, nicht der Durchmesser.
+    \item Bei kleinen Winkeln ist $\delta$ gro\ss{}; gro\ss{}e Ablenkwinkel entsprechen kleinen Abst\"anden.
+\end{itemize}
+\end{warningbox}
+
+\FloatBarrier
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Tafelvortrag}
+
+\subsection{Kurzstruktur f\"ur einen Vortrag von etwa 10--15 Minuten}
+
+\begin{summarybox}[title=Empfohlene Tafelgliederung]
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Motivation:} Formfaktor misst Struktur; Rutherford-Streuung gilt nur bei reinem Coulomb-Potential.
+    \item \textbf{Aufgabe 1(a):} Achse entlang $\vect{q}$ w\"ahlen, Winkelintegral rechnen, radiales Integral zeigen.
+    \item \textbf{Aufgabe 1(b):} homogene Kugel normieren, einsetzen, $u=qR/\hbar$ definieren.
+    \item \textbf{Aufgabe 1(c):} $F(0)=1$ aus Normierung.
+    \item \textbf{Aufgabe 2(a):} zentraler Sto\ss{}, $\delta_0$ aus Energieerhaltung.
+    \item \textbf{Aufgabe 2(b)--(d):} Vergleich mit $R_{\mathrm{Pb}}$, kritischer Winkel.
+    \item \textbf{Schlusssatz:} Abweichungen von Rutherford sind kein Fehler, sondern ein Messsignal f\"ur Kerngr\"o\ss{}e und Kernkr\"afte.
 \end{enumerate}
+\end{summarybox}
+
+\subsection{Tafelbild 1: Formfaktor}
+
+\begin{calculationbox}[title=Tafelbild]
+Links oben:
+\[
+    F(\vect{q})=\int e^{i\vect{q}\cdot\vect{x}/\hbar}f(\vect{x})\dd^3x,
+    \qquad f(\vect{x})=f(r).
+\]
+Dann direkt die Koordinatenwahl:
+\[
+    \vect{q}=q\unitvect{e}_z,
+    \qquad \vect{q}\cdot\vect{x}=qr\cos\theta,
+    \qquad \dd^3x=r^2\sin\theta\dd r\dd\theta\dd\varphi.
+\]
+Dann in einer Zeile das Ergebnis des Winkelintegrals:
+\[
+    \int_0^\pi e^{iqr\cos\theta/\hbar}\sin\theta\dd\theta
+    =2\frac{\sin(qr/\hbar)}{qr/\hbar}.
+\]
+Gro\ss{} eingerahmt:
+\[
+    F(q)=4\pi\int_0^\infty\frac{\sin(qr/\hbar)}{qr/\hbar}f(r)r^2\dd r.
+\]
+\end{calculationbox}
+
+\begin{notebox}[title=Sprechtext dazu]
+\enquote{Ich darf die $z$-Achse entlang $\vect{q}$ legen, weil die Ladungsverteilung kugelsymmetrisch ist. Dadurch verschwindet die Richtungsabh\"angigkeit und nur der Betrag $q$ bleibt \"ubrig. Das ist genau der Grund, warum aus $F(\vect{q})$ ein $F(q)$ wird.}
+\end{notebox}
+
+\subsection{Tafelbild 2: Homogene Kugel}
+
+\begin{calculationbox}[title=Tafelbild]
+Zuerst die Dichte:
+\[
+    f(r)=\begin{cases}
+        C, & r\le R,\\
+        0, & r>R,
+    \end{cases}
+    \qquad
+    1=4\pi C\frac{R^3}{3}
+    \Rightarrow
+    C=\frac{3}{4\pi R^3}.
+\]
+Dann einsetzen:
+\[
+    F(q)=\frac{3}{R^3}\int_0^R\frac{\sin(qr/\hbar)}{qr/\hbar}r^2\dd r.
+\]
+Mit $u=qR/\hbar$:
+\[
+    F(q)=3\frac{\sin u-u\cos u}{u^3}.
+\]
+\end{calculationbox}
+
+\subsection{Tafelbild 3: Rutherford-Grenze}
+
+\begin{calculationbox}[title=Tafelbild]
+Grundgleichungen:
+\[
+    \delta=\frac{\delta_0}{2}\paren{1+\frac{1}{\sin(\theta/2)}}.
+\]
+Zentraler Sto\ss{}:
+\[
+    \theta=180^\circ\Rightarrow \delta=\delta_0.
+\]
+Energieerhaltung:
+\[
+    E_{\mathrm{kin}}=\frac{Z_1Z_2e^2}{4\pi\varepsilon_0\delta_0}
+    \Rightarrow
+    \delta_0=\frac{Z_1Z_2\cdot\SI{1.44}{MeV.fm}}{E_{\mathrm{kin}}}.
+\]
+Zahlen:
+\[
+    Z_1Z_2=4\cdot82=328,
+    \qquad
+    \delta_0=\frac{\SI{472.32}{MeV.fm}}{E_{\mathrm{kin}}}.
+\]
+\[
+    \delta_0(10)=\SI{47.2}{fm},
+    \qquad
+    \delta_0(80)=\SI{5.90}{fm}.
+\]
+Bleiradius:
+\[
+    R_{\mathrm{Pb}}=\SI{1.3}{fm}\cdot 208^{1/3}=\SI{7.70}{fm}.
+\]
+Kritischer Winkel:
+\[
+    R_{\mathrm{Pb}}=\frac{\delta_0}{2}\paren{1+\frac{1}{\sin(\theta/2)}}
+    \Rightarrow
+    \theta\approx 76{,}8^\circ.
+\]
+\end{calculationbox}
+
+\begin{notebox}[title=Sprechtext dazu]
+\enquote{Bei $\SI{10}{MeV}$ bleibt das Beryllium selbst beim zentralen Sto\ss{} weit au\ss{}erhalb des Bleikerns. Bei $\SI{80}{MeV}$ ist der zentrale Abstand kleiner als der Bleiradius. Daher ist diese Energie geeignet, um \"uber Abweichungen von Rutherford Informationen \"uber die Kerngr\"o\ss{}e zu bekommen.}
+\end{notebox}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lernzusammenfassung}
+
+\begin{summarybox}[title=Was man wirklich verstehen sollte]
+\begin{itemize}
+    \item Der Formfaktor ist die Fourier-Transformierte der Ladungsverteilung. Kleine $q$ bedeuten grobe Aufl\"osung, gro\ss{}e $q$ bedeuten feine Strukturaufl\"osung.
+    \item Kugelsymmetrie reduziert das dreidimensionale Integral auf ein radiales Integral.
+    \item $F(0)=1$ folgt nicht aus einer komplizierten Rechnung, sondern aus der Normierung der Ladungsverteilung.
+    \item Eine homogen geladene Kugel hat einen oszillierenden Formfaktor, weil die Ladungsverteilung am Rand abrupt endet.
+    \item Rutherford-Streuung ist Coulomb-Streuung. Sie versagt, wenn die Kerne so nahe kommen, dass Kernkr\"afte und endliche Kerngr\"o\ss{}e wichtig werden.
+    \item Gr\"o\ss{}ere kinetische Energie bedeutet kleinere Ann\"aherungsdistanz. Gr\"o\ss{}erer Streuwinkel bedeutet ebenfalls kleinere Ann\"aherungsdistanz.
+\end{itemize}
+\end{summarybox}
+
+\begin{formulabox}[title={Formeln, die man f\"ur dieses Blatt k\"onnen sollte}]
+\begin{align*}
+    F(\vect{q})&=\int e^{i\vect{q}\cdot\vect{x}/\hbar}f(\vect{x})\dd^3x,\\
+    F(q)&=4\pi\int_0^\infty\frac{\sin(qr/\hbar)}{qr/\hbar}f(r)r^2\dd r,\\
+    f_{\mathrm{hom}}(r)&=\begin{cases}
+        \dfrac{3}{4\pi R^3}, & r\le R,\\
+        0, & r>R,
+    \end{cases}\\
+    F_{\mathrm{hom}}(q)&=3\frac{\sin u-u\cos u}{u^3},\qquad u=\frac{qR}{\hbar},\\
+    R&=r_0A^{1/3},\\
+    \delta&=\frac{\delta_0}{2}\paren{1+\frac{1}{\sin(\theta/2)}},\\
+    \delta_0&=\frac{Z_1Z_2\cdot\SI{1.44}{MeV.fm}}{E_{\mathrm{kin}}}.
+\end{align*}
+\end{formulabox}
+
+\begin{notebox}[title=Pr\"ufungsintuition]
+Wenn in einer Aufgabe nach einem Formfaktor gefragt wird, zuerst die Symmetrie der Dichte ansehen. Wenn sie kugelsymmetrisch ist, sofort Achse entlang $\vect{q}$ legen. Wenn in einer Rutherford-Aufgabe nach Kerngr\"o\ss{}eninformation gefragt wird, immer den kleinsten Abstand mit dem Kernradius vergleichen.
+\end{notebox}
+
 \end{document}
